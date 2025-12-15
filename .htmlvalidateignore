@@ -1,0 +1,2 @@
+# Ignore all Angular component templates
+src/**/*.component.html

@@ -1,0 +1,44 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "attr-case": "off",
+    "no-inline-style": "off",
+    "require-sri": "off"
+  },
+  "elements": [
+    "html5",
+    {
+      "form": {
+        "attributes": {
+          "ngSubmit": {
+            "enum": []
+          }
+        }
+      },
+      "input": {
+        "attributes": {
+          "ngModel": {
+            "enum": []
+          }
+        }
+      },
+      "div": {
+        "attributes": {
+          "ngIf": {
+            "enum": []
+          },
+          "ngFor": {
+            "enum": []
+          }
+        }
+      },
+      "button": {
+        "attributes": {
+          "ngIf": {
+            "enum": []
+          }
+        }
+      }
+    }
+  ]
+}
