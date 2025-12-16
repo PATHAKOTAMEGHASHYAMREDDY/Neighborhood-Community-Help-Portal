@@ -28,7 +28,8 @@ export class HelperDashboardComponent implements OnInit {
       return;
     }
     
-    this.userName = user.name;
+    // Redirect to helper requests page
+    this.router.navigate(['/helper/requests']);
   }
 
   logout() {

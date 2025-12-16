@@ -7,6 +7,8 @@ import { RequestListComponent } from './components/request-list/request-list.com
 import { HelpRequestComponent } from './components/help-request/help-request.component';
 import { RequestStatusComponent } from './components/request-status/request-status.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { HelperRequestsComponent } from './components/helper-requests/helper-requests.component';
+import { HelperTasksComponent } from './components/helper-tasks/helper-tasks.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -16,6 +18,8 @@ export const routes: Routes = [
   { path: 'requests', component: RequestListComponent },
   { path: 'requests/new', component: HelpRequestComponent },
   { path: 'requests/:id/status', component: RequestStatusComponent },
+  { path: 'helper/requests', component: HelperRequestsComponent },
+  { path: 'helper/tasks', component: HelperTasksComponent },
   { path: 'profile', component: ProfileComponent },
   { path: '**', redirectTo: '' }
 ];

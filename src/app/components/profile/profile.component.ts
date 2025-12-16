@@ -80,8 +80,8 @@ export class ProfileComponent implements OnInit {
   navigateToDashboard() {
     if (this.user?.role === 'Resident') {
       this.router.navigate(['/requests']);
-    } else {
-      this.router.navigate(['/helper-dashboard']);
+    } else if (this.user?.role === 'Helper') {
+      this.router.navigate(['/helper/requests']);
     }
   }
 

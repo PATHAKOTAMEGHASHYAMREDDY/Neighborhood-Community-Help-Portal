@@ -5,20 +5,40 @@
       <h2>Community Help</h2>
       <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
     </div>
-    
     <nav class="sidebar-nav">
-      <a routerLink="/requests" class="nav-item">
-        <span class="nav-icon">📊</span>
-        <span class="nav-text">Dashboard</span>
-      </a>
-      <a routerLink="/requests" class="nav-item">
-        <span class="nav-icon">📝</span>
-        <span class="nav-text">My Requests</span>
-      </a>
-      <a routerLink="/requests/new" class="nav-item">
-        <span class="nav-icon">➕</span>
-        <span class="nav-text">New Request</span>
-      </a>
+      <!-- Resident Navigation -->
+      <ng-container *ngIf="user?.role === 'Resident'">
+        <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <span class="nav-icon">📝</span>
+          <span class="nav-text">My Requests</span>
+        </a>
+        <a routerLink="/requests/new" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">➕</span>
+          <span class="nav-text">New Request</span>
+        </a>
+      </ng-container>
+
+      <!-- Helper Navigation -->
+      <ng-container *ngIf="user?.role === 'Helper'">
+        <a routerLink="/helper/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a routerLink="/helper/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <span class="nav-icon">📋</span>
+          <span class="nav-text">Available Requests</span>
+        </a>
+        <a routerLink="/helper/tasks" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">✅</span>
+          <span class="nav-text">My Tasks</span>
+        </a>
+      </ng-container>
+
+      <!-- Common Navigation -->
       <a routerLink="/profile" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">👤</span>
         <span class="nav-text">Profile</span>
@@ -60,7 +80,7 @@
       <!-- Details Section -->
       <section class="details-section">
         <h3>Account Details</h3>
-        
+
         <div class="detail-grid">
           <div class="detail-item">
             <div class="detail-icon">👤</div>
@@ -115,7 +135,7 @@
       <!-- Statistics Section -->
       <section class="stats-section" *ngIf="user.role === 'Resident'">
         <h3>My Statistics</h3>
-        
+
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-icon">📋</div>
@@ -146,7 +166,7 @@
       <!-- Actions Section -->
       <section class="actions-section">
         <h3>Quick Actions</h3>
-        
+
         <div class="action-buttons">
           <button class="action-btn primary" (click)="navigateToDashboard()" type="button">
             <span class="btn-icon">📊</span>
