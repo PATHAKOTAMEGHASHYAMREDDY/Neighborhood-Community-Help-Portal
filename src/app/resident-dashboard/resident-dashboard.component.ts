@@ -28,7 +28,8 @@ export class ResidentDashboardComponent implements OnInit {
       return;
     }
     
-    this.userName = user.name;
+    // Redirect to new request dashboard
+    this.router.navigate(['/requests']);
   }
 
   logout() {

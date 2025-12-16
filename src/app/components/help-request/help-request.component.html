@@ -1,0 +1,81 @@
+<div class="request-form-container">
+  <div class="form-card">
+    <div class="form-header">
+      <button class="back-btn" (click)="goBack()" type="button">← Back</button>
+      <h1>Create New Help Request</h1>
+      <p>Fill in the details below to request help from your community</p>
+    </div>
+
+    <form class="request-form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Request Title *</label>
+        <input 
+          type="text" 
+          id="title" 
+          [(ngModel)]="requestData.title"
+          name="title"
+          placeholder="e.g., Need help with groceries"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category *</label>
+        <select 
+          id="category" 
+          [(ngModel)]="requestData.category"
+          name="category"
+          required>
+          <option value="">Select a category</option>
+          <option value="grocery">Grocery Shopping</option>
+          <option value="plumbing">Plumbing</option>
+          <option value="electrical">Electrical</option>
+          <option value="tutoring">Tutoring</option>
+          <option value="gardening">Gardening</option>
+          <option value="moving">Moving/Transportation</option>
+          <option value="pet-care">Pet Care</option>
+          <option value="cleaning">Cleaning</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description *</label>
+        <textarea 
+          id="description" 
+          [(ngModel)]="requestData.description"
+          name="description"
+          rows="6"
+          placeholder="Describe what help you need in detail..."
+          required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="attachments">Attachments (Optional)</label>
+        <input 
+          type="text" 
+          id="attachments" 
+          [(ngModel)]="requestData.attachments"
+          name="attachments"
+          placeholder="Add file path or URL if needed">
+        <small>You can add a file path or URL for reference</small>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="success-message" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="goBack()">
+          Cancel
+        </button>
+        <button type="submit" class="submit-btn" [disabled]="isLoading">
+          {{ isLoading ? 'Creating...' : 'Create Request' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
