@@ -9,6 +9,7 @@ import { RequestStatusComponent } from './components/request-status/request-stat
 import { ProfileComponent } from './components/profile/profile.component';
 import { HelperRequestsComponent } from './components/helper-requests/helper-requests.component';
 import { HelperTasksComponent } from './components/helper-tasks/helper-tasks.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path: 'requests/:id/status', component: RequestStatusComponent },
   { path: 'helper/requests', component: HelperRequestsComponent },
   { path: 'helper/tasks', component: HelperTasksComponent },
+  { path: 'chat/:id', component: ChatComponent },
   { path: 'profile', component: ProfileComponent },
   { path: '**', redirectTo: '' }
 ];
