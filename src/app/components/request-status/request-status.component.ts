@@ -77,4 +77,10 @@ export class RequestStatusComponent implements OnInit {
   goBack() {
     this.router.navigate(['/requests']);
   }
+
+  openChat() {
+    if (this.requestId) {
+      this.router.navigate(['/chat', this.requestId]);
+    }
+  }
 }

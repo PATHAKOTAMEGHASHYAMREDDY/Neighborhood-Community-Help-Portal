@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -97,5 +97,20 @@ export class AuthService {
   isHelper(): boolean {
     const user = this.getCurrentUser();
     return user?.role === 'Helper';
+  }
+
+  updateProfile(data: { name?: string; contact_info?: string; location?: string }): Observable<AuthResponse> {
+    return this.http.put<AuthResponse>(`${this.apiUrl}/profile`, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.getToken()}`
+      })
+    }).pipe(
+      tap(response => {
+        // Update stored user data
+        localStorage.setItem('currentUser', JSON.stringify(response.user));
+        this.currentUserSubject.next(response.user);
+      })
+    );
   }
 }

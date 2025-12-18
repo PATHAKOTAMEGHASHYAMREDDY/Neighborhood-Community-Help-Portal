@@ -62,6 +62,9 @@
             <p class="helper-name">{{ request.helper_name }}</p>
             <p class="helper-label">Community Helper</p>
           </div>
+          <button class="chat-btn" (click)="openChat()" type="button" *ngIf="request.status !== 'Pending'">
+            💬 Chat
+          </button>
         </div>
       </section>
 

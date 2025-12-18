@@ -1,0 +1,130 @@
+<div class="chat-container">
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loading-spinner"></div>
+    <p>Loading chat...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="errorMessage && !isLoading">
+    <div class="error-icon">⚠️</div>
+    <h2>Access Denied</h2>
+    <p>{{ errorMessage }}</p>
+    <button class="back-btn" (click)="goBack()" type="button">Go Back</button>
+  </div>
+
+  <!-- Chat Interface -->
+  <div class="chat-wrapper" *ngIf="!isLoading && !errorMessage && chatInfo">
+    <!-- Chat Header -->
+    <header class="chat-header">
+      <button class="back-button" (click)="goBack()" type="button">
+        ← Back
+      </button>
+      <div class="header-info">
+        <h2>{{ chatInfo.title }}</h2>
+        <div class="header-meta">
+          <span class="category-badge">{{ chatInfo.category }}</span>
+          <span class="status-badge" [class]="'status-' + chatInfo.status.toLowerCase()">
+            {{ chatInfo.status }}
+          </span>
+        </div>
+      </div>
+      <div class="participant-info">
+        <div class="participant">
+          <span class="role-icon">👤</span>
+          <span class="role-label">
+            {{ currentUser?.role === 'Resident' ? 'Helper' : 'Resident' }}:
+          </span>
+          <span class="participant-name">
+            {{ currentUser?.role === 'Resident' ? chatInfo.helperName : chatInfo.residentName }}
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Messages Area -->
+    <div class="messages-container" #messageContainer>
+      <div class="messages-wrapper">
+        <!-- No Messages -->
+        <div class="no-messages" *ngIf="messages.length === 0 && !isLoading">
+          <div class="no-messages-icon">💬</div>
+          <p>No messages yet</p>
+          <p class="sub-text">Start the conversation!</p>
+        </div>
+
+        <!-- Message List -->
+        <div class="message-list" *ngIf="messages.length > 0">
+          <div 
+            *ngFor="let message of messages" 
+            class="message-wrapper"
+            [class.my-message]="isMyMessage(message)"
+            [class.other-message]="!isMyMessage(message)">
+            <div class="message-bubble">
+              <div class="message-content">
+                <p class="message-text">{{ message.messageText }}</p>
+              </div>
+              <div class="message-footer">
+                <span class="message-time">{{ getMessageTime(message.timestamp) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" *ngIf="otherUserTyping">
+          <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <span class="typing-text">typing...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message Composer -->
+    <div class="message-composer">
+      <!-- Emoji Picker -->
+      <div class="emoji-picker" *ngIf="showEmojiPicker">
+        <div class="emoji-grid">
+          <button 
+            *ngFor="let emoji of emojis" 
+            class="emoji-btn"
+            (click)="addEmoji(emoji)"
+            type="button">
+            {{ emoji }}
+          </button>
+        </div>
+      </div>
+
+      <div class="composer-wrapper">
+        <button 
+          class="emoji-toggle-btn" 
+          (click)="toggleEmojiPicker()"
+          type="button"
+          title="Add emoji">
+          🙂
+        </button>
+
+        <input 
+          type="text"
+          class="message-input"
+          [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()"
+          (input)="onTyping()"
+          (blur)="stopTyping()"
+          placeholder="Type a message..."
+          maxlength="1000"
+          autocomplete="off" >
+        <button 
+          class="send-btn" 
+          (click)="sendMessage()"
+          [disabled]="!newMessage.trim()"
+          type="button"
+          title="Send message">
+          <span class="send-icon">➤</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

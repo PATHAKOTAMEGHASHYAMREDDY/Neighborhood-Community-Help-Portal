@@ -100,6 +100,12 @@ export class HelperTasksComponent implements OnInit {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
+  openChat(requestId: number | undefined) {
+    if (requestId) {
+      this.router.navigate(['/chat', requestId]);
+    }
+  }
+
   logout() {
     this.authService.logout();
   }
