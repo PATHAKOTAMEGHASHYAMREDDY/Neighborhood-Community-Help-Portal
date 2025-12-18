@@ -126,11 +126,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   loadMessages() {
     this.chatService.getChatMessages(this.requestId).subscribe({
       next: (response) => {
-        this.messages = response.messages;
+        this.messages = response.messages || [];
         this.shouldScrollToBottom = true;
       },
       error: (error) => {
         console.error('Error loading messages:', error);
+        this.errorMessage = 'Failed to load messages.';
       }
     });
   }
@@ -179,12 +180,20 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     return message.senderId === this.currentUser?.id;
   }
 
-  getMessageTime(timestamp: Date): string {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
+  getMessageTime(timestamp: Date | string): string {
+    try {
+      const date = new Date(timestamp);
+      if (isNaN(date.getTime())) {
+        return 'Invalid Date';
+      }
+      return date.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return 'Invalid Date';
+    }
   }
 
   scrollToBottom() {

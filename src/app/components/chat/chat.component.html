@@ -46,7 +46,7 @@
     <div class="messages-container" #messageContainer>
       <div class="messages-wrapper">
         <!-- No Messages -->
-        <div class="no-messages" *ngIf="messages.length === 0">
+        <div class="no-messages" *ngIf="messages.length === 0 && !isLoading">
           <div class="no-messages-icon">💬</div>
           <p>No messages yet</p>
           <p class="sub-text">Start the conversation!</p>
