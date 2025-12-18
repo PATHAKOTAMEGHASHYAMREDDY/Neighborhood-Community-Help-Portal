@@ -7,16 +7,18 @@
 
     <!-- Tab Navigation -->
     <div class="tab-navigation">
-      <button 
-        class="tab-button" 
+      <button
+        class="tab-button"
         [class.active]="activeTab === 'login'"
-        (click)="switchTab('login')" type="button">
+        (click)="switchTab('login')"
+        type="button">
         Login
       </button>
-      <button 
-        class="tab-button" 
+      <button
+        class="tab-button"
         [class.active]="activeTab === 'signup'"
-        (click)="switchTab('signup')" type="button">
+        (click)="switchTab('signup')"
+        type="button">
         Sign Up
       </button>
     </div>
@@ -25,9 +27,9 @@
     <form *ngIf="activeTab === 'login'" class="auth-form" (ngSubmit)="onLogin()">
       <div class="form-group">
         <label for="login-email">Email / Phone</label>
-        <input 
-          type="text" 
-          id="login-email" 
+        <input
+          type="text"
+          id="login-email"
           [(ngModel)]="loginData.contact_info"
           name="contact_info"
           placeholder="Enter your email or phone"
@@ -36,9 +38,9 @@
 
       <div class="form-group">
         <label for="login-password">Password</label>
-        <input 
-          type="password" 
-          id="login-password" 
+        <input
+          type="password"
+          id="login-password"
           [(ngModel)]="loginData.password"
           name="password"
           placeholder="Enter your password"
@@ -48,10 +50,12 @@
       <div class="form-group">
         <label>Select Your Role</label>
         <div class="role-selection">
+
+          <!-- Resident -->
           <label class="role-option">
-            <input 
-              type="radio" 
-              name="loginRole" 
+            <input
+              type="radio"
+              name="loginRole"
               value="Resident"
               [(ngModel)]="loginData.role"
               required>
@@ -60,10 +64,12 @@
               <span class="role-text">Resident</span>
             </span>
           </label>
+
+          <!-- Helper -->
           <label class="role-option">
-            <input 
-              type="radio" 
-              name="loginRole" 
+            <input
+              type="radio"
+              name="loginRole"
               value="Helper"
               [(ngModel)]="loginData.role"
               required>
@@ -72,6 +78,21 @@
               <span class="role-text">Helper</span>
             </span>
           </label>
+
+          <!-- Admin -->
+          <label class="role-option">
+            <input
+              type="radio"
+              name="loginRole"
+              value="Admin"
+              [(ngModel)]="loginData.role"
+              required>
+            <span class="role-label">
+              <span class="role-icon">🛡️</span>
+              <span class="role-text">Admin</span>
+            </span>
+          </label>
+
         </div>
       </div>
 
@@ -88,9 +109,9 @@
     <form *ngIf="activeTab === 'signup'" class="auth-form" (ngSubmit)="onSignup()">
       <div class="form-group">
         <label for="signup-name">Full Name</label>
-        <input 
-          type="text" 
-          id="signup-name" 
+        <input
+          type="text"
+          id="signup-name"
           [(ngModel)]="signupData.name"
           name="name"
           placeholder="Enter your full name"
@@ -99,9 +120,9 @@
 
       <div class="form-group">
         <label for="signup-email">Email / Phone</label>
-        <input 
-          type="text" 
-          id="signup-email" 
+        <input
+          type="text"
+          id="signup-email"
           [(ngModel)]="signupData.contact_info"
           name="contact_info"
           placeholder="Enter your email or phone"
@@ -110,9 +131,9 @@
 
       <div class="form-group">
         <label for="signup-location">Location</label>
-        <input 
-          type="text" 
-          id="signup-location" 
+        <input
+          type="text"
+          id="signup-location"
           [(ngModel)]="signupData.location"
           name="location"
           placeholder="Enter your location"
@@ -121,9 +142,9 @@
 
       <div class="form-group">
         <label for="signup-password">Password</label>
-        <input 
-          type="password" 
-          id="signup-password" 
+        <input
+          type="password"
+          id="signup-password"
           [(ngModel)]="signupData.password"
           name="password"
           placeholder="Create a password"
@@ -132,9 +153,9 @@
 
       <div class="form-group">
         <label for="signup-confirm-password">Confirm Password</label>
-        <input 
-          type="password" 
-          id="signup-confirm-password" 
+        <input
+          type="password"
+          id="signup-confirm-password"
           [(ngModel)]="signupData.confirmPassword"
           name="confirmPassword"
           placeholder="Confirm your password"
@@ -145,9 +166,9 @@
         <label>Select Your Role</label>
         <div class="role-selection">
           <label class="role-option">
-            <input 
-              type="radio" 
-              name="signupRole" 
+            <input
+              type="radio"
+              name="signupRole"
               value="Resident"
               [(ngModel)]="signupData.role"
               required>
@@ -159,10 +180,11 @@
               </span>
             </span>
           </label>
+
           <label class="role-option">
-            <input 
-              type="radio" 
-              name="signupRole" 
+            <input
+              type="radio"
+              name="signupRole"
               value="Helper"
               [(ngModel)]="signupData.role"
               required>

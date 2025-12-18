@@ -67,7 +67,7 @@ export class RequestStatusComponent implements OnInit {
   isStepCompleted(stepStatus: string): boolean {
     if (!this.request || !this.request.status) return false;
     
-    const statusOrder = ['Pending', 'Accepted', 'In-progress', 'Completed'];
+    const statusOrder = ['Pending', 'Accepted', 'In-progress', 'Completed','Rejected'];
     const currentIndex = statusOrder.indexOf(this.request.status);
     const stepIndex = statusOrder.indexOf(stepStatus);
     

@@ -1,0 +1,115 @@
+/* Container */
+.admin-container {
+  padding: 24px;
+  background: #f6f9fc;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Title */
+.admin-container h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+/* Subtitle */
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+/* Card-style table wrapper */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+/* Header row */
+thead {
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+}
+
+th {
+  padding: 14px;
+  text-align: left;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Table rows */
+tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+td {
+  padding: 14px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* Action buttons */
+button {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Approve button */
+.approve {
+  background-color: #22c55e;
+  color: #ffffff;
+}
+
+.approve:hover {
+  background-color: #16a34a;
+}
+
+/* Reject button */
+.reject {
+  background-color: #ef4444;
+  color: #ffffff;
+  margin-left: 8px;
+}
+
+.reject:hover {
+  background-color: #dc2626;
+}
+
+/* Loading & empty states */
+.admin-container div,
+.admin-container p {
+  font-size: 14px;
+}
+
+/* Error message */
+.error {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* No pending requests message */
+.admin-container p {
+  margin-top: 20px;
+  color: #16a34a;
+  font-weight: 600;
+}

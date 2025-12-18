@@ -6,14 +6,28 @@ import { catchError, throwError } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
 
-  return next(req).pipe(
+  // 🔐 Get token from localStorage
+  const token = localStorage.getItem('token');
+
+  // 🔐 Clone request and attach token if exists
+  const authReq = token
+    ? req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+    : req;
+
+  return next(authReq).pipe(
     catchError((error) => {
-      if (error.status === 401 || error.status === 403) {
-        // Unauthorized or Forbidden - redirect to login
+
+      // 🚫 Redirect ONLY if truly unauthenticated
+      if (error.status === 401 && !token) {
         localStorage.removeItem('token');
-        localStorage.removeItem('currentUser');
+        localStorage.removeItem('user');
         router.navigate(['/register']);
       }
+
       return throwError(() => error);
     })
   );

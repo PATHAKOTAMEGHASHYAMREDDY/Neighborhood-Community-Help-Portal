@@ -20,7 +20,7 @@ export interface AuthResponse {
 export interface LoginRequest {
   contact_info: string;
   password: string;
-  role: 'Resident' | 'Helper';
+  role: 'Resident' | 'Helper' | 'Admin';
 }
 
 export interface RegisterRequest {
