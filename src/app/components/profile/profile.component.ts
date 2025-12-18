@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, User } from '../../services/auth.service';
 import { HelpRequestService } from '../../services/help-request.service';
@@ -7,13 +8,24 @@ import { HelpRequestService } from '../../services/help-request.service';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit {
   user: User | null = null;
   isSidebarCollapsed: boolean = false;
+  isEditing: boolean = false;
+  isSaving: boolean = false;
+  successMessage: string = '';
+  errorMessage: string = '';
+  
+  // Edit form data
+  editForm = {
+    name: '',
+    contact_info: '',
+    location: ''
+  };
   
   // Statistics
   totalRequests: number = 0;
@@ -87,6 +99,54 @@ export class ProfileComponent implements OnInit {
 
   navigateToNewRequest() {
     this.router.navigate(['/requests/new']);
+  }
+
+  startEditing() {
+    if (this.user) {
+      this.editForm = {
+        name: this.user.name,
+        contact_info: this.user.contact_info,
+        location: this.user.location
+      };
+      this.isEditing = true;
+      this.successMessage = '';
+      this.errorMessage = '';
+    }
+  }
+
+  cancelEditing() {
+    this.isEditing = false;
+    this.successMessage = '';
+    this.errorMessage = '';
+  }
+
+  saveProfile() {
+    if (!this.editForm.name.trim() || !this.editForm.contact_info.trim() || !this.editForm.location.trim()) {
+      this.errorMessage = 'All fields are required';
+      return;
+    }
+
+    this.isSaving = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    this.authService.updateProfile(this.editForm).subscribe({
+      next: (response) => {
+        this.user = response.user;
+        this.isEditing = false;
+        this.isSaving = false;
+        this.successMessage = 'Profile updated successfully!';
+        
+        // Clear success message after 3 seconds
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
+      },
+      error: (error) => {
+        this.errorMessage = error.error?.error || 'Failed to update profile. Please try again.';
+        this.isSaving = false;
+      }
+    });
   }
 
   logout() {

@@ -79,9 +79,23 @@
 
       <!-- Details Section -->
       <section class="details-section">
-        <h3>Account Details</h3>
+        <div class="section-header">
+          <h3>Account Details</h3>
+          <button class="edit-btn" (click)="startEditing()" *ngIf="!isEditing" type="button">
+            ✏️ Edit Profile
+          </button>
+        </div>
 
-        <div class="detail-grid">
+        <!-- Success/Error Messages -->
+        <div class="success-message" *ngIf="successMessage">
+          ✅ {{ successMessage }}
+        </div>
+        <div class="error-message" *ngIf="errorMessage">
+          ⚠️ {{ errorMessage }}
+        </div>
+
+        <!-- View Mode -->
+        <div class="detail-grid" *ngIf="!isEditing">
           <div class="detail-item">
             <div class="detail-icon">👤</div>
             <div class="detail-content">
@@ -128,6 +142,60 @@
               <label>Member Since</label>
               <p>{{ getMemberSince() }}</p>
             </div>
+          </div>
+        </div>
+
+        <!-- Edit Mode -->
+        <div class="edit-form" *ngIf="isEditing">
+          <div class="form-group">
+            <label for="name">
+              <span class="form-icon">👤</span>
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              [(ngModel)]="editForm.name"
+              placeholder="Enter your full name"
+              class="form-input"
+              required >
+          </div>
+
+          <div class="form-group">
+            <label for="contact">
+              <span class="form-icon">📧</span>
+              Contact Information
+            </label>
+            <input
+              type="text"
+              id="contact"
+              [(ngModel)]="editForm.contact_info"
+              placeholder="Email or phone number"
+              class="form-input"
+              required >
+          </div>
+
+          <div class="form-group">
+            <label for="location">
+              <span class="form-icon">📍</span>
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              [(ngModel)]="editForm.location"
+              placeholder="Your address or area"
+              class="form-input"
+              required >
+          </div>
+
+          <div class="form-actions">
+            <button class="save-btn" (click)="saveProfile()" [disabled]="isSaving" type="button">
+              {{ isSaving ? 'Saving...' : '💾 Save Changes' }}
+            </button>
+            <button class="cancel-btn" (click)="cancelEditing()" [disabled]="isSaving" type="button">
+              ❌ Cancel
+            </button>
           </div>
         </div>
       </section>
