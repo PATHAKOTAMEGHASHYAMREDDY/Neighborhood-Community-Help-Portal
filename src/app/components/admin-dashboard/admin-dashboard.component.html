@@ -1,0 +1,36 @@
+<div class="admin-container">
+  <h2>Admin Dashboard</h2>
+  <p class="subtitle">Pending Help Requests</p>
+
+  <div *ngIf="isLoading">Loading...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <table *ngIf="pendingRequests.length > 0">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Requested By</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let req of pendingRequests">
+        <td>{{ req.title }}</td>
+        <td>{{ req.category }}</td>
+        <td>{{ req.resident_name }}</td>
+        <td>{{ req.resident_location }}</td>
+        <td>
+          <button class="approve" (click)="approve(req.id)">Approve</button>
+          <button class="reject" (click)="reject(req.id)">Reject</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!isLoading && pendingRequests.length === 0">
+    No pending requests 🎉
+  </p>
+</div>

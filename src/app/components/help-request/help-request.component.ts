@@ -13,6 +13,7 @@ import { HelpRequestService } from '../../services/help-request.service';
   styleUrl: './help-request.component.css'
 })
 export class HelpRequestComponent implements OnInit {
+
   requestData = {
     title: '',
     description: '',
@@ -30,19 +31,25 @@ export class HelpRequestComponent implements OnInit {
     private helpRequestService: HelpRequestService
   ) {}
 
-  ngOnInit() {
-    // Verify user is a resident
+  ngOnInit(): void {
+    // 🔐 Only Residents can create help requests
     if (!this.authService.isResident()) {
       this.router.navigate(['/register']);
+      return;
     }
   }
 
-  onSubmit() {
+  // ================= SUBMIT REQUEST =================
+  onSubmit(): void {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Validation
-    if (!this.requestData.title || !this.requestData.description || !this.requestData.category) {
+    // Basic validation
+    if (
+      !this.requestData.title ||
+      !this.requestData.description ||
+      !this.requestData.category
+    ) {
       this.errorMessage = 'Please fill in all required fields.';
       return;
     }
@@ -55,23 +62,24 @@ export class HelpRequestComponent implements OnInit {
       category: this.requestData.category,
       attachments: this.requestData.attachments || null
     }).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
         this.successMessage = 'Request created successfully! Redirecting...';
-        
-        // Redirect to dashboard after 1.5 seconds
+
         setTimeout(() => {
           this.router.navigate(['/requests']);
         }, 1500);
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage = error.error?.error || 'Failed to create request. Please try again.';
+        this.errorMessage =
+          error.error?.error || 'Failed to create request. Please try again.';
       }
     });
   }
 
-  goBack() {
+  // ================= BACK =================
+  goBack(): void {
     this.router.navigate(['/requests']);
   }
 }

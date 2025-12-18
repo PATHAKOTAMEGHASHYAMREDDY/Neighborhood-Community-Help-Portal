@@ -10,7 +10,7 @@ export interface HelpRequest {
   title: string;
   description: string;
   category: string;
-  status?: 'Pending' | 'Accepted' | 'In-progress' | 'Completed';
+  status?: 'Pending' | 'Accepted' | 'In-progress' | 'Completed' | 'Rejected';
   attachments?: string | null;
   created_at?: Date;
   updated_at?: Date;

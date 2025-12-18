@@ -9,6 +9,8 @@ import { RequestStatusComponent } from './components/request-status/request-stat
 import { ProfileComponent } from './components/profile/profile.component';
 import { HelperRequestsComponent } from './components/helper-requests/helper-requests.component';
 import { HelperTasksComponent } from './components/helper-tasks/helper-tasks.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -21,5 +23,8 @@ export const routes: Routes = [
   { path: 'helper/requests', component: HelperRequestsComponent },
   { path: 'helper/tasks', component: HelperTasksComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'admin',  component: AdminDashboardComponent},
   { path: '**', redirectTo: '' }
+
 ];
+

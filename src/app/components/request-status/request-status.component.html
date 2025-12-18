@@ -1,7 +1,10 @@
 <div class="status-container">
   <div class="status-card">
+
     <div class="status-header">
-      <button class="back-btn" (click)="goBack()" type="button">← Back to Dashboard</button>
+      <button class="back-btn" (click)="goBack()" type="button">
+        ← Back to Dashboard
+      </button>
       <h1>Request Status</h1>
     </div>
 
@@ -14,24 +17,31 @@
     </div>
 
     <div class="status-content" *ngIf="!isLoading && request">
+
       <!-- Request Details -->
       <section class="request-details">
         <h2>{{ request.title }}</h2>
+
         <div class="detail-row">
           <span class="label">Category:</span>
           <span class="value">{{ request.category }}</span>
         </div>
+
         <div class="detail-row">
           <span class="label">Created:</span>
           <span class="value">{{ request.created_at | date:'medium' }}</span>
         </div>
+
         <div class="detail-row">
           <span class="label">Last Updated:</span>
           <span class="value">{{ request.updated_at | date:'medium' }}</span>
         </div>
+
         <div class="detail-row">
           <span class="label">Current Status:</span>
-          <span class="status-badge" [class]="'status-' + request.status?.toLowerCase()">
+          <span
+            class="status-badge"
+            [class]="'status-' + request.status?.toLowerCase()">
             {{ request.status }}
           </span>
         </div>
@@ -55,16 +65,23 @@
         </div>
       </section>
 
-      <section class="helper-section" *ngIf="!request.helper_name && request.status === 'Pending'">
+      <section
+        class="helper-section"
+        *ngIf="!request.helper_name && request.status === 'Pending'">
         <div class="waiting-message">
           <p>⏳ Waiting for a helper to accept your request...</p>
         </div>
       </section>
 
-      <!-- Status Timeline -->
-      <section class="timeline-section">
+      <!-- ================= TIMELINE (NOT REJECTED) ================= -->
+      <section
+        class="timeline-section"
+        *ngIf="request.status !== 'Rejected'">
+
         <h3>Progress Timeline</h3>
+
         <div class="timeline">
+
           <div class="timeline-item" [class.completed]="isStepCompleted('Pending')">
             <div class="timeline-marker">
               <div class="marker-circle">1</div>
@@ -108,6 +125,17 @@
               <span class="timeline-status">Completed</span>
             </div>
           </div>
+
+        </div>
+      </section>
+
+      <!-- ================= REJECTED ================= -->
+      <section
+        class="timeline-section"
+        *ngIf="request.status === 'Rejected'">
+        <h3>Request Status</h3>
+        <div class="rejected-message">
+          ❌ This request was rejected by the admin.
         </div>
       </section>
 
@@ -116,6 +144,7 @@
         <h3>Attachments</h3>
         <p class="attachment-link">{{ request.attachments }}</p>
       </section>
+
     </div>
   </div>
 </div>
