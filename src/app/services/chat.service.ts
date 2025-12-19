@@ -8,7 +8,7 @@ export interface ChatMessage {
   id?: number;
   requestId: number;
   senderId: number;
-  senderRole: 'Resident' | 'Helper';
+  senderRole: 'Resident' | 'Helper' | 'Admin';
   messageText: string;
   timestamp: Date;
   senderName?: string;

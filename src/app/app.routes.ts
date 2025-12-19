@@ -10,7 +10,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { HelperRequestsComponent } from './components/helper-requests/helper-requests.component';
 import { HelperTasksComponent } from './components/helper-tasks/helper-tasks.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
-
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { AdminRequestsComponent } from './components/admin-requests/admin-requests.component';
+import { AdminAnalyticsComponent } from './components/admin-analytics/admin-analytics.component';
 import { ChatComponent } from './components/chat/chat.component';
 
 export const routes: Routes = [
@@ -25,7 +27,10 @@ export const routes: Routes = [
   { path: 'helper/tasks', component: HelperTasksComponent },
   { path: 'chat/:id', component: ChatComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'admin',  component: AdminDashboardComponent},
+  { path: 'admin', component: AdminDashboardComponent },
+  { path: 'admin/users', component: AdminUsersComponent },
+  { path: 'admin/requests', component: AdminRequestsComponent },
+  { path: 'admin/analytics', component: AdminAnalyticsComponent },
   { path: '**', redirectTo: '' }
 
 ];

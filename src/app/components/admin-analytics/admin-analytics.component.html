@@ -1,0 +1,128 @@
+<div class="admin-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-header">
+      <h2>Admin Panel</h2>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">Dashboard</span>
+      </a>
+      <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span class="nav-text">Users</span>
+      </a>
+      <a routerLink="/admin/requests" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📋</span>
+        <span class="nav-text">Requests</span>
+      </a>
+      <a routerLink="/admin/analytics" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📈</span>
+        <span class="nav-text">Analytics</span>
+      </a>
+      <a (click)="logout()" class="nav-item logout">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-text">Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="dashboard-header">
+      <div class="header-content">
+        <div>
+          <h1>Analytics &amp; Reports</h1>
+          <p>Detailed platform statistics and insights</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      <!-- Loading State -->
+      <div class="loading-container" *ngIf="isLoading">
+        <div class="loading-spinner"></div>
+        <p>Loading analytics...</p>
+      </div>
+
+      <!-- Content -->
+      <div *ngIf="!isLoading">
+        <!-- Category Distribution -->
+        <section class="analytics-section">
+          <h2>Request Category Distribution</h2>
+          <div class="category-chart">
+            <div class="no-data" *ngIf="categoryDistribution.length === 0">
+              <p>No category data available</p>
+            </div>
+            <div class="category-item" *ngFor="let item of categoryDistribution">
+              <div class="category-header">
+                <span class="category-name">{{ item.category }}</span>
+                <span class="category-count">{{ item.count }} requests</span>
+              </div>
+              <div class="category-bar">
+                <div class="category-fill" [style.width.%]="getPercentage(item.count)"></div>
+              </div>
+              <div class="category-percentage">{{ getPercentage(item.count).toFixed(1) }}%</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Daily Requests (Last 7 Days) -->
+        <section class="analytics-section">
+          <h2>Daily Requests (Last 7 Days)</h2>
+          <div class="daily-chart">
+            <div class="no-data" *ngIf="dailyRequests.length === 0">
+              <p>No daily data available</p>
+            </div>
+            <div class="daily-item" *ngFor="let item of dailyRequests">
+              <div class="daily-date">{{ item.date | date:'MMM d' }}</div>
+              <div class="daily-bar-container">
+                <div class="daily-bar" [style.height.px]="item.count * 20"></div>
+              </div>
+              <div class="daily-count">{{ item.count }}</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Top Helpers -->
+        <section class="analytics-section">
+          <h2>Top Performing Helpers</h2>
+          <div class="helpers-table-container">
+            <div class="no-data" *ngIf="topHelpers.length === 0">
+              <p>No helper data available</p>
+            </div>
+            <table class="helpers-table" *ngIf="topHelpers.length > 0">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Helper Name</th>
+                  <th>Total Tasks</th>
+                  <th>Completed</th>
+                  <th>Success Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let helper of topHelpers; let i = index">
+                  <td class="rank-cell">
+                    <span class="rank-badge" [class.top-rank]="i < 3">#{{ i + 1 }}</span>
+                  </td>
+                  <td class="name-cell">{{ helper.helper_name }}</td>
+                  <td>{{ helper.total_tasks }}</td>
+                  <td>{{ helper.completed_tasks }}</td>
+                  <td>
+                    <span class="success-rate">
+                      {{ ((helper.completed_tasks / helper.total_tasks) * 100).toFixed(0) }}%
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>

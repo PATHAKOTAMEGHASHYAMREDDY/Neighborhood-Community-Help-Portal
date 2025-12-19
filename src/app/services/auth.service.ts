@@ -8,7 +8,7 @@ export interface User {
   name: string;
   contact_info: string;
   location: string;
-  role: 'Resident' | 'Helper';
+  role: 'Resident' | 'Helper' | 'Admin';
 }
 
 export interface AuthResponse {
