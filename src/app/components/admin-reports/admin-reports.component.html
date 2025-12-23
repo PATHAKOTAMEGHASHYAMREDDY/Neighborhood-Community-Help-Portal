@@ -94,11 +94,11 @@
 
       <!-- Filters -->
       <div class="filters-section">
-        <button [class.active]="filterStatus === 'All'" (click)="filterReports('All')" class="filter-btn">All</button>
-        <button [class.active]="filterStatus === 'Pending'" (click)="filterReports('Pending')" class="filter-btn">Pending</button>
-        <button [class.active]="filterStatus === 'Under Review'" (click)="filterReports('Under Review')" class="filter-btn">Under Review</button>
-        <button [class.active]="filterStatus === 'Resolved'" (click)="filterReports('Resolved')" class="filter-btn">Resolved</button>
-        <button [class.active]="filterStatus === 'Dismissed'" (click)="filterReports('Dismissed')" class="filter-btn">Dismissed</button>
+        <button [class.active]="filterStatus === 'All'" (click)="filterReports('All')" class="filter-btn" type="button">All</button>
+        <button [class.active]="filterStatus === 'Pending'" (click)="filterReports('Pending')" class="filter-btn" type="button">Pending</button>
+        <button [class.active]="filterStatus === 'Under Review'" (click)="filterReports('Under Review')" class="filter-btn" type="button">Under Review</button>
+        <button [class.active]="filterStatus === 'Resolved'" (click)="filterReports('Resolved')" class="filter-btn" type="button">Resolved</button>
+        <button [class.active]="filterStatus === 'Dismissed'" (click)="filterReports('Dismissed')" class="filter-btn" type="button">Dismissed</button>
       </div>
 
       <!-- Reports Table -->
@@ -165,7 +165,7 @@
       <h2>Report Details</h2>
       <button class="close-btn" (click)="closeModal()" type="button">×</button>
     </div>
-    
+
     <div class="modal-body" *ngIf="selectedReport">
       <div class="detail-row">
         <strong>Reporter:</strong>
@@ -187,7 +187,7 @@
         <strong>Description:</strong>
         <p class="description">{{ selectedReport.description }}</p>
       </div>
-      
+
       <div class="form-group">
         <label for="status">Update Status</label>
         <select id="status" [(ngModel)]="modalStatus" class="form-control">
