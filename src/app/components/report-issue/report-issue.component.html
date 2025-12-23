@@ -1,0 +1,125 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed" [class.resident]="userRole === 'Resident'" [class.helper]="userRole === 'Helper'">
+    <div class="sidebar-header">
+      <h2>Community Help</h2>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a [routerLink]="userRole === 'Resident' ? '/resident-dashboard' : '/helper-dashboard'" class="nav-item">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-text">Dashboard</span>
+      </a>
+      <a routerLink="/report-issue" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⚠️</span>
+        <span class="nav-text">Report Issue</span>
+      </a>
+      <a routerLink="/profile" class="nav-item">
+        <span class="nav-icon">👤</span>
+        <span class="nav-text">Profile</span>
+      </a>
+      <a (click)="logout()" class="nav-item logout">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-text">Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="page-header">
+      <h1>Report an Issue</h1>
+      <p>Report inappropriate behavior or problems to the admin</p>
+    </header>
+
+    <div class="report-form-container">
+      <form class="report-form" (ngSubmit)="submitReport()">
+
+        <div class="form-group">
+          <label for="request">Related Request *</label>
+          <select 
+            id="request" 
+            [(ngModel)]="reportData.request_id" 
+            name="request_id"
+            (change)="onRequestChange()"
+            required
+            class="form-control">
+            <option value="0">Select a request</option>
+            <option *ngFor="let request of myRequests" [value]="request.id">
+              {{ request.title }} -
+              <ng-container *ngIf="userRole === 'Resident'">Helper: {{ request.helper_name || 'Unassigned' }}</ng-container>
+              <ng-container *ngIf="userRole === 'Helper'">Resident: {{ request.resident_name }}</ng-container>
+            </option>
+          </select>
+          <small *ngIf="userRole === 'Resident'">Select the request to report the helper who accepted it</small>
+          <small *ngIf="userRole === 'Helper'">Select the request to report the resident who created it</small>
+        </div>
+
+        <div *ngIf="reportData.request_id > 0" class="info-message">
+          <strong>Reporting:</strong>
+          <ng-container *ngIf="userRole === 'Resident'">
+            Helper who accepted this request
+          </ng-container>
+          <ng-container *ngIf="userRole === 'Helper'">
+            Resident who created this request
+          </ng-container>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-type">Issue Type *</label>
+          <select 
+            id="issue-type" 
+            [(ngModel)]="reportData.issue_type" 
+            name="issue_type" 
+            required
+            class="form-control">
+            <option value="">Select issue type</option>
+            <option *ngFor="let type of issueTypes" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description *</label>
+          <textarea 
+            id="description" 
+            [(ngModel)]="reportData.description" 
+            name="description" 
+            rows="6"
+            placeholder="Please describe the issue in detail..."
+            required
+            class="form-control"></textarea>
+          <small>Provide as much detail as possible to help us investigate</small>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
+
+        <div class="form-actions">
+          <button type="button" (click)="router.navigate([userRole === 'Resident' ? '/resident-dashboard' : '/helper-dashboard'])" class="btn-secondary">
+            Cancel
+          </button>
+          <button type="submit" [disabled]="isLoading" class="btn-primary">
+            {{ isLoading ? 'Submitting...' : 'Submit Report' }}
+          </button>
+        </div>
+      </form>
+
+      <div class="info-box">
+        <h3>📋 Reporting Guidelines</h3>
+        <ul>
+          <li>Be specific and provide details</li>
+          <li>Include relevant request information if applicable</li>
+          <li>Reports are reviewed by administrators</li>
+          <li>False reports may result in account suspension</li>
+          <li>You'll be notified of the outcome</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>

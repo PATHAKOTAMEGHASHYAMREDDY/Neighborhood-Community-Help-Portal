@@ -13,7 +13,10 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminRequestsComponent } from './components/admin-requests/admin-requests.component';
 import { AdminAnalyticsComponent } from './components/admin-analytics/admin-analytics.component';
+import { AdminReportsComponent } from './components/admin-reports/admin-reports.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { ReportIssueComponent } from './components/report-issue/report-issue.component';
+import { MyReportsComponent } from './components/my-reports/my-reports.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -27,9 +30,12 @@ export const routes: Routes = [
   { path: 'helper/tasks', component: HelperTasksComponent },
   { path: 'chat/:id', component: ChatComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'report-issue', component: ReportIssueComponent },
+  { path: 'my-reports', component: MyReportsComponent },
   { path: 'admin', component: AdminDashboardComponent },
   { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/requests', component: AdminRequestsComponent },
+  { path: 'admin/reports', component: AdminReportsComponent },
   { path: 'admin/analytics', component: AdminAnalyticsComponent },
   { path: '**', redirectTo: '' }
 

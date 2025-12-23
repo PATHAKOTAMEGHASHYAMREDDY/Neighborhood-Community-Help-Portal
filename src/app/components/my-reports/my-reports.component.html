@@ -1,0 +1,87 @@
+<div class="my-reports-container">
+  <div class="sidebar">
+    <h2>My Reports</h2>
+
+    <!-- Resident Sidebar -->
+    <nav *ngIf="userRole === 'Resident'" aria-label="Resident navigation">
+      <a routerLink="/requests" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/requests/new" routerLinkActive="active">New Request</a>
+      <a routerLink="/profile" routerLinkActive="active">Profile</a>
+      <a routerLink="/my-reports" routerLinkActive="active">My Reports</a>
+      <a routerLink="/report-issue" routerLinkActive="active">Report Issue</a>
+      <a (click)="logout()" class="logout-link">Logout</a>
+    </nav>
+
+    <!-- Helper Sidebar -->
+    <nav *ngIf="userRole === 'Helper'" aria-label="Helper navigation">
+      <a routerLink="/helper/requests" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/helper/tasks" routerLinkActive="active">My Tasks</a>
+      <a routerLink="/profile" routerLinkActive="active">Profile</a>
+      <a routerLink="/my-reports" routerLinkActive="active">My Reports</a>
+      <a routerLink="/report-issue" routerLinkActive="active">Report Issue</a>
+      <a (click)="logout()" class="logout-link">Logout</a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>My Submitted Reports</h1>
+      <div class="filter-section">
+        <label for="statusFilter">Filter by Status:</label>
+        <select id="statusFilter" (change)="onStatusFilterChange($event)" [value]="selectedStatus">
+          <option value="All">All</option>
+          <option value="Pending">Pending</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Resolved">Resolved</option>
+          <option value="Dismissed">Dismissed</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="loading">Loading reports...</div>
+
+    <div *ngIf="!loading && filteredReports.length === 0" class="no-reports">
+      <p>No reports found.</p>
+    </div>
+
+    <div *ngIf="!loading && filteredReports.length > 0" class="reports-grid">
+      <div *ngFor="let report of filteredReports" class="report-card">
+        <div class="report-header">
+          <span class="report-id">Report #{{report.id}}</span>
+          <span [class]="getStatusClass(report.status)" class="status-badge">{{report.status}}</span>
+        </div>
+
+        <div class="report-details">
+          <div class="detail-row">
+            <strong>Reported User:</strong>
+            <span>{{report.reported_user_name}} ({{report.reported_user_role}})</span>
+          </div>
+
+          <div class="detail-row">
+            <strong>Issue Type:</strong>
+            <span>{{report.issue_type}}</span>
+          </div>
+
+          <div class="detail-row">
+            <strong>Date Submitted:</strong>
+            <span>{{report.created_at | date:'short'}}</span>
+          </div>
+
+          <div class="detail-row full-width">
+            <strong>Description:</strong>
+            <p class="description">{{report.description}}</p>
+          </div>
+
+          <div *ngIf="report.admin_notes" class="admin-response">
+            <strong>Admin Response:</strong>
+            <p class="admin-notes">{{report.admin_notes}}</p>
+          </div>
+
+          <div *ngIf="!report.admin_notes && report.status === 'Pending'" class="no-response">
+            <em>Waiting for admin review...</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

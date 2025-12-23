@@ -1,0 +1,212 @@
+<div class="admin-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-header">
+      <h2>Admin Panel</h2>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">Dashboard</span>
+      </a>
+      <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span class="nav-text">Users</span>
+      </a>
+      <a routerLink="/admin/requests" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📋</span>
+        <span class="nav-text">Requests</span>
+      </a>
+      <a routerLink="/admin/reports" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⚠️</span>
+        <span class="nav-text">Reports</span>
+      </a>
+      <a routerLink="/admin/analytics" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📈</span>
+        <span class="nav-text">Analytics</span>
+      </a>
+      <a (click)="logout()" class="nav-item logout">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-text">Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="dashboard-header">
+      <div class="header-content">
+        <div>
+          <h1>User Reports Management</h1>
+          <p>Review and manage user-reported issues</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Loading -->
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="loading-spinner"></div>
+      <p>Loading reports...</p>
+    </div>
+
+    <!-- Content -->
+    <div class="dashboard-content" *ngIf="!isLoading">
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card total">
+          <div class="stat-icon">📊</div>
+          <div class="stat-info">
+            <h3>Total Reports</h3>
+            <p class="stat-number">{{ totalReports }}</p>
+          </div>
+        </div>
+        <div class="stat-card pending">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-info">
+            <h3>Pending</h3>
+            <p class="stat-number">{{ pendingReports }}</p>
+          </div>
+        </div>
+        <div class="stat-card under-review">
+          <div class="stat-icon">🔍</div>
+          <div class="stat-info">
+            <h3>Under Review</h3>
+            <p class="stat-number">{{ underReviewReports }}</p>
+          </div>
+        </div>
+        <div class="stat-card resolved">
+          <div class="stat-icon">✅</div>
+          <div class="stat-info">
+            <h3>Resolved</h3>
+            <p class="stat-number">{{ resolvedReports }}</p>
+          </div>
+        </div>
+        <div class="stat-card dismissed">
+          <div class="stat-icon">❌</div>
+          <div class="stat-info">
+            <h3>Dismissed</h3>
+            <p class="stat-number">{{ dismissedReports }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-section">
+        <button [class.active]="filterStatus === 'All'" (click)="filterReports('All')" class="filter-btn">All</button>
+        <button [class.active]="filterStatus === 'Pending'" (click)="filterReports('Pending')" class="filter-btn">Pending</button>
+        <button [class.active]="filterStatus === 'Under Review'" (click)="filterReports('Under Review')" class="filter-btn">Under Review</button>
+        <button [class.active]="filterStatus === 'Resolved'" (click)="filterReports('Resolved')" class="filter-btn">Resolved</button>
+        <button [class.active]="filterStatus === 'Dismissed'" (click)="filterReports('Dismissed')" class="filter-btn">Dismissed</button>
+      </div>
+
+      <!-- Reports Table -->
+      <div class="reports-table-container">
+        <div class="no-data" *ngIf="filteredReports.length === 0">
+          <p>No reports found</p>
+        </div>
+
+        <table class="reports-table" *ngIf="filteredReports.length > 0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Reporter</th>
+              <th>Reported User</th>
+              <th>Issue Type</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of filteredReports">
+              <td>#{{ report.id }}</td>
+              <td>
+                <div class="user-info">
+                  <strong>{{ report.reporter_name }}</strong>
+                  <span class="role-badge" [class.resident]="report.reporter_role === 'Resident'" [class.helper]="report.reporter_role === 'Helper'">
+                    {{ report.reporter_role }}
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="user-info">
+                  <strong>{{ report.reported_user_name }}</strong>
+                  <span class="role-badge" [class.resident]="report.reported_user_role === 'Resident'" [class.helper]="report.reported_user_role === 'Helper'">
+                    {{ report.reported_user_role }}
+                  </span>
+                </div>
+              </td>
+              <td><span class="issue-badge">{{ report.issue_type }}</span></td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(report.status)">
+                  {{ report.status }}
+                </span>
+              </td>
+              <td>{{ report.created_at | date:'short' }}</td>
+              <td>
+                <button (click)="openReportModal(report)" class="action-btn view-btn" type="button">
+                  View Details
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Report Details</h2>
+      <button class="close-btn" (click)="closeModal()" type="button">×</button>
+    </div>
+    
+    <div class="modal-body" *ngIf="selectedReport">
+      <div class="detail-row">
+        <strong>Reporter:</strong>
+        <span>{{ selectedReport.reporter_name }} ({{ selectedReport.reporter_role }})</span>
+      </div>
+      <div class="detail-row">
+        <strong>Reported User:</strong>
+        <span>{{ selectedReport.reported_user_name }} ({{ selectedReport.reported_user_role }})</span>
+      </div>
+      <div class="detail-row">
+        <strong>Issue Type:</strong>
+        <span>{{ selectedReport.issue_type }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>Request ID:</strong>
+        <span>#{{ selectedReport.request_id || 'N/A' }}</span>
+      </div>
+      <div class="detail-row">
+        <strong>Description:</strong>
+        <p class="description">{{ selectedReport.description }}</p>
+      </div>
+      
+      <div class="form-group">
+        <label for="status">Update Status</label>
+        <select id="status" [(ngModel)]="modalStatus" class="form-control">
+          <option value="Pending">Pending</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Resolved">Resolved</option>
+          <option value="Dismissed">Dismissed</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Admin Notes</label>
+        <textarea id="notes" [(ngModel)]="modalNotes" rows="4" class="form-control" placeholder="Add notes about this report..."></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button (click)="closeModal()" class="btn-secondary" type="button">Cancel</button>
+      <button (click)="updateReportStatus()" class="btn-primary" type="button">Update Report</button>
+    </div>
+  </div>
+</div>
