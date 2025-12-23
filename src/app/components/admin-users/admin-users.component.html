@@ -114,7 +114,9 @@
                 <th>Contact Info</th>
                 <th>Location</th>
                 <th>Role</th>
+                <th>Status</th>
                 <th>Joined Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -128,7 +130,28 @@
                     {{ user.role }}
                   </span>
                 </td>
+                <td>
+                  <span class="status-badge" [class.blocked]="user.is_blocked" [class.active]="!user.is_blocked">
+                    {{ user.is_blocked ? 'Blocked' : 'Active' }}
+                  </span>
+                </td>
                 <td>{{ user.created_at | date:'short' }}</td>
+                <td>
+                  <button 
+                    *ngIf="!user.is_blocked" 
+                    (click)="blockUser(user.id)" 
+                    class="action-btn block-btn"
+                    type="button">
+                    Block
+                  </button>
+                  <button 
+                    *ngIf="user.is_blocked" 
+                    (click)="unblockUser(user.id)" 
+                    class="action-btn unblock-btn"
+                    type="button">
+                    Unblock
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>

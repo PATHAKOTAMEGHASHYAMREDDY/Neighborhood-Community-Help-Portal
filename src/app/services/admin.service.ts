@@ -9,6 +9,7 @@ export interface User {
   contact_info: string;
   location: string;
   role: 'Resident' | 'Helper';
+  is_blocked: boolean;
   created_at: Date;
 }
 
@@ -75,6 +76,22 @@ export class AdminService {
   getAnalytics(): Observable<{ success: boolean; analytics: Analytics }> {
     return this.http.get<{ success: boolean; analytics: Analytics }>(
       `${this.apiUrl}/analytics`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  blockUser(userId: number): Observable<{ success: boolean; message: string }> {
+    return this.http.put<{ success: boolean; message: string }>(
+      `${this.apiUrl}/users/${userId}/block`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+
+  unblockUser(userId: number): Observable<{ success: boolean; message: string }> {
+    return this.http.put<{ success: boolean; message: string }>(
+      `${this.apiUrl}/users/${userId}/unblock`,
+      {},
       { headers: this.getHeaders() }
     );
   }

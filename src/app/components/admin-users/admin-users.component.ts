@@ -80,6 +80,50 @@ export class AdminUsersComponent implements OnInit {
     this.filterUsers();
   }
 
+  blockUser(userId: number) {
+    if (!confirm('Are you sure you want to block this user? They will not be able to create requests or help others.')) {
+      return;
+    }
+
+    this.adminService.blockUser(userId).subscribe({
+      next: (response) => {
+        // Update user in the list
+        const user = this.users.find(u => u.id === userId);
+        if (user) {
+          user.is_blocked = true;
+        }
+        this.filterUsers();
+        alert('User blocked successfully');
+      },
+      error: (error) => {
+        console.error('Error blocking user:', error);
+        alert('Failed to block user. Please try again.');
+      }
+    });
+  }
+
+  unblockUser(userId: number) {
+    if (!confirm('Are you sure you want to unblock this user?')) {
+      return;
+    }
+
+    this.adminService.unblockUser(userId).subscribe({
+      next: (response) => {
+        // Update user in the list
+        const user = this.users.find(u => u.id === userId);
+        if (user) {
+          user.is_blocked = false;
+        }
+        this.filterUsers();
+        alert('User unblocked successfully');
+      },
+      error: (error) => {
+        console.error('Error unblocking user:', error);
+        alert('Failed to unblock user. Please try again.');
+      }
+    });
+  }
+
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
