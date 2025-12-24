@@ -18,6 +18,11 @@ export class RegistrationComponent {
   successMessage: string = '';
   isLoading: boolean = false;
 
+  // Password visibility toggles
+  showLoginPassword: boolean = false;
+  showSignupPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+
   loginData = {
     contact_info: '',
     password: '',

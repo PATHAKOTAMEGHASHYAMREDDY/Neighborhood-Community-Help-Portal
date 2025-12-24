@@ -1,215 +1,261 @@
-<div class="auth-container">
-  <div class="auth-card">
-    <div class="auth-header">
-      <h1>Community Help Portal</h1>
-      <p>Connect with your community</p>
-    </div>
-
-    <!-- Tab Navigation -->
-    <div class="tab-navigation">
-      <button
-        class="tab-button"
-        [class.active]="activeTab === 'login'"
-        (click)="switchTab('login')"
-        type="button">
-        Login
-      </button>
-      <button
-        class="tab-button"
-        [class.active]="activeTab === 'signup'"
-        (click)="switchTab('signup')"
-        type="button">
-        Sign Up
-      </button>
-    </div>
-
-    <!-- Login Form -->
-    <form *ngIf="activeTab === 'login'" class="auth-form" (ngSubmit)="onLogin()">
-      <div class="form-group">
-        <label for="login-email">Email / Phone</label>
-        <input
-          type="text"
-          id="login-email"
-          [(ngModel)]="loginData.contact_info"
-          name="contact_info"
-          placeholder="Enter your email or phone"
-          required>
+<div class="auth-wrapper">
+  <!-- Centered Auth Forms -->
+  <div class="auth-forms">
+    <div class="form-container">
+      <!-- Tab Navigation -->
+      <div class="tab-navigation">
+        <button
+          class="tab-button"
+          [class.active]="activeTab === 'login'"
+          (click)="switchTab('login')"
+          type="button">
+          Login
+        </button>
+        <button
+          class="tab-button"
+          [class.active]="activeTab === 'signup'"
+          (click)="switchTab('signup')"
+          type="button">
+          Sign Up
+        </button>
       </div>
 
-      <div class="form-group">
-        <label for="login-password">Password</label>
-        <input
-          type="password"
-          id="login-password"
-          [(ngModel)]="loginData.password"
-          name="password"
-          placeholder="Enter your password"
-          required>
-      </div>
+      <!-- Login Form -->
+      <form *ngIf="activeTab === 'login'" class="auth-form" (ngSubmit)="onLogin()">
+        <h2 class="form-title">Welcome Back</h2>
+        <p class="form-subtitle">Login to continue to your account</p>
 
-      <div class="form-group">
-        <label>Select Your Role</label>
-        <div class="role-selection">
-
-          <!-- Resident -->
-          <label class="role-option">
+        <div class="form-group">
+          <label for="login-email">Email / Phone</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
             <input
-              type="radio"
-              name="loginRole"
-              value="Resident"
-              [(ngModel)]="loginData.role"
+              type="text"
+              id="login-email"
+              [(ngModel)]="loginData.contact_info"
+              name="contact_info"
+              placeholder="Enter your email or phone"
               required>
-            <span class="role-label">
-              <span class="role-icon">🏠</span>
-              <span class="role-text">Resident</span>
-            </span>
-          </label>
-
-          <!-- Helper -->
-          <label class="role-option">
-            <input
-              type="radio"
-              name="loginRole"
-              value="Helper"
-              [(ngModel)]="loginData.role"
-              required>
-            <span class="role-label">
-              <span class="role-icon">🤝</span>
-              <span class="role-text">Helper</span>
-            </span>
-          </label>
-
-          <!-- Admin -->
-          <label class="role-option">
-            <input
-              type="radio"
-              name="loginRole"
-              value="Admin"
-              [(ngModel)]="loginData.role"
-              required>
-            <span class="role-label">
-              <span class="role-icon">🛡️</span>
-              <span class="role-text">Admin</span>
-            </span>
-          </label>
-
+          </div>
         </div>
-      </div>
 
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-
-      <button type="submit" class="submit-button" [disabled]="isLoading">
-        {{ isLoading ? 'Logging in...' : 'Login' }}
-      </button>
-    </form>
-
-    <!-- Sign Up Form -->
-    <form *ngIf="activeTab === 'signup'" class="auth-form" (ngSubmit)="onSignup()">
-      <div class="form-group">
-        <label for="signup-name">Full Name</label>
-        <input
-          type="text"
-          id="signup-name"
-          [(ngModel)]="signupData.name"
-          name="name"
-          placeholder="Enter your full name"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label for="signup-email">Email / Phone</label>
-        <input
-          type="text"
-          id="signup-email"
-          [(ngModel)]="signupData.contact_info"
-          name="contact_info"
-          placeholder="Enter your email or phone"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label for="signup-location">Location</label>
-        <input
-          type="text"
-          id="signup-location"
-          [(ngModel)]="signupData.location"
-          name="location"
-          placeholder="Enter your location"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label for="signup-password">Password</label>
-        <input
-          type="password"
-          id="signup-password"
-          [(ngModel)]="signupData.password"
-          name="password"
-          placeholder="Create a password"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label for="signup-confirm-password">Confirm Password</label>
-        <input
-          type="password"
-          id="signup-confirm-password"
-          [(ngModel)]="signupData.confirmPassword"
-          name="confirmPassword"
-          placeholder="Confirm your password"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label>Select Your Role</label>
-        <div class="role-selection">
-          <label class="role-option">
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
             <input
-              type="radio"
-              name="signupRole"
-              value="Resident"
-              [(ngModel)]="signupData.role"
+              type="password"
+              [type]="showLoginPassword ? 'text' : 'password'"
+              id="login-password"
+              [(ngModel)]="loginData.password"
+              name="password"
+              placeholder="Enter your password"
               required>
-            <span class="role-label">
-              <span class="role-icon">🏠</span>
-              <span class="role-text">
-                <strong>Resident</strong>
-                <small>Post help requests</small>
-              </span>
-            </span>
-          </label>
-
-          <label class="role-option">
-            <input
-              type="radio"
-              name="signupRole"
-              value="Helper"
-              [(ngModel)]="signupData.role"
-              required>
-            <span class="role-label">
-              <span class="role-icon">🤝</span>
-              <span class="role-text">
-                <strong>Helper</strong>
-                <small>Offer assistance</small>
-              </span>
-            </span>
-          </label>
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showLoginPassword = !showLoginPassword">
+              {{ showLoginPassword ? '👁' : '🔒' }}
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
+        <div class="form-group">
+          <label>Select Your Role</label>
+          <div class="role-selection">
+            <label class="role-option">
+              <input
+                type="radio"
+                name="loginRole"
+                value="Resident"
+                [(ngModel)]="loginData.role"
+                required>
+              <span class="role-card">
+                <span class="role-icon">🏠</span>
+                <span class="role-name">Resident</span>
+              </span>
+            </label>
 
-      <div *ngIf="successMessage" class="success-message">
-        {{ successMessage }}
-      </div>
+            <label class="role-option">
+              <input
+                type="radio"
+                name="loginRole"
+                value="Helper"
+                [(ngModel)]="loginData.role"
+                required>
+              <span class="role-card">
+                <span class="role-icon">🤝</span>
+                <span class="role-name">Helper</span>
+              </span>
+            </label>
 
-      <button type="submit" class="submit-button" [disabled]="isLoading">
-        {{ isLoading ? 'Creating account...' : 'Sign Up' }}
-      </button>
-    </form>
+            <label class="role-option">
+              <input
+                type="radio"
+                name="loginRole"
+                value="Admin"
+                [(ngModel)]="loginData.role"
+                required>
+              <span class="role-card">
+                <span class="role-icon">🛡️</span>
+                <span class="role-name">Admin</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <span class="message-icon">⚠️</span>
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="submit-button" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Login</span>
+          <span *ngIf="isLoading">Logging in...</span>
+        </button>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form *ngIf="activeTab === 'signup'" class="auth-form" (ngSubmit)="onSignup()">
+        <h2 class="form-title">Create Account</h2>
+        <p class="form-subtitle">Join our community today</p>
+
+        <div class="form-group">
+          <label for="signup-name">Full Name</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input
+              type="text"
+              id="signup-name"
+              [(ngModel)]="signupData.name"
+              name="name"
+              placeholder="Enter your full name"
+              required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-email">Email / Phone</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input
+              type="text"
+              id="signup-email"
+              [(ngModel)]="signupData.contact_info"
+              name="contact_info"
+              placeholder="Enter your email or phone"
+              required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-location">Location</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📍</span>
+            <input
+              type="text"
+              id="signup-location"
+              [(ngModel)]="signupData.location"
+              name="location"
+              placeholder="Enter your location"
+              required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              [type]="showSignupPassword ? 'text' : 'password'"
+              id="signup-password"
+              [(ngModel)]="signupData.password"
+              name="password"
+              placeholder="Create a password"
+              required>
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showSignupPassword = !showSignupPassword">
+              {{ showSignupPassword ? '👁' : '🔒' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-confirm-password">Confirm Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="signup-confirm-password"
+              [(ngModel)]="signupData.confirmPassword"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              required>
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showConfirmPassword = !showConfirmPassword">
+              {{ showConfirmPassword ? '👁' : '🔒' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Select Your Role</label>
+          <div class="role-selection signup-roles">
+            <label class="role-option">
+              <input
+                type="radio"
+                name="signupRole"
+                value="Resident"
+                [(ngModel)]="signupData.role"
+                required>
+              <span class="role-card detailed">
+                <span class="role-icon">🏠</span>
+                <span class="role-info">
+                  <span class="role-name">Resident</span>
+                  <span class="role-desc">Post help requests</span>
+                </span>
+              </span>
+            </label>
+
+            <label class="role-option">
+              <input
+                type="radio"
+                name="signupRole"
+                value="Helper"
+                [(ngModel)]="signupData.role"
+                required>
+              <span class="role-card detailed">
+                <span class="role-icon">🤝</span>
+                <span class="role-info">
+                  <span class="role-name">Helper</span>
+                  <span class="role-desc">Offer assistance</span>
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <span class="message-icon">⚠️</span>
+          {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">
+          <span class="message-icon">✓</span>
+          {{ successMessage }}
+        </div>
+
+        <button type="submit" class="submit-button" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Create Account</span>
+          <span *ngIf="isLoading">Creating account...</span>
+        </button>
+      </form>
+    </div>
   </div>
 </div>
