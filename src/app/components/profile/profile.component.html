@@ -1,6 +1,6 @@
 <div class="dashboard-container">
   <!-- Sidebar -->
-  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed" [class.helper]="user?.role === 'Helper'">
     <div class="sidebar-header">
       <h2>Community Help</h2>
       <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
@@ -35,6 +35,18 @@
         <a routerLink="/helper/tasks" routerLinkActive="active" class="nav-item">
           <span class="nav-icon">✅</span>
           <span class="nav-text">My Tasks</span>
+        </a>
+        <a routerLink="/profile" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">👤</span>
+          <span class="nav-text">Profile</span>
+        </a>
+        <a routerLink="/my-reports" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">📄</span>
+          <span class="nav-text">My Reports</span>
+        </a>
+        <a routerLink="/report-issue" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">⚠️</span>
+          <span class="nav-text">Report Issue</span>
         </a>
       </ng-container>
 
@@ -258,4 +270,20 @@
       <p>Loading profile...</p>
     </div>
   </main>
+
+  <!-- Logout Confirmation Dialog -->
+  <div class="dialog-overlay" *ngIf="showLogoutDialog" (click)="cancelLogout()">
+    <div class="dialog-box" (click)="$event.stopPropagation()">
+      <div class="dialog-header" [class.helper]="user?.role === 'Helper'">
+        <h3>Confirm Logout</h3>
+      </div>
+      <div class="dialog-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn-cancel" (click)="cancelLogout()" type="button">Cancel</button>
+        <button class="btn-confirm" (click)="confirmLogout()" type="button">Logout</button>
+      </div>
+    </div>
+  </div>
 </div>

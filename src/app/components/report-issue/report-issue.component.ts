@@ -18,6 +18,7 @@ export class ReportIssueComponent implements OnInit {
   isLoading: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
+  showLogoutDialog: boolean = false;
   
   userRole: string = '';
   myRequests: any[] = [];
@@ -126,6 +127,15 @@ export class ReportIssueComponent implements OnInit {
   }
 
   logout() {
+    this.showLogoutDialog = true;
+  }
+
+  confirmLogout() {
+    this.showLogoutDialog = false;
     this.authService.logout();
+  }
+
+  cancelLogout() {
+    this.showLogoutDialog = false;
   }
 }

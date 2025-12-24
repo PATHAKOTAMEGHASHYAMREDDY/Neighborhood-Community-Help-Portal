@@ -16,6 +16,8 @@ export class MyReportsComponent implements OnInit {
   loading = false;
   selectedStatus = 'All';
   userRole: string = '';
+  isSidebarCollapsed: boolean = false;
+  showLogoutDialog: boolean = false;
 
   constructor(
     private reportService: ReportService,
@@ -70,8 +72,21 @@ export class MyReportsComponent implements OnInit {
     }
   }
 
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
   logout() {
+    this.showLogoutDialog = true;
+  }
+
+  confirmLogout() {
+    this.showLogoutDialog = false;
     this.authService.logout();
     this.router.navigate(['/']);
+  }
+
+  cancelLogout() {
+    this.showLogoutDialog = false;
   }
 }

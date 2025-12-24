@@ -18,6 +18,7 @@ export class HelperTasksComponent implements OnInit {
   successMessage: string = '';
   isSidebarCollapsed: boolean = false;
   updatingId: number | null = null;
+  showLogoutDialog: boolean = false;
 
   constructor(
     private router: Router,
@@ -107,6 +108,15 @@ export class HelperTasksComponent implements OnInit {
   }
 
   logout() {
+    this.showLogoutDialog = true;
+  }
+
+  confirmLogout() {
+    this.showLogoutDialog = false;
     this.authService.logout();
+  }
+
+  cancelLogout() {
+    this.showLogoutDialog = false;
   }
 }

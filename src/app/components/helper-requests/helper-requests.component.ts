@@ -18,6 +18,7 @@ export class HelperRequestsComponent implements OnInit {
   successMessage: string = '';
   isSidebarCollapsed: boolean = false;
   processingId: number | null = null;
+  showLogoutDialog: boolean = false;
 
   // Summary counts
   availableCount: number = 0;
@@ -125,6 +126,15 @@ export class HelperRequestsComponent implements OnInit {
   }
 
   logout() {
+    this.showLogoutDialog = true;
+  }
+
+  confirmLogout() {
+    this.showLogoutDialog = false;
     this.authService.logout();
+  }
+
+  cancelLogout() {
+    this.showLogoutDialog = false;
   }
 }

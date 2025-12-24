@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit {
   totalRequests: number = 0;
   pendingRequests: number = 0;
   completedRequests: number = 0;
+  showLogoutDialog: boolean = false;
 
   constructor(
     private router: Router,
@@ -150,6 +151,15 @@ export class ProfileComponent implements OnInit {
   }
 
   logout() {
+    this.showLogoutDialog = true;
+  }
+
+  confirmLogout() {
+    this.showLogoutDialog = false;
     this.authService.logout();
+  }
+
+  cancelLogout() {
+    this.showLogoutDialog = false;
   }
 }
