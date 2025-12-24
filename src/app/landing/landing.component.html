@@ -14,11 +14,16 @@
 
 <!-- Hero Section -->
 <section id="home" class="hero-section">
-  <div class="hero-content">
-    <h1 class="hero-title">Helping Neighbors, Strengthening Communities</h1>
-    <p class="hero-subtitle">Connect with your community to request help or offer assistance. Building stronger neighborhoods together.</p>
-    <div class="hero-buttons">
-      <button class="primary-button" type="button" (click)="navigateToAuth()">Login / Sign Up</button>
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title">Helping Neighbors, Strengthening Communities</h1>
+      <p class="hero-subtitle">Connect with your community to request help or offer assistance. Building stronger neighborhoods together.</p>
+      <div class="hero-buttons">
+        <button class="primary-button" type="button" (click)="navigateToAuth()">Login / Sign Up</button>
+      </div>
+    </div>
+    <div class="hero-animation">
+      <div #lottieContainer class="lottie-container"></div>
     </div>
   </div>
   <div class="hero-background"></div>
