@@ -60,6 +60,12 @@
           </div>
         </div>
 
+        <div class="forgot-password-wrapper">
+          <a class="forgot-password-link" (click)="onForgotPassword()">
+            Forgot Password?
+          </a>
+        </div>
+
         <div class="form-group">
           <label>Select Your Role</label>
           <div class="role-selection">
@@ -256,6 +262,140 @@
           <span *ngIf="isLoading">Creating account...</span>
         </button>
       </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Forgot Password Modal -->
+<div class="modal-overlay" *ngIf="showForgotPasswordModal" (click)="closeForgotPasswordModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Reset Password</h2>
+      <button class="close-btn" (click)="closeForgotPasswordModal()" type="button">×</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Step 1: Enter Email -->
+      <div *ngIf="forgotPasswordStep === 'email'" class="reset-step">
+        <p class="step-description">Enter your email address to receive an OTP</p>
+
+        <div class="form-group">
+          <label for="reset-email">Email Address</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input
+              type="email"
+              id="reset-email"
+              [(ngModel)]="forgotPasswordData.email"
+              name="resetEmail"
+              placeholder="Enter your email"
+              required>
+          </div>
+        </div>
+
+        <div *ngIf="forgotPasswordError" class="error-message">
+          <span class="message-icon">⚠️</span>
+          {{ forgotPasswordError }}
+        </div>
+
+        <div *ngIf="forgotPasswordMessage" class="success-message">
+          <span class="message-icon">✓</span>
+          {{ forgotPasswordMessage }}
+        </div>
+
+        <button class="submit-button" (click)="sendOTP()" [disabled]="isLoading" type="button">
+          <span *ngIf="!isLoading">Send OTP</span>
+          <span *ngIf="isLoading">Sending...</span>
+        </button>
+      </div>
+
+      <!-- Step 2: Enter OTP -->
+      <div *ngIf="forgotPasswordStep === 'otp'" class="reset-step">
+        <p class="step-description">Enter the 6-digit OTP sent to {{ forgotPasswordData.email }}</p>
+
+        <div class="form-group">
+          <label for="reset-otp">OTP Code</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔑</span>
+            <input
+              type="text"
+              id="reset-otp"
+              [(ngModel)]="forgotPasswordData.otp"
+              name="resetOtp"
+              placeholder="Enter 6-digit OTP"
+              maxlength="6"
+              required>
+          </div>
+        </div>
+
+        <div *ngIf="forgotPasswordError" class="error-message">
+          <span class="message-icon">⚠️</span>
+          {{ forgotPasswordError }}
+        </div>
+
+        <div *ngIf="forgotPasswordMessage" class="success-message">
+          <span class="message-icon">✓</span>
+          {{ forgotPasswordMessage }}
+        </div>
+
+        <button class="submit-button" (click)="verifyOTP()" [disabled]="isLoading" type="button">
+          <span *ngIf="!isLoading">Verify OTP</span>
+          <span *ngIf="isLoading">Verifying...</span>
+        </button>
+
+        <button class="link-button" (click)="forgotPasswordStep = 'email'" type="button">
+          ← Back to email
+        </button>
+      </div>
+
+      <!-- Step 3: Set New Password -->
+      <div *ngIf="forgotPasswordStep === 'newPassword'" class="reset-step">
+        <p class="step-description">Create a new password for your account</p>
+
+        <div class="form-group">
+          <label for="new-password">New Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              id="new-password"
+              [(ngModel)]="forgotPasswordData.newPassword"
+              name="newPassword"
+              placeholder="Enter new password"
+              required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirm-new-password">Confirm Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              id="confirm-new-password"
+              [(ngModel)]="forgotPasswordData.confirmPassword"
+              name="confirmNewPassword"
+              placeholder="Confirm new password"
+              required>
+          </div>
+        </div>
+
+        <div *ngIf="forgotPasswordError" class="error-message">
+          <span class="message-icon">⚠️</span>
+          {{ forgotPasswordError }}
+        </div>
+
+        <div *ngIf="forgotPasswordMessage" class="success-message">
+          <span class="message-icon">✓</span>
+          {{ forgotPasswordMessage }}
+        </div>
+
+        <button class="submit-button" (click)="resetPassword()" [disabled]="isLoading" type="button">
+          <span *ngIf="!isLoading">Reset Password</span>
+          <span *ngIf="isLoading">Resetting...</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

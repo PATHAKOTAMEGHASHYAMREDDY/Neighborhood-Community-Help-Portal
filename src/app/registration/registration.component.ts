@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { PasswordResetService } from '../services/password-reset.service';
 
 @Component({
   selector: 'app-registration',
@@ -38,15 +39,139 @@ export class RegistrationComponent {
     role: '' as 'Resident' | 'Helper' | ''
   };
 
+  // Forgot Password
+  showForgotPasswordModal = false;
+  forgotPasswordStep: 'email' | 'otp' | 'newPassword' = 'email';
+  forgotPasswordData = {
+    email: '',
+    otp: '',
+    newPassword: '',
+    confirmPassword: ''
+  };
+  forgotPasswordMessage = '';
+  forgotPasswordError = '';
+
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private passwordResetService: PasswordResetService
   ) {}
 
   switchTab(tab: 'login' | 'signup') {
     this.activeTab = tab;
     this.errorMessage = '';
     this.successMessage = '';
+  }
+
+  // ================= FORGOT PASSWORD =================
+  onForgotPassword() {
+    this.showForgotPasswordModal = true;
+    this.forgotPasswordStep = 'email';
+    this.forgotPasswordData = {
+      email: '',
+      otp: '',
+      newPassword: '',
+      confirmPassword: ''
+    };
+    this.forgotPasswordMessage = '';
+    this.forgotPasswordError = '';
+  }
+
+  closeForgotPasswordModal() {
+    this.showForgotPasswordModal = false;
+  }
+
+  sendOTP() {
+    this.forgotPasswordError = '';
+    this.forgotPasswordMessage = '';
+
+    if (!this.forgotPasswordData.email) {
+      this.forgotPasswordError = 'Please enter your email';
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.passwordResetService.sendOTP(this.forgotPasswordData.email).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.forgotPasswordMessage = 'OTP sent to your email successfully!';
+        this.forgotPasswordStep = 'otp';
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.forgotPasswordError = error.error?.error || 'Failed to send OTP';
+      }
+    });
+  }
+
+  verifyOTP() {
+    this.forgotPasswordError = '';
+    this.forgotPasswordMessage = '';
+
+    if (!this.forgotPasswordData.otp) {
+      this.forgotPasswordError = 'Please enter the OTP';
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.passwordResetService.verifyOTP(
+      this.forgotPasswordData.email,
+      this.forgotPasswordData.otp
+    ).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.forgotPasswordMessage = 'OTP verified successfully!';
+        this.forgotPasswordStep = 'newPassword';
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.forgotPasswordError = error.error?.error || 'Invalid OTP';
+      }
+    });
+  }
+
+  resetPassword() {
+    this.forgotPasswordError = '';
+    this.forgotPasswordMessage = '';
+
+    if (!this.forgotPasswordData.newPassword || !this.forgotPasswordData.confirmPassword) {
+      this.forgotPasswordError = 'Please fill in all fields';
+      return;
+    }
+
+    if (this.forgotPasswordData.newPassword !== this.forgotPasswordData.confirmPassword) {
+      this.forgotPasswordError = 'Passwords do not match';
+      return;
+    }
+
+    if (this.forgotPasswordData.newPassword.length < 6) {
+      this.forgotPasswordError = 'Password must be at least 6 characters';
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.passwordResetService.resetPassword(
+      this.forgotPasswordData.email,
+      this.forgotPasswordData.otp,
+      this.forgotPasswordData.newPassword
+    ).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.forgotPasswordMessage = 'Password reset successfully! You can now login.';
+        
+        setTimeout(() => {
+          this.closeForgotPasswordModal();
+          this.activeTab = 'login';
+        }, 2000);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.forgotPasswordError = error.error?.error || 'Failed to reset password';
+      }
+    });
   }
 
   // ================= LOGIN =================
