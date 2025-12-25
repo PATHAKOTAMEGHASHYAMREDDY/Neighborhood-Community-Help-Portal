@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService } from '../../services/help-request.service';
 import { AdminService } from '../../services/admin.service';
@@ -8,7 +9,7 @@ import { AdminService } from '../../services/admin.service';
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
@@ -31,6 +32,11 @@ export class AdminDashboardComponent implements OnInit {
   recentUsers: any[] = [];
   
   isLoading: boolean = true;
+
+  // Download modal
+  showDownloadModal: boolean = false;
+  selectedReportType: 'daily' | 'weekly' = 'daily';
+  isDownloading: boolean = false;
 
   constructor(
     private router: Router,
@@ -100,6 +106,78 @@ export class AdminDashboardComponent implements OnInit {
 
   getStatusClass(status: string): string {
     return 'status-' + status.toLowerCase();
+  }
+
+  openDownloadModal() {
+    this.showDownloadModal = true;
+    this.selectedReportType = 'daily';
+  }
+
+  closeDownloadModal() {
+    this.showDownloadModal = false;
+  }
+
+  downloadReport() {
+    this.isDownloading = true;
+
+    this.adminService.getReportsData(this.selectedReportType).subscribe({
+      next: (response) => {
+        if (response.success && response.data.length > 0) {
+          this.generateAndDownloadCSV(response.data, this.selectedReportType);
+          this.closeDownloadModal();
+        } else if (response.data.length === 0) {
+          alert('No data found for the selected report type.');
+          this.isDownloading = false;
+        }
+      },
+      error: (error) => {
+        console.error('Error downloading report:', error);
+        alert('Failed to download report. Please try again.');
+        this.isDownloading = false;
+      }
+    });
+  }
+
+  generateAndDownloadCSV(data: any[], reportType: string) {
+    if (!data || data.length === 0) {
+      alert('No data available to download');
+      this.isDownloading = false;
+      return;
+    }
+
+    const headers = ['ID', 'Title', 'Description', 'Category', 'Status', 'Resident Name', 'Helper Name', 'Date'];
+    const rows = data.map(item => [
+      item.id,
+      item.title,
+      `"${(item.description || '').replace(/"/g, '""')}"`,
+      item.category,
+      item.status,
+      item.resident_name || 'N/A',
+      item.helper_name || 'N/A',
+      new Date(item.created_at).toLocaleString()
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.join(','))
+    ].join('\n');
+
+    const timestamp = new Date().toISOString().split('T')[0];
+    const filename = `${reportType}-report-${timestamp}.csv`;
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    this.isDownloading = false;
   }
 
   logout() {
