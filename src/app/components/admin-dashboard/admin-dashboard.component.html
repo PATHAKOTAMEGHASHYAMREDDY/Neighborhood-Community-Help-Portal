@@ -226,6 +226,12 @@
             <p>View detailed platform statistics</p>
           </a>
 
+          <button (click)="openDownloadModal()" class="action-card action-btn">
+            <div class="action-icon">⬇️</div>
+            <h3>Download Reports</h3>
+            <p>Export daily or weekly reports as CSV</p>
+          </button>
+
           <a routerLink="/profile" class="action-card">
             <div class="action-icon">⚙️</div>
             <h3>Settings</h3>
@@ -235,4 +241,44 @@
       </section>
     </div>
   </main>
+</div>
+
+<!-- Download Reports Modal -->
+<div class="modal-overlay" *ngIf="showDownloadModal" (click)="closeDownloadModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Download Reports</h2>
+      <button class="close-btn" (click)="closeDownloadModal()" type="button">×</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="modal-subtitle">Select the report type you want to download</p>
+      
+      <div class="report-options">
+        <label class="radio-option">
+          <input type="radio" name="reportType" value="daily" [(ngModel)]="selectedReportType" />
+          <span class="radio-label">
+            <strong>Daily Report</strong>
+            <small>Download today's requests and activities</small>
+          </span>
+        </label>
+
+        <label class="radio-option">
+          <input type="radio" name="reportType" value="weekly" [(ngModel)]="selectedReportType" />
+          <span class="radio-label">
+            <strong>Weekly Report</strong>
+            <small>Download last 7 days of requests and activities</small>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button (click)="closeDownloadModal()" class="btn-secondary" type="button">Cancel</button>
+      <button (click)="downloadReport()" class="btn-primary" type="button" [disabled]="isDownloading">
+        <span *ngIf="!isDownloading">📥 Download</span>
+        <span *ngIf="isDownloading">Generating...</span>
+      </button>
+    </div>
+  </div>
 </div>
