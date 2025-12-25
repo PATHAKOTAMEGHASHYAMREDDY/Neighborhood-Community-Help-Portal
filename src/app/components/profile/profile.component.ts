@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService, User } from '../../services/auth.service';
 import { HelpRequestService } from '../../services/help-request.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, MatIconModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -19,15 +20,13 @@ export class ProfileComponent implements OnInit {
   isSaving: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
-  
-  // Edit form data
+
   editForm = {
     name: '',
     contact_info: '',
     location: ''
   };
-  
-  // Statistics
+
   totalRequests: number = 0;
   pendingRequests: number = 0;
   completedRequests: number = 0;
@@ -40,15 +39,13 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Get current user
     this.user = this.authService.getCurrentUser();
-    
+
     if (!this.user) {
       this.router.navigate(['/register']);
       return;
     }
 
-    // Load statistics if resident
     if (this.user.role === 'Resident') {
       this.loadStatistics();
     }
@@ -78,11 +75,9 @@ export class ProfileComponent implements OnInit {
   }
 
   getMemberSince(): string {
-    // Since we don't have created_at in the user object from auth,
-    // we'll show a generic message or current date
-    return new Date().toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long' 
+    return new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long'
     });
   }
 
@@ -122,7 +117,11 @@ export class ProfileComponent implements OnInit {
   }
 
   saveProfile() {
-    if (!this.editForm.name.trim() || !this.editForm.contact_info.trim() || !this.editForm.location.trim()) {
+    if (
+      !this.editForm.name.trim() ||
+      !this.editForm.contact_info.trim() ||
+      !this.editForm.location.trim()
+    ) {
       this.errorMessage = 'All fields are required';
       return;
     }
@@ -137,14 +136,14 @@ export class ProfileComponent implements OnInit {
         this.isEditing = false;
         this.isSaving = false;
         this.successMessage = 'Profile updated successfully!';
-        
-        // Clear success message after 3 seconds
+
         setTimeout(() => {
           this.successMessage = '';
         }, 3000);
       },
       error: (error) => {
-        this.errorMessage = error.error?.error || 'Failed to update profile. Please try again.';
+        this.errorMessage =
+          error.error?.error || 'Failed to update profile. Please try again.';
         this.isSaving = false;
       }
     });

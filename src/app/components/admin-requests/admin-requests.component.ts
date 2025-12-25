@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService } from '../../services/help-request.service';
 
 @Component({
   selector: 'app-admin-requests',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatIconModule],
   templateUrl: './admin-requests.component.html',
   styleUrls: ['./admin-requests.component.css']
 })
@@ -66,9 +67,11 @@ export class AdminRequestsComponent implements OnInit {
 
   filterRequests() {
     this.filteredRequests = this.requests.filter(request => {
-      const matchesSearch = request.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           request.category.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           (request.resident_name && request.resident_name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+      const matchesSearch =
+        request.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        request.category.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        (request.resident_name &&
+          request.resident_name.toLowerCase().includes(this.searchTerm.toLowerCase()));
       const matchesStatus = this.filterStatus === 'All' || request.status === this.filterStatus;
       return matchesSearch && matchesStatus;
     });

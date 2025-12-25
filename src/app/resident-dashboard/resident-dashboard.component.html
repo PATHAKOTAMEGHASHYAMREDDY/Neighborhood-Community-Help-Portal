@@ -3,6 +3,7 @@
     <h1>Resident Dashboard</h1>
     <button class="logout-button" (click)="logout()" type="button">Logout</button>
   </div>
+
   <div class="welcome-section">
     <h2>Welcome, {{ userName }}!</h2>
     <p>You are logged in as a <strong>Resident</strong></p>
@@ -10,7 +11,10 @@
 
   <div class="dashboard-content">
     <div class="info-card">
-      <h3>🏠 Resident Features</h3>
+      <h3>
+        <mat-icon>home</mat-icon>
+        Resident Features
+      </h3>
       <ul>
         <li>Post help requests</li>
         <li>Track request status</li>

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService, HelpRequest } from '../../services/help-request.service';
 
 @Component({
   selector: 'app-request-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatIconModule],
   templateUrl: './request-list.component.html',
   styleUrl: './request-list.component.css'
 })
@@ -18,7 +19,6 @@ export class RequestListComponent implements OnInit {
   isSidebarCollapsed: boolean = false;
   showLogoutDialog: boolean = false;
 
-  // Summary counts
   totalRequests: number = 0;
   pendingCount: number = 0;
   inProgressCount: number = 0;
@@ -31,7 +31,6 @@ export class RequestListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Verify user is a resident
     if (!this.authService.isResident()) {
       this.router.navigate(['/register']);
       return;

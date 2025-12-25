@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService, HelpRequest } from '../../services/help-request.service';
 
 @Component({
   selector: 'app-helper-requests',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatIconModule],
   templateUrl: './helper-requests.component.html',
   styleUrl: './helper-requests.component.css'
 })
@@ -20,7 +21,6 @@ export class HelperRequestsComponent implements OnInit {
   processingId: number | null = null;
   showLogoutDialog: boolean = false;
 
-  // Summary counts
   availableCount: number = 0;
   acceptedCount: number = 0;
   inProgressCount: number = 0;
@@ -33,7 +33,6 @@ export class HelperRequestsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Verify user is a helper
     if (!this.authService.isHelper()) {
       this.router.navigate(['/register']);
       return;
@@ -62,7 +61,6 @@ export class HelperRequestsComponent implements OnInit {
   }
 
   loadMySummary() {
-    // Load helper's accepted tasks for summary
     this.helpRequestService.getMyRequests().subscribe({
       next: (response) => {
         const myTasks = response.requests || [];
@@ -84,18 +82,14 @@ export class HelperRequestsComponent implements OnInit {
     this.successMessage = '';
 
     this.helpRequestService.acceptHelpRequest(requestId).subscribe({
-      next: (response) => {
+      next: () => {
         this.successMessage = 'Request accepted successfully!';
         this.processingId = null;
-        
-        // Remove from available requests
+
         this.availableRequests = this.availableRequests.filter(r => r.id !== requestId);
         this.availableCount = this.availableRequests.length;
-        
-        // Update summary
         this.acceptedCount++;
-        
-        // Clear success message after 3 seconds
+
         setTimeout(() => {
           this.successMessage = '';
         }, 3000);
@@ -110,12 +104,11 @@ export class HelperRequestsComponent implements OnInit {
 
   declineRequest(requestId: number | undefined) {
     if (!requestId) return;
-    
-    // For now, just remove from view (no backend endpoint for decline)
+
     this.availableRequests = this.availableRequests.filter(r => r.id !== requestId);
     this.availableCount = this.availableRequests.length;
     this.successMessage = 'Request declined.';
-    
+
     setTimeout(() => {
       this.successMessage = '';
     }, 3000);

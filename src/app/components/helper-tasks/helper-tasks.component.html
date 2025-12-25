@@ -3,36 +3,38 @@
   <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
     <div class="sidebar-header">
       <h2>Community Help</h2>
-      <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">
+        <mat-icon>menu</mat-icon>
+      </button>
     </div>
 
     <nav class="sidebar-nav">
       <a routerLink="/helper/requests" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📊</span>
+        <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
         <span class="nav-text">Dashboard</span>
       </a>
       <a routerLink="/helper/requests" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📋</span>
+        <span class="nav-icon"><mat-icon>assignment</mat-icon></span>
         <span class="nav-text">Available Requests</span>
       </a>
       <a routerLink="/helper/tasks" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <span class="nav-icon">✅</span>
+        <span class="nav-icon"><mat-icon>check_circle</mat-icon></span>
         <span class="nav-text">My Tasks</span>
       </a>
       <a routerLink="/profile" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">👤</span>
+        <span class="nav-icon"><mat-icon>person</mat-icon></span>
         <span class="nav-text">Profile</span>
       </a>
       <a routerLink="/my-reports" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📄</span>
+        <span class="nav-icon"><mat-icon>description</mat-icon></span>
         <span class="nav-text">My Reports</span>
       </a>
       <a routerLink="/report-issue" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">⚠️</span>
+        <span class="nav-icon"><mat-icon>warning</mat-icon></span>
         <span class="nav-text">Report Issue</span>
       </a>
       <a (click)="logout()" class="nav-item logout">
-        <span class="nav-icon">🚪</span>
+        <span class="nav-icon"><mat-icon>logout</mat-icon></span>
         <span class="nav-text">Logout</span>
       </a>
     </nav>
@@ -40,7 +42,6 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Header -->
     <header class="dashboard-header">
       <div class="header-content">
         <div>
@@ -50,32 +51,27 @@
       </div>
     </header>
 
-    <!-- Loading State -->
     <div class="loading" *ngIf="isLoading">
       <p>Loading your tasks...</p>
     </div>
 
-    <!-- Error Message -->
     <div class="error-message" *ngIf="errorMessage">
       {{ errorMessage }}
     </div>
 
-    <!-- Success Message -->
     <div class="success-message" *ngIf="successMessage">
       {{ successMessage }}
     </div>
 
-    <!-- No Tasks -->
     <div class="no-tasks" *ngIf="!isLoading && myTasks.length === 0">
       <div class="empty-state">
-        <div class="empty-icon">📋</div>
+        <div class="empty-icon"><mat-icon>assignment</mat-icon></div>
         <h3>No Tasks Yet</h3>
         <p>You haven't accepted any help requests yet.</p>
         <a routerLink="/helper/requests" class="browse-btn">Browse Available Requests</a>
       </div>
     </div>
 
-    <!-- Tasks List -->
     <section class="tasks-section" *ngIf="!isLoading && myTasks.length > 0">
       <div class="tasks-grid">
         <div class="task-card" *ngFor="let task of myTasks">
@@ -91,24 +87,23 @@
 
             <div class="task-meta">
               <div class="meta-item">
-                <span class="meta-icon">📁</span>
+                <span class="meta-icon"><mat-icon>folder</mat-icon></span>
                 <span class="meta-text">{{ task.category }}</span>
               </div>
               <div class="meta-item">
-                <span class="meta-icon">👤</span>
+                <span class="meta-icon"><mat-icon>person</mat-icon></span>
                 <span class="meta-text">{{ task.resident_name }}</span>
               </div>
               <div class="meta-item">
-                <span class="meta-icon">📍</span>
+                <span class="meta-icon"><mat-icon>place</mat-icon></span>
                 <span class="meta-text">{{ task.resident_location || 'Location not specified' }}</span>
               </div>
               <div class="meta-item">
-                <span class="meta-icon">📅</span>
+                <span class="meta-icon"><mat-icon>event</mat-icon></span>
                 <span class="meta-text">{{ task.created_at | date:'short' }}</span>
               </div>
             </div>
 
-            <!-- Status Progress -->
             <div class="status-timeline">
               <div class="timeline-item" [class.completed]="task.status === 'Accepted' || task.status === 'In-progress' || task.status === 'Completed'">
                 <div class="timeline-dot"></div>
@@ -140,8 +135,10 @@
               class="action-btn chat-btn"
               (click)="openChat(task.id)"
               type="button">
-              💬 Chat
+              <mat-icon>chat</mat-icon>
+              Chat
             </button>
+
             <button
               *ngIf="canStartProgress(task.status)"
               class="action-btn start-btn"
@@ -150,6 +147,7 @@
               type="button">
               {{ updatingId === task.id ? 'Updating...' : 'Start Progress' }}
             </button>
+
             <button
               *ngIf="canComplete(task.status)"
               class="action-btn complete-btn"
@@ -158,8 +156,10 @@
               type="button">
               {{ updatingId === task.id ? 'Updating...' : 'Mark as Completed' }}
             </button>
+
             <span *ngIf="task.status === 'Completed'" class="completed-badge">
-              ✅ Task Completed
+              <mat-icon>check_circle</mat-icon>
+              Task Completed
             </span>
           </div>
         </div>
@@ -167,7 +167,6 @@
     </section>
   </main>
 
-  <!-- Logout Confirmation Dialog -->
   <div class="dialog-overlay" *ngIf="showLogoutDialog" (click)="cancelLogout()">
     <div class="dialog-box" (click)="$event.stopPropagation()">
       <div class="dialog-header">

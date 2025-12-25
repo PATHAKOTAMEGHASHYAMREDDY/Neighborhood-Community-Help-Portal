@@ -3,32 +3,39 @@
   <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
     <div class="sidebar-header">
       <h2>Admin Panel</h2>
-      <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">
+        <mat-icon>menu</mat-icon>
+      </button>
     </div>
 
     <nav class="sidebar-nav">
-      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <span class="nav-icon">📊</span>
+      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-item">
+        <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
         <span class="nav-text">Dashboard</span>
       </a>
+
       <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">👥</span>
+        <span class="nav-icon"><mat-icon>group</mat-icon></span>
         <span class="nav-text">Users</span>
       </a>
+
       <a routerLink="/admin/requests" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📋</span>
+        <span class="nav-icon"><mat-icon>assignment</mat-icon></span>
         <span class="nav-text">Requests</span>
       </a>
+
       <a routerLink="/admin/reports" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">⚠️</span>
+        <span class="nav-icon"><mat-icon>report_problem</mat-icon></span>
         <span class="nav-text">Reports</span>
       </a>
+
       <a routerLink="/admin/analytics" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📈</span>
+        <span class="nav-icon"><mat-icon>analytics</mat-icon></span>
         <span class="nav-text">Analytics</span>
       </a>
+
       <a (click)="logout()" class="nav-item logout">
-        <span class="nav-icon">🚪</span>
+        <span class="nav-icon"><mat-icon>logout</mat-icon></span>
         <span class="nav-text">Logout</span>
       </a>
     </nav>
@@ -61,6 +68,7 @@
             <div class="no-data" *ngIf="categoryDistribution.length === 0">
               <p>No category data available</p>
             </div>
+
             <div class="category-item" *ngFor="let item of categoryDistribution">
               <div class="category-header">
                 <span class="category-name">{{ item.category }}</span>
@@ -69,18 +77,21 @@
               <div class="category-bar">
                 <div class="category-fill" [style.width.%]="getPercentage(item.count)"></div>
               </div>
-              <div class="category-percentage">{{ getPercentage(item.count).toFixed(1) }}%</div>
+              <div class="category-percentage">
+                {{ getPercentage(item.count).toFixed(1) }}%
+              </div>
             </div>
           </div>
         </section>
 
-        <!-- Daily Requests (Last 7 Days) -->
+        <!-- Daily Requests -->
         <section class="analytics-section">
           <h2>Daily Requests (Last 7 Days)</h2>
           <div class="daily-chart">
             <div class="no-data" *ngIf="dailyRequests.length === 0">
               <p>No daily data available</p>
             </div>
+
             <div class="daily-item" *ngFor="let item of dailyRequests">
               <div class="daily-date">{{ item.date | date:'MMM d' }}</div>
               <div class="daily-bar-container">
@@ -98,6 +109,7 @@
             <div class="no-data" *ngIf="topHelpers.length === 0">
               <p>No helper data available</p>
             </div>
+
             <table class="helpers-table" *ngIf="topHelpers.length > 0">
               <thead>
                 <tr>

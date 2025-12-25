@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../services/auth.service';
 import { PasswordResetService } from '../services/password-reset.service';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'
 })
@@ -19,10 +20,9 @@ export class RegistrationComponent {
   successMessage: string = '';
   isLoading: boolean = false;
 
-  // Password visibility toggles
-  showLoginPassword: boolean = false;
-  showSignupPassword: boolean = false;
-  showConfirmPassword: boolean = false;
+  showLoginPassword = false;
+  showSignupPassword = false;
+  showConfirmPassword = false;
 
   loginData = {
     contact_info: '',
@@ -39,7 +39,6 @@ export class RegistrationComponent {
     role: '' as 'Resident' | 'Helper' | ''
   };
 
-  // Forgot Password
   showForgotPasswordModal = false;
   forgotPasswordStep: 'email' | 'otp' | 'newPassword' = 'email';
   forgotPasswordData = {
@@ -63,7 +62,6 @@ export class RegistrationComponent {
     this.successMessage = '';
   }
 
-  // ================= FORGOT PASSWORD =================
   onForgotPassword() {
     this.showForgotPasswordModal = true;
     this.forgotPasswordStep = 'email';
@@ -93,7 +91,7 @@ export class RegistrationComponent {
     this.isLoading = true;
 
     this.passwordResetService.sendOTP(this.forgotPasswordData.email).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
         this.forgotPasswordMessage = 'OTP sent to your email successfully!';
         this.forgotPasswordStep = 'otp';
@@ -120,7 +118,7 @@ export class RegistrationComponent {
       this.forgotPasswordData.email,
       this.forgotPasswordData.otp
     ).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
         this.forgotPasswordMessage = 'OTP verified successfully!';
         this.forgotPasswordStep = 'newPassword';
@@ -158,10 +156,10 @@ export class RegistrationComponent {
       this.forgotPasswordData.otp,
       this.forgotPasswordData.newPassword
     ).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading = false;
         this.forgotPasswordMessage = 'Password reset successfully! You can now login.';
-        
+
         setTimeout(() => {
           this.closeForgotPasswordModal();
           this.activeTab = 'login';
@@ -174,36 +172,26 @@ export class RegistrationComponent {
     });
   }
 
-  // ================= LOGIN =================
   onLogin() {
     this.errorMessage = '';
 
-    // Validation (UNCHANGED)
-    if (
-      !this.loginData.contact_info ||
-      !this.loginData.password ||
-      !this.loginData.role
-    ) {
+    if (!this.loginData.contact_info || !this.loginData.password || !this.loginData.role) {
       this.errorMessage = 'Please fill in all fields and select a role.';
       return;
     }
 
     this.isLoading = true;
 
-    // Call Login API
     this.authService.login({
       contact_info: this.loginData.contact_info,
       password: this.loginData.password,
-      role: this.loginData.role as 'Resident' | 'Helper' | 'Admin'
+      role: this.loginData.role
     }).subscribe({
       next: (response: any) => {
         this.isLoading = false;
-
-        // ✅ STORE TOKEN & USER (CRITICAL FIX)
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
 
-        // Redirect based on role
         if (response.user.role === 'Admin') {
           this.router.navigate(['/admin']);
         } else if (response.user.role === 'Resident') {
@@ -214,18 +202,15 @@ export class RegistrationComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage =
-          error.error?.error || 'Login failed. Please try again.';
+        this.errorMessage = error.error?.error || 'Login failed. Please try again.';
       }
     });
   }
 
-  // ================= SIGNUP =================
   onSignup() {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Validation
     if (
       !this.signupData.name ||
       !this.signupData.contact_info ||
@@ -250,13 +235,12 @@ export class RegistrationComponent {
 
     this.isLoading = true;
 
-    // Call Register API
     this.authService.register({
       name: this.signupData.name,
       contact_info: this.signupData.contact_info,
       location: this.signupData.location,
       password: this.signupData.password,
-      role: this.signupData.role as 'Resident' | 'Helper'
+      role: this.signupData.role
     }).subscribe({
       next: (response: any) => {
         this.isLoading = false;

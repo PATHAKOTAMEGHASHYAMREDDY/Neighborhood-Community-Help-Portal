@@ -3,7 +3,8 @@
 
     <div class="status-header">
       <button class="back-btn" (click)="goBack()" type="button">
-        ← Back to Dashboard
+        <mat-icon>arrow_back</mat-icon>
+        Back to Dashboard
       </button>
       <h1>Request Status</h1>
     </div>
@@ -57,13 +58,20 @@
       <section class="helper-section" *ngIf="request.helper_name">
         <h3>Assigned Helper</h3>
         <div class="helper-card">
-          <div class="helper-icon">👤</div>
+          <div class="helper-icon">
+            <mat-icon>person</mat-icon>
+          </div>
           <div class="helper-info">
             <p class="helper-name">{{ request.helper_name }}</p>
             <p class="helper-label">Community Helper</p>
           </div>
-          <button class="chat-btn" (click)="openChat()" type="button" *ngIf="request.status !== 'Pending'">
-            💬 Chat
+          <button
+            class="chat-btn"
+            (click)="openChat()"
+            type="button"
+            *ngIf="request.status !== 'Pending'">
+            <mat-icon>chat</mat-icon>
+            Chat
           </button>
         </div>
       </section>
@@ -72,7 +80,8 @@
         class="helper-section"
         *ngIf="!request.helper_name && request.status === 'Pending'">
         <div class="waiting-message">
-          <p>⏳ Waiting for a helper to accept your request...</p>
+          <mat-icon>hourglass_empty</mat-icon>
+          Waiting for a helper to accept your request...
         </div>
       </section>
 
@@ -138,7 +147,8 @@
         *ngIf="request.status === 'Rejected'">
         <h3>Request Status</h3>
         <div class="rejected-message">
-          ❌ This request was rejected by the admin.
+          <mat-icon>cancel</mat-icon>
+          This request was rejected by the admin.
         </div>
       </section>
 

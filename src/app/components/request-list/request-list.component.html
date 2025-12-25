@@ -3,35 +3,44 @@
   <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
     <div class="sidebar-header">
       <h2>Community Help</h2>
-      <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">
+        <mat-icon>menu</mat-icon>
+      </button>
     </div>
+
     <nav class="sidebar-nav">
       <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <span class="nav-icon">📊</span>
+        <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
         <span class="nav-text">Dashboard</span>
       </a>
+
       <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <span class="nav-icon">📝</span>
+        <span class="nav-icon"><mat-icon>assignment</mat-icon></span>
         <span class="nav-text">My Requests</span>
       </a>
+
       <a routerLink="/requests/new" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">➕</span>
+        <span class="nav-icon"><mat-icon>add</mat-icon></span>
         <span class="nav-text">New Request</span>
       </a>
+
       <a routerLink="/profile" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">👤</span>
+        <span class="nav-icon"><mat-icon>person</mat-icon></span>
         <span class="nav-text">Profile</span>
       </a>
+
       <a routerLink="/my-reports" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📄</span>
+        <span class="nav-icon"><mat-icon>description</mat-icon></span>
         <span class="nav-text">My Reports</span>
       </a>
+
       <a routerLink="/report-issue" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">⚠️</span>
+        <span class="nav-icon"><mat-icon>warning</mat-icon></span>
         <span class="nav-text">Report Issue</span>
       </a>
+
       <a (click)="logout()" class="nav-item logout">
-        <span class="nav-icon">🚪</span>
+        <span class="nav-icon"><mat-icon>logout</mat-icon></span>
         <span class="nav-text">Logout</span>
       </a>
     </nav>
@@ -39,7 +48,6 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Header -->
     <header class="dashboard-header">
       <div class="header-content">
         <div>
@@ -55,28 +63,31 @@
     <!-- Summary Cards -->
     <section class="summary-cards">
       <div class="summary-card total">
-        <div class="card-icon">📋</div>
+        <div class="card-icon"><mat-icon>assignment</mat-icon></div>
         <div class="card-content">
           <h3>Total Requests</h3>
           <p class="card-number">{{ totalRequests }}</p>
         </div>
       </div>
+
       <div class="summary-card pending">
-        <div class="card-icon">⏳</div>
+        <div class="card-icon"><mat-icon>hourglass_empty</mat-icon></div>
         <div class="card-content">
           <h3>Pending</h3>
           <p class="card-number">{{ pendingCount }}</p>
         </div>
       </div>
+
       <div class="summary-card progress">
-        <div class="card-icon">🔄</div>
+        <div class="card-icon"><mat-icon>sync</mat-icon></div>
         <div class="card-content">
           <h3>In-Progress</h3>
           <p class="card-number">{{ inProgressCount }}</p>
         </div>
       </div>
+
       <div class="summary-card completed">
-        <div class="card-icon">✅</div>
+        <div class="card-icon"><mat-icon>check_circle</mat-icon></div>
         <div class="card-content">
           <h3>Completed</h3>
           <p class="card-number">{{ completedCount }}</p>
@@ -87,6 +98,7 @@
     <!-- Requests List -->
     <section class="requests-section">
       <h2>My Help Requests</h2>
+
       <div class="loading" *ngIf="isLoading">
         <p>Loading requests...</p>
       </div>
@@ -110,6 +122,7 @@
               {{ request.status }}
             </span>
           </div>
+
           <div class="request-body">
             <p class="request-description">{{ request.description }}</p>
             <div class="request-meta">
@@ -120,29 +133,37 @@
                 <strong>Created:</strong> {{ request.created_at | date:'short' }}
               </span>
             </div>
+
             <!-- Status Progress -->
             <div class="status-progress">
               <div class="progress-step" [class.completed]="isStepCompleted(request.status, 'Pending')">
                 <div class="step-circle">1</div>
                 <span class="step-label">Pending</span>
               </div>
+
               <div class="progress-line" [class.completed]="isStepCompleted(request.status, 'Accepted')"></div>
+
               <div class="progress-step" [class.completed]="isStepCompleted(request.status, 'Accepted')">
                 <div class="step-circle">2</div>
                 <span class="step-label">Accepted</span>
               </div>
+
               <div class="progress-line" [class.completed]="isStepCompleted(request.status, 'In-progress')"></div>
+
               <div class="progress-step" [class.completed]="isStepCompleted(request.status, 'In-progress')">
                 <div class="step-circle">3</div>
                 <span class="step-label">In-Progress</span>
               </div>
+
               <div class="progress-line" [class.completed]="isStepCompleted(request.status, 'Completed')"></div>
+
               <div class="progress-step" [class.completed]="isStepCompleted(request.status, 'Completed')">
                 <div class="step-circle">4</div>
                 <span class="step-label">Completed</span>
               </div>
             </div>
           </div>
+
           <div class="request-footer">
             <button class="view-status-btn" (click)="viewRequestStatus(request.id)" type="button">
               View Status

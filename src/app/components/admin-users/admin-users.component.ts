@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { AdminService, User } from '../../services/admin.service';
 
 @Component({
   selector: 'app-admin-users',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatIconModule],
   templateUrl: './admin-users.component.html',
   styleUrls: ['./admin-users.component.css']
 })
@@ -62,9 +63,10 @@ export class AdminUsersComponent implements OnInit {
 
   filterUsers() {
     this.filteredUsers = this.users.filter(user => {
-      const matchesSearch = user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           user.contact_info.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           user.location.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesSearch =
+        user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        user.contact_info.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        user.location.toLowerCase().includes(this.searchTerm.toLowerCase());
       const matchesRole = this.filterRole === 'All' || user.role === this.filterRole;
       return matchesSearch && matchesRole;
     });
@@ -86,12 +88,9 @@ export class AdminUsersComponent implements OnInit {
     }
 
     this.adminService.blockUser(userId).subscribe({
-      next: (response) => {
-        // Update user in the list
+      next: () => {
         const user = this.users.find(u => u.id === userId);
-        if (user) {
-          user.is_blocked = true;
-        }
+        if (user) user.is_blocked = true;
         this.filterUsers();
         alert('User blocked successfully');
       },
@@ -108,12 +107,9 @@ export class AdminUsersComponent implements OnInit {
     }
 
     this.adminService.unblockUser(userId).subscribe({
-      next: (response) => {
-        // Update user in the list
+      next: () => {
         const user = this.users.find(u => u.id === userId);
-        if (user) {
-          user.is_blocked = false;
-        }
+        if (user) user.is_blocked = false;
         this.filterUsers();
         alert('User unblocked successfully');
       },
