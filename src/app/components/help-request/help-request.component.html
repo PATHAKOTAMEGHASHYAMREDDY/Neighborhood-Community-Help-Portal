@@ -1,81 +1,141 @@
-<div class="request-form-container">
-  <div class="form-card">
-    <div class="form-header">
-      <button class="back-btn" (click)="goBack()" type="button">← Back</button>
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-header">
+      <h2>Community Help</h2>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
+    </div>
+    <nav class="sidebar-nav">
+      <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">Dashboard</span>
+      </a>
+      <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <span class="nav-icon">📝</span>
+        <span class="nav-text">My Requests</span>
+      </a>
+      <a routerLink="/requests/new" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">➕</span>
+        <span class="nav-text">New Request</span>
+      </a>
+      <a routerLink="/profile" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👤</span>
+        <span class="nav-text">Profile</span>
+      </a>
+      <a routerLink="/my-reports" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📄</span>
+        <span class="nav-text">My Reports</span>
+      </a>
+      <a routerLink="/report-issue" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⚠️</span>
+        <span class="nav-text">Report Issue</span>
+      </a>
+      <a (click)="logout()" class="nav-item logout">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-text">Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-header">
       <h1>Create New Help Request</h1>
       <p>Fill in the details below to request help from your community</p>
     </div>
 
-    <form class="request-form" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="title">Request Title *</label>
-        <input 
-          type="text" 
-          id="title" 
-          [(ngModel)]="requestData.title"
-          name="title"
-          placeholder="e.g., Need help with groceries"
-          required>
-      </div>
+    <div class="form-container">
+      <form class="request-form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="title">Request Title *</label>
+          <input 
+            type="text" 
+            id="title" 
+            [(ngModel)]="requestData.title"
+            name="title"
+            placeholder="e.g., Need help with groceries"
+            class="form-control"
+            required>
+        </div>
 
-      <div class="form-group">
-        <label for="category">Category *</label>
-        <select 
-          id="category" 
-          [(ngModel)]="requestData.category"
-          name="category"
-          required>
-          <option value="">Select a category</option>
-          <option value="grocery">Grocery Shopping</option>
-          <option value="plumbing">Plumbing</option>
-          <option value="electrical">Electrical</option>
-          <option value="tutoring">Tutoring</option>
-          <option value="gardening">Gardening</option>
-          <option value="moving">Moving/Transportation</option>
-          <option value="pet-care">Pet Care</option>
-          <option value="cleaning">Cleaning</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
+        <div class="form-group">
+          <label for="category">Category *</label>
+          <select 
+            id="category" 
+            [(ngModel)]="requestData.category"
+            name="category"
+            class="form-control"
+            required>
+            <option value="">Select a category</option>
+            <option value="grocery">Grocery Shopping</option>
+            <option value="plumbing">Plumbing</option>
+            <option value="electrical">Electrical</option>
+            <option value="tutoring">Tutoring</option>
+            <option value="gardening">Gardening</option>
+            <option value="moving">Moving/Transportation</option>
+            <option value="pet-care">Pet Care</option>
+            <option value="cleaning">Cleaning</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label for="description">Description *</label>
-        <textarea 
-          id="description" 
-          [(ngModel)]="requestData.description"
-          name="description"
-          rows="6"
-          placeholder="Describe what help you need in detail..."
-          required></textarea>
-      </div>
+        <div class="form-group">
+          <label for="description">Description *</label>
+          <textarea 
+            id="description" 
+            [(ngModel)]="requestData.description"
+            name="description"
+            rows="6"
+            placeholder="Describe what help you need in detail..."
+            class="form-control"
+            required></textarea>
+        </div>
 
-      <div class="form-group">
-        <label for="attachments">Attachments (Optional)</label>
-        <input 
-          type="text" 
-          id="attachments" 
-          [(ngModel)]="requestData.attachments"
-          name="attachments"
-          placeholder="Add file path or URL if needed">
-        <small>You can add a file path or URL for reference</small>
-      </div>
+        <div class="form-group">
+          <label for="attachments">Attachments (Optional)</label>
+          <input 
+            type="text" 
+            id="attachments" 
+            [(ngModel)]="requestData.attachments"
+            name="attachments"
+            placeholder="Add file path or URL if needed"
+            class="form-control">
+          <small>You can add a file path or URL for reference</small>
+        </div>
 
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
-      </div>
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
 
-      <div class="success-message" *ngIf="successMessage">
-        {{ successMessage }}
-      </div>
+        <div class="success-message" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
 
-      <div class="form-actions">
-        <button type="button" class="cancel-btn" (click)="goBack()">
-          Cancel
-        </button>
-        <button type="submit" class="submit-btn" [disabled]="isLoading">
-          {{ isLoading ? 'Creating...' : 'Create Request' }}
-        </button>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="goBack()">
+            Cancel
+          </button>
+          <button type="submit" class="btn-primary" [disabled]="isLoading">
+            {{ isLoading ? 'Creating...' : 'Create Request' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Logout Confirmation Dialog -->
+  <div class="dialog-overlay" *ngIf="showLogoutDialog" (click)="cancelLogout()">
+    <div class="dialog-box" (click)="$event.stopPropagation()">
+      <div class="dialog-header">
+        <h3>Confirm Logout</h3>
       </div>
-    </form>
+      <div class="dialog-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn-cancel" (click)="cancelLogout()" type="button">Cancel</button>
+        <button class="btn-confirm" (click)="confirmLogout()" type="button">Logout</button>
+      </div>
+    </div>
   </div>
 </div>

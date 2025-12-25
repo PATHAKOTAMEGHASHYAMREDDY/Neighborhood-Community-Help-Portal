@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService } from '../../services/help-request.service';
 
 @Component({
   selector: 'app-help-request',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './help-request.component.html',
   styleUrl: './help-request.component.css'
 })
@@ -24,6 +24,8 @@ export class HelpRequestComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
+  isSidebarCollapsed: boolean = false;
+  showLogoutDialog: boolean = false;
 
   constructor(
     private router: Router,
@@ -37,6 +39,10 @@ export class HelpRequestComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
+  }
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
   // ================= SUBMIT REQUEST =================
@@ -81,5 +87,18 @@ export class HelpRequestComponent implements OnInit {
   // ================= BACK =================
   goBack(): void {
     this.router.navigate(['/requests']);
+  }
+
+  logout() {
+    this.showLogoutDialog = true;
+  }
+
+  confirmLogout() {
+    this.showLogoutDialog = false;
+    this.authService.logout();
+  }
+
+  cancelLogout() {
+    this.showLogoutDialog = false;
   }
 }

@@ -8,7 +8,7 @@
 /* Sidebar - Same as request-list */
 .sidebar {
   width: 260px;
-  background: linear-gradient(180deg, #1976D2 0%, #1565C0 100%);
+  background: linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);
   color: white;
   position: fixed;
   height: 100vh;
@@ -148,13 +148,18 @@
 
 /* Profile Card */
 .profile-card {
-  background: linear-gradient(135deg, #2196F3, #4CAF50);
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
   padding: 3rem 2rem;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
   text-align: center;
   color: white;
   animation: slideUp 0.5s ease;
+}
+
+.profile-card.helper {
+  background: linear-gradient(135deg, #dc3545, #e57373);
+  box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3);
 }
 
 @keyframes slideUp {
@@ -201,11 +206,11 @@
 }
 
 .avatar-badge.badge-resident {
-  color: #2196F3;
+  color: #4CAF50;
 }
 
 .avatar-badge.badge-helper {
-  color: #4CAF50;
+  color: #dc3545;
 }
 
 .profile-info h2 {
@@ -263,12 +268,16 @@
   font-size: 2rem;
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #2196F3, #4CAF50);
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.detail-icon.helper {
+  background: linear-gradient(135deg, #dc3545, #e57373);
 }
 
 .detail-content {
@@ -342,7 +351,7 @@
 .stat-number {
   font-size: 2rem;
   font-weight: 700;
-  color: #2196F3;
+  color: #4CAF50;
   margin: 0 0 0.25rem 0;
 }
 
@@ -390,12 +399,12 @@
 }
 
 .action-btn.primary {
-  background: linear-gradient(135deg, #2196F3, #1976D2);
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
   color: white;
 }
 
 .action-btn.secondary {
-  background: linear-gradient(135deg, #4CAF50, #388E3C);
+  background: linear-gradient(135deg, #66BB6A, #4CAF50);
   color: white;
 }
 
@@ -479,7 +488,7 @@
 
 .edit-btn {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #2196F3, #4CAF50);
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
   color: white;
   border: none;
   border-radius: 25px;
@@ -491,7 +500,7 @@
 
 .edit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
 }
 
 /* Success/Error Messages */
@@ -565,8 +574,8 @@
 
 .form-input:focus {
   outline: none;
-  border-color: #2196F3;
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
 .form-input::placeholder {
@@ -593,13 +602,13 @@
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #2196F3, #4CAF50);
+  background: linear-gradient(135deg, #4CAF50, #66BB6A);
   color: white;
 }
 
 .save-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
 }
 
 .save-btn:disabled {
@@ -673,7 +682,7 @@
 
 .dialog-header {
   padding: 1.5rem 2rem;
-  background: linear-gradient(135deg, #2196F3, #1976D2);
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
   color: white;
 }
 

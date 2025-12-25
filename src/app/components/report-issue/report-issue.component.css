@@ -6,7 +6,7 @@
 /* Sidebar */
 .sidebar {
   width: 280px;
-  background: linear-gradient(180deg, #2196F3 0%, #1976D2 100%);
+  background: linear-gradient(180deg, #4CAF50 0%, #388E3C 100%);
   color: white;
   transition: all 0.3s ease;
   position: fixed;
@@ -194,8 +194,13 @@
 
 .form-control:focus {
   outline: none;
-  border-color: #2196F3;
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.form-control:focus.helper {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
 }
 
 textarea.form-control {
@@ -255,13 +260,21 @@ textarea.form-control {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #2196F3, #1976D2);
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.btn-primary.helper {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.btn-primary.helper:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
 .btn-primary:disabled {
@@ -356,7 +369,7 @@ textarea.form-control {
 
 .dialog-header {
   padding: 1.5rem 2rem;
-  background: linear-gradient(135deg, #2196F3, #1976D2);
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
   color: white;
 }
 

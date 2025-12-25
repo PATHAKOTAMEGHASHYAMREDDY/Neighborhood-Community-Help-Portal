@@ -152,4 +152,20 @@
       </div>
     </section>
   </main>
+
+  <!-- Logout Confirmation Dialog -->
+  <div class="dialog-overlay" *ngIf="showLogoutDialog" (click)="cancelLogout()">
+    <div class="dialog-box" (click)="$event.stopPropagation()">
+      <div class="dialog-header">
+        <h3>Confirm Logout</h3>
+      </div>
+      <div class="dialog-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn-cancel" (click)="cancelLogout()" type="button">Cancel</button>
+        <button class="btn-confirm" (click)="confirmLogout()" type="button">Logout</button>
+      </div>
+    </div>
+  </div>
 </div>

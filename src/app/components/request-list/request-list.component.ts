@@ -16,6 +16,7 @@ export class RequestListComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string = '';
   isSidebarCollapsed: boolean = false;
+  showLogoutDialog: boolean = false;
 
   // Summary counts
   totalRequests: number = 0;
@@ -86,6 +87,15 @@ export class RequestListComponent implements OnInit {
   }
 
   logout() {
+    this.showLogoutDialog = true;
+  }
+
+  confirmLogout() {
+    this.showLogoutDialog = false;
     this.authService.logout();
+  }
+
+  cancelLogout() {
+    this.showLogoutDialog = false;
   }
 }
