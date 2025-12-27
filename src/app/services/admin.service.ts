@@ -95,4 +95,11 @@ export class AdminService {
       { headers: this.getHeaders() }
     );
   }
+
+  getReportsData(reportType: 'daily' | 'weekly'): Observable<{ success: boolean; data: any[]; reportType: string }> {
+    return this.http.get<{ success: boolean; data: any[]; reportType: string }>(
+      `${this.apiUrl}/reports/download?reportType=${reportType}`,
+      { headers: this.getHeaders() }
+    );
+  }
 }
