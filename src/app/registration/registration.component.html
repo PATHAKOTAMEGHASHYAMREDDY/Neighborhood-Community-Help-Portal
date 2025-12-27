@@ -1,5 +1,10 @@
 <div class="auth-wrapper">
   <div class="auth-forms">
+    <!-- Lottie Animation Container (Left for Login, Right for Signup) -->
+    <div class="lottie-container" [class.login-animation]="activeTab === 'login'" [class.signup-animation]="activeTab === 'signup'">
+      <div #lottieContainer class="lottie-animation"></div>
+    </div>
+
     <div class="form-container">
 
       <!-- Tab Navigation -->

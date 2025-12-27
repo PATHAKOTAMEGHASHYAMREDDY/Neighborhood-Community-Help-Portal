@@ -3,7 +3,8 @@
   "rules": {
     "attr-case": "off",
     "no-inline-style": "off",
-    "require-sri": "off"
+    "require-sri": "off",
+    "no-implicit-input-type": "off"
   },
   "elements": [
     "html5",

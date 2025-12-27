@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../services/auth.service';
 import { PasswordResetService } from '../services/password-reset.service';
+import lottie, { AnimationItem } from 'lottie-web';
 
 @Component({
   selector: 'app-registration',
@@ -13,7 +14,9 @@ import { PasswordResetService } from '../services/password-reset.service';
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
 
   activeTab: 'login' | 'signup' = 'login';
   errorMessage: string = '';
@@ -23,6 +26,8 @@ export class RegistrationComponent {
   showLoginPassword = false;
   showSignupPassword = false;
   showConfirmPassword = false;
+
+  private lottieAnimation: AnimationItem | null = null;
 
   loginData = {
     contact_info: '',
@@ -56,10 +61,43 @@ export class RegistrationComponent {
     private passwordResetService: PasswordResetService
   ) {}
 
+  ngOnInit() {
+    // Initial load
+  }
+
+  ngAfterViewInit() {
+    this.loadLottieAnimation();
+  }
+
+  loadLottieAnimation() {
+    if (this.lottieAnimation) {
+      this.lottieAnimation.destroy();
+    }
+
+    const animationPath = this.activeTab === 'login' 
+      ? '/Login.json' 
+      : '/register.json';
+
+    if (this.lottieContainer && this.lottieContainer.nativeElement) {
+      this.lottieAnimation = lottie.loadAnimation({
+        container: this.lottieContainer.nativeElement,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animationPath
+      });
+    }
+  }
+
   switchTab(tab: 'login' | 'signup') {
     this.activeTab = tab;
     this.errorMessage = '';
     this.successMessage = '';
+    
+    // Reload animation when switching tabs
+    setTimeout(() => {
+      this.loadLottieAnimation();
+    }, 100);
   }
 
   onForgotPassword() {
