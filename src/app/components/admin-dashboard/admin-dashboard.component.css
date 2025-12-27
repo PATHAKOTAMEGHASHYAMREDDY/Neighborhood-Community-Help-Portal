@@ -473,6 +473,23 @@ td {
   border: none;
   background: #f9fafb;
   color: inherit;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.action-btn .action-title {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.action-btn .action-desc {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
 }
 
 /* Modal Styles */
@@ -498,6 +515,10 @@ td {
   animation: slideUp 0.3s ease;
 }
 
+.modal-content.download-modal {
+  max-width: 700px;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -521,6 +542,13 @@ td {
   font-size: 1.5rem;
   color: #333;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-header h2 mat-icon {
+  color: #667eea;
 }
 
 .close-btn {
@@ -635,6 +663,132 @@ td {
 
 .btn-secondary:hover {
   background: #e0e0e0;
+}
+
+/* Download Options */
+.download-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.download-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.download-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+}
+
+.download-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.download-icon mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+.users-icon {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.requests-icon {
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
+}
+
+.reports-icon {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+}
+
+.download-info {
+  flex: 1;
+}
+
+.download-info h3 {
+  font-size: 1.1rem;
+  color: #212529;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.download-info p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0 0 0.75rem 0;
+}
+
+.time-filter {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.filter-option input[type="radio"] {
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
+.filter-option span {
+  font-weight: 500;
+}
+
+.download-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.download-btn:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+}
+
+.download-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.download-btn mat-icon {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 /* Responsive Design */

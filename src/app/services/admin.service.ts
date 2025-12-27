@@ -102,4 +102,11 @@ export class AdminService {
       { headers: this.getHeaders() }
     );
   }
+
+  getAllReports(timeFilter: 'all' | 'daily' | 'weekly'): Observable<{ success: boolean; reports: any[] }> {
+    return this.http.get<{ success: boolean; reports: any[] }>(
+      `${this.apiUrl}/user-reports?timeFilter=${timeFilter}`,
+      { headers: this.getHeaders() }
+    );
+  }
 }

@@ -10,12 +10,7 @@ import { AdminService } from '../../services/admin.service';
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatIconModule   // ✅ ONLY ADDITION (required for mat-icon)
-  ],
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, MatIconModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
@@ -41,6 +36,9 @@ export class AdminDashboardComponent implements OnInit {
   showDownloadModal: boolean = false;
   selectedReportType: 'daily' | 'weekly' = 'daily';
   isDownloading: boolean = false;
+  downloadingType: 'users' | 'requests' | 'reports' | '' = '';
+  requestsTimeFilter: 'all' | 'daily' | 'weekly' = 'all';
+  reportsTimeFilter: 'all' | 'daily' | 'weekly' = 'all';
 
   constructor(
     private router: Router,
@@ -109,51 +107,107 @@ export class AdminDashboardComponent implements OnInit {
 
   openDownloadModal() {
     this.showDownloadModal = true;
-    this.selectedReportType = 'daily';
+    this.requestsTimeFilter = 'all';
+    this.reportsTimeFilter = 'all';
   }
 
   closeDownloadModal() {
     this.showDownloadModal = false;
+    this.downloadingType = '';
   }
 
-  downloadReport() {
+  downloadUsersReport() {
     this.isDownloading = true;
+    this.downloadingType = 'users';
 
-    this.adminService.getReportsData(this.selectedReportType).subscribe({
+    this.adminService.getAllUsers().subscribe({
       next: (response) => {
-        if (response.success && response.data.length > 0) {
-          this.generateAndDownloadCSV(response.data, this.selectedReportType);
-          this.closeDownloadModal();
-        } else if (response.data.length === 0) {
-          alert('No data found for the selected report type.');
-          this.isDownloading = false;
+        if (response.success && response.users.length > 0) {
+          this.generateUsersCSV(response.users);
+        } else {
+          alert('No users data found.');
         }
+        this.isDownloading = false;
+        this.downloadingType = '';
       },
       error: (error) => {
-        console.error('Error downloading report:', error);
-        alert('Failed to download report. Please try again.');
+        console.error('Error downloading users report:', error);
+        alert('Failed to download users report. Please try again.');
         this.isDownloading = false;
+        this.downloadingType = '';
       }
     });
   }
 
-  generateAndDownloadCSV(data: any[], reportType: string) {
-    if (!data || data.length === 0) {
-      alert('No data available to download');
-      this.isDownloading = false;
-      return;
-    }
+  downloadRequestsReport() {
+    this.isDownloading = true;
+    this.downloadingType = 'requests';
 
-    const headers = ['ID', 'Title', 'Description', 'Category', 'Status', 'Resident Name', 'Helper Name', 'Date'];
-    const rows = data.map(item => [
-      item.id,
-      item.title,
-      `"${(item.description || '').replace(/"/g, '""')}"`,
-      item.category,
-      item.status,
-      item.resident_name || 'N/A',
-      item.helper_name || 'N/A',
-      new Date(item.created_at).toLocaleString()
+    this.helpRequestService.getAllHelpRequests().subscribe({
+      next: (response) => {
+        let requests = response.requests || [];
+        
+        // Filter by time
+        if (this.requestsTimeFilter === 'daily') {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          requests = requests.filter((r: any) => new Date(r.created_at) >= today);
+        } else if (this.requestsTimeFilter === 'weekly') {
+          const weekAgo = new Date();
+          weekAgo.setDate(weekAgo.getDate() - 7);
+          requests = requests.filter((r: any) => new Date(r.created_at) >= weekAgo);
+        }
+
+        if (requests.length > 0) {
+          this.generateRequestsCSV(requests, this.requestsTimeFilter);
+        } else {
+          alert('No requests data found for the selected time period.');
+        }
+        this.isDownloading = false;
+        this.downloadingType = '';
+      },
+      error: (error) => {
+        console.error('Error downloading requests report:', error);
+        alert('Failed to download requests report. Please try again.');
+        this.isDownloading = false;
+        this.downloadingType = '';
+      }
+    });
+  }
+
+  downloadUserReports() {
+    this.isDownloading = true;
+    this.downloadingType = 'reports';
+
+    this.adminService.getAllReports(this.reportsTimeFilter).subscribe({
+      next: (response) => {
+        if (response.success && response.reports.length > 0) {
+          this.generateUserReportsCSV(response.reports, this.reportsTimeFilter);
+        } else {
+          alert('No user reports data found for the selected time period.');
+        }
+        this.isDownloading = false;
+        this.downloadingType = '';
+      },
+      error: (error) => {
+        console.error('Error downloading user reports:', error);
+        alert('Failed to download user reports. Please try again.');
+        this.isDownloading = false;
+        this.downloadingType = '';
+      }
+    });
+  }
+
+  generateUsersCSV(users: any[]) {
+    const headers = ['ID', 'Name', 'Email/Phone', 'Location', 'Role', 'Status', 'Joined Date'];
+    const rows = users.map(user => [
+      user.id,
+      `"${user.name}"`,
+      `"${user.contact_info}"`,
+      `"${user.location}"`,
+      user.role,
+      user.is_blocked ? 'Blocked' : 'Active',
+      new Date(user.created_at).toLocaleString()
     ]);
 
     const csvContent = [
@@ -162,8 +216,61 @@ export class AdminDashboardComponent implements OnInit {
     ].join('\n');
 
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `${reportType}-report-${timestamp}.csv`;
+    const filename = `users-report-${timestamp}.csv`;
 
+    this.downloadCSV(csvContent, filename);
+  }
+
+  generateRequestsCSV(requests: any[], timeFilter: string) {
+    const headers = ['ID', 'Title', 'Description', 'Category', 'Status', 'Resident Name', 'Helper Name', 'Created Date', 'Updated Date'];
+    const rows = requests.map((req: any) => [
+      req.id,
+      `"${req.title}"`,
+      `"${(req.description || '').replace(/"/g, '""')}"`,
+      req.category,
+      req.status,
+      req.resident_name || 'N/A',
+      req.helper_name || 'Unassigned',
+      new Date(req.created_at).toLocaleString(),
+      new Date(req.updated_at).toLocaleString()
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.join(','))
+    ].join('\n');
+
+    const timestamp = new Date().toISOString().split('T')[0];
+    const filename = `requests-${timeFilter}-${timestamp}.csv`;
+
+    this.downloadCSV(csvContent, filename);
+  }
+
+  generateUserReportsCSV(reports: any[], timeFilter: string) {
+    const headers = ['ID', 'Reporter Name', 'Reported User', 'Issue Type', 'Description', 'Status', 'Admin Notes', 'Created Date'];
+    const rows = reports.map((report: any) => [
+      report.id,
+      `"${report.reporter_name}"`,
+      `"${report.reported_user_name}"`,
+      report.issue_type,
+      `"${(report.description || '').replace(/"/g, '""')}"`,
+      report.status,
+      `"${(report.admin_notes || 'N/A').replace(/"/g, '""')}"`,
+      new Date(report.created_at).toLocaleString()
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.join(','))
+    ].join('\n');
+
+    const timestamp = new Date().toISOString().split('T')[0];
+    const filename = `user-reports-${timeFilter}-${timestamp}.csv`;
+
+    this.downloadCSV(csvContent, filename);
+  }
+
+  downloadCSV(csvContent: string, filename: string) {
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -175,8 +282,6 @@ export class AdminDashboardComponent implements OnInit {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    this.isDownloading = false;
   }
 
   logout() {

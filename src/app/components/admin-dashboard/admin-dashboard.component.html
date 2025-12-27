@@ -224,10 +224,10 @@
             <p>View detailed platform statistics</p>
           </a>
 
-          <button (click)="openDownloadModal()" class="action-card action-btn">
-            <div class="action-icon">⬇️</div>
-            <h3>Download Reports</h3>
-            <p>Export daily or weekly reports as CSV</p>
+          <button (click)="openDownloadModal()" class="action-card action-btn" type="button">
+            <span class="action-icon">⬇️</span>
+            <span class="action-title">Download Reports</span>
+            <span class="action-desc">Export daily or weekly reports as CSV</span>
           </button>
 
           <a routerLink="/profile" class="action-card">
@@ -243,40 +243,99 @@
 
 <!-- Download Reports Modal -->
 <div class="modal-overlay" *ngIf="showDownloadModal" (click)="closeDownloadModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
+  <div class="modal-content download-modal" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2>Download Reports</h2>
+      <h2><mat-icon>download</mat-icon> Download Reports</h2>
       <button class="close-btn" (click)="closeDownloadModal()" type="button">×</button>
     </div>
 
     <div class="modal-body">
-      <p class="modal-subtitle">Select the report type you want to download</p>
-      
-      <div class="report-options">
-        <label class="radio-option">
-          <input type="radio" name="reportType" value="daily" [(ngModel)]="selectedReportType" />
-          <span class="radio-label">
-            <strong>Daily Report</strong>
-            <small>Download today's requests and activities</small>
-          </span>
-        </label>
+      <p class="modal-subtitle">Select the type of data you want to export as CSV</p>
 
-        <label class="radio-option">
-          <input type="radio" name="reportType" value="weekly" [(ngModel)]="selectedReportType" />
-          <span class="radio-label">
-            <strong>Weekly Report</strong>
-            <small>Download last 7 days of requests and activities</small>
-          </span>
-        </label>
+      <div class="download-options">
+        <!-- Users Report -->
+        <div class="download-card">
+          <div class="download-icon users-icon">
+            <mat-icon>people</mat-icon>
+          </div>
+          <div class="download-info">
+            <h3>Users Report</h3>
+            <p>Export all users data (Residents &amp; Helpers)</p>
+          </div>
+          <button (click)="downloadUsersReport()" class="download-btn" type="button" [disabled]="isDownloading">
+            <mat-icon>download</mat-icon>
+            <span *ngIf="!isDownloading">Download</span>
+            <span *ngIf="isDownloading && downloadingType === 'users'">Downloading...</span>
+            <span *ngIf="isDownloading && downloadingType !== 'users'">Download</span>
+          </button>
+        </div>
+
+        <!-- Requests Report -->
+        <div class="download-card">
+          <div class="download-icon requests-icon">
+            <mat-icon>assignment</mat-icon>
+          </div>
+          <div class="download-info">
+            <h3>Requests Report</h3>
+            <p>Export all help requests with status</p>
+            <div class="time-filter">
+              <label class="filter-option">
+                <input type="radio" name="requestsTime" value="all" [(ngModel)]="requestsTimeFilter">
+                <span>All Time</span>
+              </label>
+              <label class="filter-option">
+                <input type="radio" name="requestsTime" value="daily" [(ngModel)]="requestsTimeFilter">
+                <span>Today</span>
+              </label>
+              <label class="filter-option">
+                <input type="radio" name="requestsTime" value="weekly" [(ngModel)]="requestsTimeFilter">
+                <span>This Week</span>
+              </label>
+            </div>
+          </div>
+          <button (click)="downloadRequestsReport()" class="download-btn" type="button" [disabled]="isDownloading">
+            <mat-icon>download</mat-icon>
+            <span *ngIf="!isDownloading">Download</span>
+            <span *ngIf="isDownloading && downloadingType === 'requests'">Downloading...</span>
+            <span *ngIf="isDownloading && downloadingType !== 'requests'">Download</span>
+          </button>
+        </div>
+
+        <!-- User Reports (Issues) -->
+        <div class="download-card">
+          <div class="download-icon reports-icon">
+            <mat-icon>report_problem</mat-icon>
+          </div>
+          <div class="download-info">
+            <h3>User Reports</h3>
+            <p>Export all user-submitted issue reports</p>
+            <div class="time-filter">
+              <label class="filter-option">
+                <input type="radio" name="reportsTime" value="all" [(ngModel)]="reportsTimeFilter">
+                <span>All Time</span>
+              </label>
+              <label class="filter-option">
+                <input type="radio" name="reportsTime" value="daily" [(ngModel)]="reportsTimeFilter">
+                <span>Today</span>
+              </label>
+              <label class="filter-option">
+                <input type="radio" name="reportsTime" value="weekly" [(ngModel)]="reportsTimeFilter">
+                <span>This Week</span>
+              </label>
+            </div>
+          </div>
+          <button (click)="downloadUserReports()" class="download-btn" type="button" [disabled]="isDownloading">
+            <mat-icon>download</mat-icon>
+            <span *ngIf="!isDownloading">Download</span>
+            <span *ngIf="isDownloading && downloadingType === 'reports'">Downloading...</span>
+            <span *ngIf="isDownloading && downloadingType !== 'reports'">Download</span>
+          </button>
+        </div>
       </div>
     </div>
 
     <div class="modal-footer">
-      <button (click)="closeDownloadModal()" class="btn-secondary" type="button">Cancel</button>
-      <button (click)="downloadReport()" class="btn-primary" type="button" [disabled]="isDownloading">
-        <span *ngIf="!isDownloading">📥 Download</span>
-        <span *ngIf="isDownloading">Generating...</span>
-      </button>
+      <button (click)="closeDownloadModal()" class="btn-secondary" type="button">Close</button>
     </div>
   </div>
 </div>

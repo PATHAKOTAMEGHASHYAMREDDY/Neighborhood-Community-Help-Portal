@@ -58,12 +58,12 @@
       <section class="helper-section" *ngIf="request.helper_name">
         <h3>Assigned Helper</h3>
         <div class="helper-card">
-          <div class="helper-icon">
+          <div class="helper-avatar">
             <mat-icon>person</mat-icon>
           </div>
           <div class="helper-info">
             <p class="helper-name">{{ request.helper_name }}</p>
-            <p class="helper-label">Community Helper</p>
+            <p class="helper-role">Community Helper</p>
           </div>
           <button
             class="chat-btn"
@@ -81,63 +81,58 @@
         *ngIf="!request.helper_name && request.status === 'Pending'">
         <div class="waiting-message">
           <mat-icon>hourglass_empty</mat-icon>
-          Waiting for a helper to accept your request...
+          <p>Waiting for a helper to accept your request...</p>
         </div>
       </section>
 
-      <!-- ================= TIMELINE (NOT REJECTED) ================= -->
-      <section
-        class="timeline-section"
-        *ngIf="request.status !== 'Rejected'">
-
+      <!-- Progress Timeline -->
+      <section class="timeline-section" *ngIf="request.status !== 'Rejected'">
         <h3>Progress Timeline</h3>
 
-        <div class="timeline">
-
-          <div class="timeline-item" [class.completed]="isStepCompleted('Pending')">
+        <div class="timeline-container">
+          <div class="timeline-item" [class.active]="isStepCompleted('Pending')">
             <div class="timeline-marker">
               <div class="marker-circle">1</div>
             </div>
             <div class="timeline-content">
               <h4>Request Submitted</h4>
               <p>Your request has been posted and is waiting for a helper</p>
-              <span class="timeline-status">Pending</span>
+              <span class="timeline-badge status-pending">Pending</span>
             </div>
           </div>
 
-          <div class="timeline-item" [class.completed]="isStepCompleted('Accepted')">
+          <div class="timeline-item" [class.active]="isStepCompleted('Accepted')">
             <div class="timeline-marker">
               <div class="marker-circle">2</div>
             </div>
             <div class="timeline-content">
               <h4>Request Accepted</h4>
               <p>A helper has accepted your request</p>
-              <span class="timeline-status">Accepted</span>
+              <span class="timeline-badge status-accepted">Accepted</span>
             </div>
           </div>
 
-          <div class="timeline-item" [class.completed]="isStepCompleted('In-progress')">
+          <div class="timeline-item" [class.active]="isStepCompleted('In-progress')">
             <div class="timeline-marker">
               <div class="marker-circle">3</div>
             </div>
             <div class="timeline-content">
               <h4>In Progress</h4>
               <p>The helper is working on your request</p>
-              <span class="timeline-status">In-Progress</span>
+              <span class="timeline-badge status-in-progress">In-Progress</span>
             </div>
           </div>
 
-          <div class="timeline-item" [class.completed]="isStepCompleted('Completed')">
+          <div class="timeline-item" [class.active]="isStepCompleted('Completed')">
             <div class="timeline-marker">
               <div class="marker-circle">4</div>
             </div>
             <div class="timeline-content">
               <h4>Completed</h4>
               <p>Your request has been successfully completed</p>
-              <span class="timeline-status">Completed</span>
+              <span class="timeline-badge status-completed">Completed</span>
             </div>
           </div>
-
         </div>
       </section>
 

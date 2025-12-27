@@ -134,32 +134,54 @@
               </span>
             </div>
 
-            <!-- Status Progress -->
-            <div class="status-progress">
-              <div class="progress-step" [class.completed]="isStepCompleted(request.status, 'Pending')">
-                <div class="step-circle">1</div>
-                <span class="step-label">Pending</span>
-              </div>
+            <!-- Progress Timeline -->
+            <div class="progress-timeline">
+              <h4 class="timeline-title">Progress Timeline</h4>
 
-              <div class="progress-line" [class.completed]="isStepCompleted(request.status, 'Accepted')"></div>
+              <div class="timeline-container">
+                <div class="timeline-item" [class.active]="isStepCompleted(request.status, 'Pending')">
+                  <div class="timeline-marker">
+                    <div class="marker-circle">1</div>
+                  </div>
+                  <div class="timeline-content">
+                    <h5>Request Submitted</h5>
+                    <p>Your request has been posted and is waiting for a helper</p>
+                    <span class="timeline-badge status-pending">Pending</span>
+                  </div>
+                </div>
 
-              <div class="progress-step" [class.completed]="isStepCompleted(request.status, 'Accepted')">
-                <div class="step-circle">2</div>
-                <span class="step-label">Accepted</span>
-              </div>
+                <div class="timeline-item" [class.active]="isStepCompleted(request.status, 'Accepted')">
+                  <div class="timeline-marker">
+                    <div class="marker-circle">2</div>
+                  </div>
+                  <div class="timeline-content">
+                    <h5>Request Accepted</h5>
+                    <p>A helper has accepted your request</p>
+                    <span class="timeline-badge status-accepted">Accepted</span>
+                  </div>
+                </div>
 
-              <div class="progress-line" [class.completed]="isStepCompleted(request.status, 'In-progress')"></div>
+                <div class="timeline-item" [class.active]="isStepCompleted(request.status, 'In-progress')">
+                  <div class="timeline-marker">
+                    <div class="marker-circle">3</div>
+                  </div>
+                  <div class="timeline-content">
+                    <h5>In Progress</h5>
+                    <p>The helper is working on your request</p>
+                    <span class="timeline-badge status-in-progress">In-Progress</span>
+                  </div>
+                </div>
 
-              <div class="progress-step" [class.completed]="isStepCompleted(request.status, 'In-progress')">
-                <div class="step-circle">3</div>
-                <span class="step-label">In-Progress</span>
-              </div>
-
-              <div class="progress-line" [class.completed]="isStepCompleted(request.status, 'Completed')"></div>
-
-              <div class="progress-step" [class.completed]="isStepCompleted(request.status, 'Completed')">
-                <div class="step-circle">4</div>
-                <span class="step-label">Completed</span>
+                <div class="timeline-item" [class.active]="isStepCompleted(request.status, 'Completed')">
+                  <div class="timeline-marker">
+                    <div class="marker-circle">4</div>
+                  </div>
+                  <div class="timeline-content">
+                    <h5>Completed</h5>
+                    <p>Your request has been successfully completed</p>
+                    <span class="timeline-badge status-completed">Completed</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
