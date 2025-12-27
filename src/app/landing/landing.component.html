@@ -8,7 +8,10 @@
       <li><a href="#how-it-works">How It Works</a></li>
       <li><a href="#roles">Roles</a></li>
     </ul>
-    <button class="cta-button" type="button" (click)="navigateToAuth()">Login / Sign Up</button>
+    <button class="cta-button" type="button" (click)="navigateToAuth()">
+      <mat-icon>login</mat-icon>
+      Login / Sign Up
+    </button>
   </div>
 </nav>
 
@@ -17,9 +20,15 @@
   <div class="hero-container">
     <div class="hero-content">
       <h1 class="hero-title">Helping Neighbors, Strengthening Communities</h1>
-      <p class="hero-subtitle">Connect with your community to request help or offer assistance. Building stronger neighborhoods together.</p>
+      <p class="hero-subtitle">
+        Connect with your community to request help or offer assistance.
+        Building stronger neighborhoods together.
+      </p>
       <div class="hero-buttons">
-        <button class="primary-button" type="button" (click)="navigateToAuth()">Login / Sign Up</button>
+        <button class="primary-button" type="button" (click)="navigateToAuth()">
+          <mat-icon>person_add</mat-icon>
+          Login / Sign Up
+        </button>
       </div>
     </div>
     <div class="hero-animation">
@@ -34,22 +43,22 @@
   <h2 class="section-title">Platform Features</h2>
   <div class="features-grid">
     <div class="feature-card">
-      <div class="feature-icon">📝</div>
+      <div class="feature-icon"><mat-icon>edit_note</mat-icon></div>
       <h3>Easy Help Requests</h3>
       <p>Post your help needs quickly with detailed descriptions and categories</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">✅</div>
+      <div class="feature-icon"><mat-icon>check_circle</mat-icon></div>
       <h3>Task Acceptance &amp; Tracking</h3>
       <p>Accept tasks that match your skills and track progress seamlessly</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🔄</div>
+      <div class="feature-icon"><mat-icon>sync</mat-icon></div>
       <h3>Real-Time Status Updates</h3>
       <p>Stay informed with live updates on request status and progress</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🔒</div>
+      <div class="feature-icon"><mat-icon>lock</mat-icon></div>
       <h3>Role-Based Access</h3>
       <p>Secure platform with tailored experiences for residents and helpers</p>
     </div>
@@ -95,7 +104,9 @@
         <li>Communicate with helpers</li>
         <li>Rate and review helpers</li>
       </ul>
-      <button class="role-button" type="button" (click)="navigateToAuth()">Get Started</button>
+      <button class="role-button" type="button" (click)="navigateToAuth()">
+        Get Started
+      </button>
     </div>
     <div class="role-card">
       <h3>Helper</h3>
@@ -105,12 +116,12 @@
         <li>Update progress</li>
         <li>Build your reputation</li>
       </ul>
-      <button class="role-button" type="button" (click)="navigateToAuth()">Get Started</button>
+      <button class="role-button" type="button" (click)="navigateToAuth()">
+        Get Started
+      </button>
     </div>
   </div>
 </section>
-
-
 
 <!-- Footer -->
 <footer class="footer">
@@ -136,10 +147,10 @@
     <div class="footer-section">
       <h4>Follow Us</h4>
       <div class="social-icons">
-        <a href="#" class="social-icon">📘</a>
-        <a href="#" class="social-icon">🐦</a>
-        <a href="#" class="social-icon">📷</a>
-        <a href="#" class="social-icon">💼</a>
+        <a href="#" class="social-icon"><mat-icon>facebook</mat-icon></a>
+        <a href="#" class="social-icon"><mat-icon>twitter</mat-icon></a>
+        <a href="#" class="social-icon"><mat-icon>photo_camera</mat-icon></a>
+        <a href="#" class="social-icon"><mat-icon>work</mat-icon></a>
       </div>
     </div>
   </div>

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService, HelpRequest } from '../../services/help-request.service';
 
 @Component({
   selector: 'app-helper-tasks',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatIconModule],
   templateUrl: './helper-tasks.component.html',
   styleUrl: './helper-tasks.component.css'
 })
@@ -27,7 +28,6 @@ export class HelperTasksComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Verify user is a helper
     if (!this.authService.isHelper()) {
       this.router.navigate(['/register']);
       return;
@@ -61,17 +61,15 @@ export class HelperTasksComponent implements OnInit {
     this.successMessage = '';
 
     this.helpRequestService.updateRequestStatus(requestId, newStatus).subscribe({
-      next: (response) => {
+      next: () => {
         this.successMessage = `Status updated to ${newStatus}!`;
         this.updatingId = null;
-        
-        // Update the task in the list
+
         const task = this.myTasks.find(t => t.id === requestId);
         if (task) {
           task.status = newStatus as any;
         }
-        
-        // Clear success message after 3 seconds
+
         setTimeout(() => {
           this.successMessage = '';
         }, 3000);

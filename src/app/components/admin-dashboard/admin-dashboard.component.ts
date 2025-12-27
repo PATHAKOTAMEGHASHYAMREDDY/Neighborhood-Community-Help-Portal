@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService } from '../../services/help-request.service';
@@ -9,6 +10,11 @@ import { AdminService } from '../../services/admin.service';
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatIconModule   // ✅ ONLY ADDITION (required for mat-icon)
+  ],
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
@@ -17,7 +23,6 @@ export class AdminDashboardComponent implements OnInit {
   adminName: string = '';
   isSidebarCollapsed: boolean = false;
   
-  // Analytics Data
   totalUsers: number = 0;
   totalResidents: number = 0;
   totalHelpers: number = 0;
@@ -27,7 +32,6 @@ export class AdminDashboardComponent implements OnInit {
   acceptedRequests: number = 0;
   inProgressRequests: number = 0;
   
-  // Recent data
   recentRequests: any[] = [];
   recentUsers: any[] = [];
   
@@ -53,7 +57,6 @@ export class AdminDashboardComponent implements OnInit {
       return;
     }
     
-    // Verify user is an admin
     if (user.role !== 'Admin') {
       this.router.navigate(['/register']);
       return;
@@ -66,7 +69,6 @@ export class AdminDashboardComponent implements OnInit {
   loadDashboardData() {
     this.isLoading = true;
     
-    // Load user stats from admin service
     this.adminService.getUserStats().subscribe({
       next: (response) => {
         this.totalUsers = response.stats.total_users;
@@ -78,7 +80,6 @@ export class AdminDashboardComponent implements OnInit {
       }
     });
     
-    // Load all help requests for analytics
     this.helpRequestService.getAllHelpRequests().subscribe({
       next: (response) => {
         const requests = response.requests || [];
@@ -88,9 +89,7 @@ export class AdminDashboardComponent implements OnInit {
         this.acceptedRequests = requests.filter((r: any) => r.status === 'Accepted').length;
         this.inProgressRequests = requests.filter((r: any) => r.status === 'In-progress').length;
         
-        // Get recent requests (last 5)
         this.recentRequests = requests.slice(0, 5);
-        
         this.isLoading = false;
       },
       error: (error) => {

@@ -3,35 +3,44 @@
   <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
     <div class="sidebar-header">
       <h2>Community Help</h2>
-      <button class="toggle-btn" (click)="toggleSidebar()" type="button">☰</button>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">
+        <mat-icon>menu</mat-icon>
+      </button>
     </div>
+
     <nav class="sidebar-nav">
       <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <span class="nav-icon">📊</span>
+        <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
         <span class="nav-text">Dashboard</span>
       </a>
+
       <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-        <span class="nav-icon">📝</span>
+        <span class="nav-icon"><mat-icon>assignment</mat-icon></span>
         <span class="nav-text">My Requests</span>
       </a>
+
       <a routerLink="/requests/new" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">➕</span>
+        <span class="nav-icon"><mat-icon>add_circle</mat-icon></span>
         <span class="nav-text">New Request</span>
       </a>
+
       <a routerLink="/profile" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">👤</span>
+        <span class="nav-icon"><mat-icon>person</mat-icon></span>
         <span class="nav-text">Profile</span>
       </a>
+
       <a routerLink="/my-reports" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📄</span>
+        <span class="nav-icon"><mat-icon>description</mat-icon></span>
         <span class="nav-text">My Reports</span>
       </a>
+
       <a routerLink="/report-issue" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">⚠️</span>
+        <span class="nav-icon"><mat-icon>warning</mat-icon></span>
         <span class="nav-text">Report Issue</span>
       </a>
+
       <a (click)="logout()" class="nav-item logout">
-        <span class="nav-icon">🚪</span>
+        <span class="nav-icon"><mat-icon>logout</mat-icon></span>
         <span class="nav-text">Logout</span>
       </a>
     </nav>
@@ -48,9 +57,9 @@
       <form class="request-form" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="title">Request Title *</label>
-          <input 
-            type="text" 
-            id="title" 
+          <input
+            type="text"
+            id="title"
             [(ngModel)]="requestData.title"
             name="title"
             placeholder="e.g., Need help with groceries"
@@ -60,8 +69,8 @@
 
         <div class="form-group">
           <label for="category">Category *</label>
-          <select 
-            id="category" 
+          <select
+            id="category"
             [(ngModel)]="requestData.category"
             name="category"
             class="form-control"
@@ -81,8 +90,8 @@
 
         <div class="form-group">
           <label for="description">Description *</label>
-          <textarea 
-            id="description" 
+          <textarea
+            id="description"
             [(ngModel)]="requestData.description"
             name="description"
             rows="6"
@@ -93,9 +102,9 @@
 
         <div class="form-group">
           <label for="attachments">Attachments (Optional)</label>
-          <input 
-            type="text" 
-            id="attachments" 
+          <input
+            type="text"
+            id="attachments"
             [(ngModel)]="requestData.attachments"
             name="attachments"
             placeholder="Add file path or URL if needed"

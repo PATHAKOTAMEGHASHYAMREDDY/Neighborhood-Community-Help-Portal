@@ -2,13 +2,14 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked }
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { ChatService, ChatMessage, ChatInfo } from '../../services/chat.service';
 import { AuthService, User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
@@ -27,7 +28,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   
   private shouldScrollToBottom: boolean = false;
 
-  // Common emojis
   emojis: string[] = [
     '😊', '😂', '❤️', '👍', '👎', '🙏', '👏', '🎉', 
     '😍', '😢', '😎', '🤔', '😅', '🔥', '✅', '❌',
@@ -49,7 +49,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       return;
     }
 
-    // Get request ID from route
     this.route.params.subscribe(params => {
       this.requestId = +params['id'];
       this.initializeChat();
@@ -69,20 +68,19 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   async initializeChat() {
     try {
-      // Get chat info
       this.chatService.getChatInfo(this.requestId).subscribe({
         next: async (response) => {
           this.chatInfo = response.request;
           
-          // Verify user is part of this chat
-          if (this.currentUser?.id !== this.chatInfo.residentId && 
-              this.currentUser?.id !== this.chatInfo.helperId) {
+          if (
+            this.currentUser?.id !== this.chatInfo.residentId &&
+            this.currentUser?.id !== this.chatInfo.helperId
+          ) {
             this.errorMessage = 'You are not authorized to view this chat.';
             this.isLoading = false;
             return;
           }
 
-          // Connect socket and join room
           this.chatService.connectSocket();
           const joined = await this.chatService.joinRoom(this.requestId, this.currentUser!.id);
           
@@ -92,16 +90,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             return;
           }
 
-          // Load existing messages
           this.loadMessages();
 
-          // Subscribe to new messages
           this.chatService.messages$.subscribe(message => {
             this.messages.push(message);
             this.shouldScrollToBottom = true;
           });
 
-          // Subscribe to typing indicator
           this.chatService.typing$.subscribe(data => {
             if (data.userId !== this.currentUser?.id) {
               this.otherUserTyping = data.isTyping;
@@ -129,17 +124,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messages = response.messages || [];
         this.shouldScrollToBottom = true;
       },
-      error: (error) => {
-        console.error('Error loading messages:', error);
+      error: () => {
         this.errorMessage = 'Failed to load messages.';
       }
     });
   }
 
   sendMessage() {
-    if (!this.newMessage.trim() || !this.currentUser || !this.chatInfo) {
-      return;
-    }
+    if (!this.newMessage.trim() || !this.currentUser || !this.chatInfo) return;
 
     const message: ChatMessage = {
       requestId: this.requestId,
@@ -181,29 +173,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getMessageTime(timestamp: Date | string): string {
-    try {
-      const date = new Date(timestamp);
-      if (isNaN(date.getTime())) {
-        return 'Invalid Date';
-      }
-      return date.toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      });
-    } catch (error) {
-      console.error('Error formatting time:', error);
-      return 'Invalid Date';
-    }
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   }
 
   scrollToBottom() {
-    try {
-      if (this.messageContainer) {
-        this.messageContainer.nativeElement.scrollTop = 
-          this.messageContainer.nativeElement.scrollHeight;
-      }
-    } catch (err) {
-      console.error('Error scrolling to bottom:', err);
+    if (this.messageContainer) {
+      this.messageContainer.nativeElement.scrollTop =
+        this.messageContainer.nativeElement.scrollHeight;
     }
   }
 
@@ -215,4 +192,3 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 }
-

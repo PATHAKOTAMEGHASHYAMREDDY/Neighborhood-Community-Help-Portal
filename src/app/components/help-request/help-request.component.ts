@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService } from '../../services/help-request.service';
 
 @Component({
   selector: 'app-help-request',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatIconModule],
   templateUrl: './help-request.component.html',
   styleUrl: './help-request.component.css'
 })
@@ -34,7 +35,6 @@ export class HelpRequestComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 🔐 Only Residents can create help requests
     if (!this.authService.isResident()) {
       this.router.navigate(['/register']);
       return;
@@ -45,12 +45,10 @@ export class HelpRequestComponent implements OnInit {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
-  // ================= SUBMIT REQUEST =================
   onSubmit(): void {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Basic validation
     if (
       !this.requestData.title ||
       !this.requestData.description ||
@@ -84,7 +82,6 @@ export class HelpRequestComponent implements OnInit {
     });
   }
 
-  // ================= BACK =================
   goBack(): void {
     this.router.navigate(['/requests']);
   }

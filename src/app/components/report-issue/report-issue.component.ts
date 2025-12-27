@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { ReportService } from '../../services/report.service';
 import { HelpRequestService } from '../../services/help-request.service';
@@ -9,7 +10,7 @@ import { HelpRequestService } from '../../services/help-request.service';
 @Component({
   selector: 'app-report-issue',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatIconModule],
   templateUrl: './report-issue.component.html',
   styleUrls: ['./report-issue.component.css']
 })
@@ -19,10 +20,10 @@ export class ReportIssueComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
   showLogoutDialog: boolean = false;
-  
+
   userRole: string = '';
   myRequests: any[] = [];
-  
+
   reportData = {
     reported_user_id: 0,
     request_id: 0,
@@ -51,7 +52,7 @@ export class ReportIssueComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
-    
+
     this.userRole = user.role;
     this.loadMyRequests();
   }
@@ -68,7 +69,9 @@ export class ReportIssueComponent implements OnInit {
   }
 
   onRequestChange() {
-    const selectedRequest = this.myRequests.find(r => r.id === Number(this.reportData.request_id));
+    const selectedRequest = this.myRequests.find(
+      r => r.id === Number(this.reportData.request_id)
+    );
     if (selectedRequest) {
       if (this.userRole === 'Resident') {
         this.reportData.reported_user_id = selectedRequest.helper_id;
@@ -87,7 +90,11 @@ export class ReportIssueComponent implements OnInit {
       return;
     }
 
-    if (!this.reportData.reported_user_id || !this.reportData.issue_type || !this.reportData.description) {
+    if (
+      !this.reportData.reported_user_id ||
+      !this.reportData.issue_type ||
+      !this.reportData.description
+    ) {
       this.errorMessage = 'Please fill in all required fields';
       return;
     }
@@ -98,8 +105,7 @@ export class ReportIssueComponent implements OnInit {
       next: (response) => {
         this.successMessage = response.message;
         this.isLoading = false;
-        
-        // Reset form
+
         this.reportData = {
           reported_user_id: 0,
           request_id: 0,

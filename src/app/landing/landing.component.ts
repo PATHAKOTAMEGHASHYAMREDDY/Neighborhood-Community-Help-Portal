@@ -1,11 +1,13 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import lottie, { AnimationItem } from 'lottie-web';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })

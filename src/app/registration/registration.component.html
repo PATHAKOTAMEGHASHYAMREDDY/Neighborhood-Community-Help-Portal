@@ -1,21 +1,13 @@
 <div class="auth-wrapper">
-  <!-- Centered Auth Forms -->
   <div class="auth-forms">
     <div class="form-container">
+
       <!-- Tab Navigation -->
       <div class="tab-navigation">
-        <button
-          class="tab-button"
-          [class.active]="activeTab === 'login'"
-          (click)="switchTab('login')"
-          type="button">
+        <button class="tab-button" [class.active]="activeTab === 'login'" (click)="switchTab('login')" type="button">
           Login
         </button>
-        <button
-          class="tab-button"
-          [class.active]="activeTab === 'signup'"
-          (click)="switchTab('signup')"
-          type="button">
+        <button class="tab-button" [class.active]="activeTab === 'signup'" (click)="switchTab('signup')" type="button">
           Sign Up
         </button>
       </div>
@@ -26,84 +18,51 @@
         <p class="form-subtitle">Login to continue to your account</p>
 
         <div class="form-group">
-          <label for="login-email">Email / Phone</label>
+          <label>Email / Phone</label>
           <div class="input-wrapper">
-            <span class="input-icon">📧</span>
-            <input
-              type="text"
-              id="login-email"
-              [(ngModel)]="loginData.contact_info"
-              name="contact_info"
-              placeholder="Enter your email or phone"
-              required>
+            <span class="input-icon"><mat-icon>email</mat-icon></span>
+            <input type="text" [(ngModel)]="loginData.contact_info" name="contact_info" placeholder="Enter your email or phone" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="login-password">Password</label>
+          <label>Password</label>
           <div class="input-wrapper">
-            <span class="input-icon">🔒</span>
-            <input
-              type="password"
-              [type]="showLoginPassword ? 'text' : 'password'"
-              id="login-password"
-              [(ngModel)]="loginData.password"
-              name="password"
-              placeholder="Enter your password"
-              required>
-            <button
-              type="button"
-              class="toggle-password"
-              (click)="showLoginPassword = !showLoginPassword">
-              {{ showLoginPassword ? '👁' : '🔒' }}
+            <span class="input-icon"><mat-icon>lock</mat-icon></span>
+            <input [type]="showLoginPassword ? 'text' : 'password'" [(ngModel)]="loginData.password" name="password" placeholder="Enter your password" required>
+            <button type="button" class="toggle-password" (click)="showLoginPassword = !showLoginPassword">
+              <mat-icon>{{ showLoginPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
             </button>
           </div>
         </div>
 
         <div class="forgot-password-wrapper">
-          <a class="forgot-password-link" (click)="onForgotPassword()">
-            Forgot Password?
-          </a>
+          <a class="forgot-password-link" (click)="onForgotPassword()">Forgot Password?</a>
         </div>
 
         <div class="form-group">
           <label>Select Your Role</label>
           <div class="role-selection">
             <label class="role-option">
-              <input
-                type="radio"
-                name="loginRole"
-                value="Resident"
-                [(ngModel)]="loginData.role"
-                required>
+              <input type="radio" name="loginRole" value="Resident" [(ngModel)]="loginData.role" required>
               <span class="role-card">
-                <span class="role-icon">🏠</span>
+                <span class="role-icon"><mat-icon>home</mat-icon></span>
                 <span class="role-name">Resident</span>
               </span>
             </label>
 
             <label class="role-option">
-              <input
-                type="radio"
-                name="loginRole"
-                value="Helper"
-                [(ngModel)]="loginData.role"
-                required>
+              <input type="radio" name="loginRole" value="Helper" [(ngModel)]="loginData.role" required>
               <span class="role-card">
-                <span class="role-icon">🤝</span>
+                <span class="role-icon"><mat-icon>handshake</mat-icon></span>
                 <span class="role-name">Helper</span>
               </span>
             </label>
 
             <label class="role-option">
-              <input
-                type="radio"
-                name="loginRole"
-                value="Admin"
-                [(ngModel)]="loginData.role"
-                required>
+              <input type="radio" name="loginRole" value="Admin" [(ngModel)]="loginData.role" required>
               <span class="role-card">
-                <span class="role-icon">🛡️</span>
+                <span class="role-icon"><mat-icon>security</mat-icon></span>
                 <span class="role-name">Admin</span>
               </span>
             </label>
@@ -111,7 +70,7 @@
         </div>
 
         <div *ngIf="errorMessage" class="error-message">
-          <span class="message-icon">⚠️</span>
+          <span class="message-icon"><mat-icon>warning</mat-icon></span>
           {{ errorMessage }}
         </div>
 
@@ -127,85 +86,47 @@
         <p class="form-subtitle">Join our community today</p>
 
         <div class="form-group">
-          <label for="signup-name">Full Name</label>
+          <label>Full Name</label>
           <div class="input-wrapper">
-            <span class="input-icon">👤</span>
-            <input
-              type="text"
-              id="signup-name"
-              [(ngModel)]="signupData.name"
-              name="name"
-              placeholder="Enter your full name"
-              required>
+            <span class="input-icon"><mat-icon>person</mat-icon></span>
+            <input type="text" [(ngModel)]="signupData.name" name="name" placeholder="Enter your full name" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="signup-email">Email / Phone</label>
+          <label>Email / Phone</label>
           <div class="input-wrapper">
-            <span class="input-icon">📧</span>
-            <input
-              type="text"
-              id="signup-email"
-              [(ngModel)]="signupData.contact_info"
-              name="contact_info"
-              placeholder="Enter your email or phone"
-              required>
+            <span class="input-icon"><mat-icon>email</mat-icon></span>
+            <input type="text" [(ngModel)]="signupData.contact_info" name="contact_info" placeholder="Enter your email or phone" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="signup-location">Location</label>
+          <label>Location</label>
           <div class="input-wrapper">
-            <span class="input-icon">📍</span>
-            <input
-              type="text"
-              id="signup-location"
-              [(ngModel)]="signupData.location"
-              name="location"
-              placeholder="Enter your location"
-              required>
+            <span class="input-icon"><mat-icon>place</mat-icon></span>
+            <input type="text" [(ngModel)]="signupData.location" name="location" placeholder="Enter your location" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="signup-password">Password</label>
+          <label>Password</label>
           <div class="input-wrapper">
-            <span class="input-icon">🔒</span>
-            <input
-              type="password"
-              [type]="showSignupPassword ? 'text' : 'password'"
-              id="signup-password"
-              [(ngModel)]="signupData.password"
-              name="password"
-              placeholder="Create a password"
-              required>
-            <button
-              type="button"
-              class="toggle-password"
-              (click)="showSignupPassword = !showSignupPassword">
-              {{ showSignupPassword ? '👁' : '🔒' }}
+            <span class="input-icon"><mat-icon>lock</mat-icon></span>
+            <input [type]="showSignupPassword ? 'text' : 'password'" [(ngModel)]="signupData.password" name="password" placeholder="Create a password" required>
+            <button type="button" class="toggle-password" (click)="showSignupPassword = !showSignupPassword">
+              <mat-icon>{{ showSignupPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
             </button>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="signup-confirm-password">Confirm Password</label>
+          <label>Confirm Password</label>
           <div class="input-wrapper">
-            <span class="input-icon">🔒</span>
-            <input
-              type="password"
-              [type]="showConfirmPassword ? 'text' : 'password'"
-              id="signup-confirm-password"
-              [(ngModel)]="signupData.confirmPassword"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              required>
-            <button
-              type="button"
-              class="toggle-password"
-              (click)="showConfirmPassword = !showConfirmPassword">
-              {{ showConfirmPassword ? '👁' : '🔒' }}
+            <span class="input-icon"><mat-icon>lock</mat-icon></span>
+            <input [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="signupData.confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            <button type="button" class="toggle-password" (click)="showConfirmPassword = !showConfirmPassword">
+              <mat-icon>{{ showConfirmPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
             </button>
           </div>
         </div>
@@ -214,14 +135,9 @@
           <label>Select Your Role</label>
           <div class="role-selection signup-roles">
             <label class="role-option">
-              <input
-                type="radio"
-                name="signupRole"
-                value="Resident"
-                [(ngModel)]="signupData.role"
-                required>
+              <input type="radio" name="signupRole" value="Resident" [(ngModel)]="signupData.role" required>
               <span class="role-card detailed">
-                <span class="role-icon">🏠</span>
+                <span class="role-icon"><mat-icon>home</mat-icon></span>
                 <span class="role-info">
                   <span class="role-name">Resident</span>
                   <span class="role-desc">Post help requests</span>
@@ -230,14 +146,9 @@
             </label>
 
             <label class="role-option">
-              <input
-                type="radio"
-                name="signupRole"
-                value="Helper"
-                [(ngModel)]="signupData.role"
-                required>
+              <input type="radio" name="signupRole" value="Helper" [(ngModel)]="signupData.role" required>
               <span class="role-card detailed">
-                <span class="role-icon">🤝</span>
+                <span class="role-icon"><mat-icon>handshake</mat-icon></span>
                 <span class="role-info">
                   <span class="role-name">Helper</span>
                   <span class="role-desc">Offer assistance</span>
@@ -248,12 +159,12 @@
         </div>
 
         <div *ngIf="errorMessage" class="error-message">
-          <span class="message-icon">⚠️</span>
+          <span class="message-icon"><mat-icon>warning</mat-icon></span>
           {{ errorMessage }}
         </div>
 
         <div *ngIf="successMessage" class="success-message">
-          <span class="message-icon">✓</span>
+          <span class="message-icon"><mat-icon>check_circle</mat-icon></span>
           {{ successMessage }}
         </div>
 
@@ -266,7 +177,6 @@
   </div>
 </div>
 
-
 <!-- Forgot Password Modal -->
 <div class="modal-overlay" *ngIf="showForgotPasswordModal" (click)="closeForgotPasswordModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
@@ -276,126 +186,68 @@
     </div>
 
     <div class="modal-body">
-      <!-- Step 1: Enter Email -->
-      <div *ngIf="forgotPasswordStep === 'email'" class="reset-step">
-        <p class="step-description">Enter your email address to receive an OTP</p>
 
+      <div *ngIf="forgotPasswordStep === 'email'" class="reset-step">
         <div class="form-group">
-          <label for="reset-email">Email Address</label>
           <div class="input-wrapper">
-            <span class="input-icon">📧</span>
-            <input
-              type="email"
-              id="reset-email"
-              [(ngModel)]="forgotPasswordData.email"
-              name="resetEmail"
-              placeholder="Enter your email"
-              required>
+            <span class="input-icon"><mat-icon>email</mat-icon></span>
+            <input type="email" [(ngModel)]="forgotPasswordData.email" placeholder="Enter your email" required>
           </div>
         </div>
 
         <div *ngIf="forgotPasswordError" class="error-message">
-          <span class="message-icon">⚠️</span>
+          <span class="message-icon"><mat-icon>warning</mat-icon></span>
           {{ forgotPasswordError }}
         </div>
 
         <div *ngIf="forgotPasswordMessage" class="success-message">
-          <span class="message-icon">✓</span>
+          <span class="message-icon"><mat-icon>check_circle</mat-icon></span>
           {{ forgotPasswordMessage }}
         </div>
 
         <button class="submit-button" (click)="sendOTP()" [disabled]="isLoading" type="button">
-          <span *ngIf="!isLoading">Send OTP</span>
-          <span *ngIf="isLoading">Sending...</span>
+          Send OTP
         </button>
       </div>
 
-      <!-- Step 2: Enter OTP -->
       <div *ngIf="forgotPasswordStep === 'otp'" class="reset-step">
-        <p class="step-description">Enter the 6-digit OTP sent to {{ forgotPasswordData.email }}</p>
-
         <div class="form-group">
-          <label for="reset-otp">OTP Code</label>
           <div class="input-wrapper">
-            <span class="input-icon">🔑</span>
-            <input
-              type="text"
-              id="reset-otp"
-              [(ngModel)]="forgotPasswordData.otp"
-              name="resetOtp"
-              placeholder="Enter 6-digit OTP"
-              maxlength="6"
-              required>
+            <span class="input-icon"><mat-icon>key</mat-icon></span>
+            <input type="text" [(ngModel)]="forgotPasswordData.otp" placeholder="Enter OTP" maxlength="6" required>
           </div>
-        </div>
-
-        <div *ngIf="forgotPasswordError" class="error-message">
-          <span class="message-icon">⚠️</span>
-          {{ forgotPasswordError }}
-        </div>
-
-        <div *ngIf="forgotPasswordMessage" class="success-message">
-          <span class="message-icon">✓</span>
-          {{ forgotPasswordMessage }}
         </div>
 
         <button class="submit-button" (click)="verifyOTP()" [disabled]="isLoading" type="button">
-          <span *ngIf="!isLoading">Verify OTP</span>
-          <span *ngIf="isLoading">Verifying...</span>
+          Verify OTP
         </button>
 
         <button class="link-button" (click)="forgotPasswordStep = 'email'" type="button">
-          ← Back to email
+          <mat-icon>arrow_back</mat-icon>
+          Back to email
         </button>
       </div>
 
-      <!-- Step 3: Set New Password -->
       <div *ngIf="forgotPasswordStep === 'newPassword'" class="reset-step">
-        <p class="step-description">Create a new password for your account</p>
-
         <div class="form-group">
-          <label for="new-password">New Password</label>
           <div class="input-wrapper">
-            <span class="input-icon">🔒</span>
-            <input
-              type="password"
-              id="new-password"
-              [(ngModel)]="forgotPasswordData.newPassword"
-              name="newPassword"
-              placeholder="Enter new password"
-              required>
+            <span class="input-icon"><mat-icon>lock</mat-icon></span>
+            <input type="password" [(ngModel)]="forgotPasswordData.newPassword" placeholder="New password" required>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="confirm-new-password">Confirm Password</label>
           <div class="input-wrapper">
-            <span class="input-icon">🔒</span>
-            <input
-              type="password"
-              id="confirm-new-password"
-              [(ngModel)]="forgotPasswordData.confirmPassword"
-              name="confirmNewPassword"
-              placeholder="Confirm new password"
-              required>
+            <span class="input-icon"><mat-icon>lock</mat-icon></span>
+            <input type="password" [(ngModel)]="forgotPasswordData.confirmPassword" placeholder="Confirm password" required>
           </div>
-        </div>
-
-        <div *ngIf="forgotPasswordError" class="error-message">
-          <span class="message-icon">⚠️</span>
-          {{ forgotPasswordError }}
-        </div>
-
-        <div *ngIf="forgotPasswordMessage" class="success-message">
-          <span class="message-icon">✓</span>
-          {{ forgotPasswordMessage }}
         </div>
 
         <button class="submit-button" (click)="resetPassword()" [disabled]="isLoading" type="button">
-          <span *ngIf="!isLoading">Reset Password</span>
-          <span *ngIf="isLoading">Resetting...</span>
+          Reset Password
         </button>
       </div>
+
     </div>
   </div>
 </div>

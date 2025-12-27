@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { ReportService, Report } from '../../services/report.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-my-reports',
-  imports: [CommonModule, RouterModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatIconModule],
   templateUrl: './my-reports.component.html',
   styleUrl: './my-reports.component.css'
 })
@@ -52,7 +54,9 @@ export class MyReportsComponent implements OnInit {
     if (this.selectedStatus === 'All') {
       this.filteredReports = this.reports;
     } else {
-      this.filteredReports = this.reports.filter(r => r.status === this.selectedStatus);
+      this.filteredReports = this.reports.filter(
+        r => r.status === this.selectedStatus
+      );
     }
   }
 
