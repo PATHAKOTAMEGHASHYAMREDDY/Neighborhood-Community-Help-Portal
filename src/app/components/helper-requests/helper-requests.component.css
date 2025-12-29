@@ -202,6 +202,127 @@
   margin-bottom: 2rem;
 }
 
+/* Search Section */
+.search-section {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e9ecef;
+  margin-bottom: 2rem;
+}
+
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.search-wrapper:focus-within {
+  background: white;
+  border-color: #dc3545;
+  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.1);
+}
+
+.search-icon {
+  font-size: 1.5rem;
+  color: #6c757d;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  padding: 0.75rem 0;
+  color: #212529;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #adb5bd;
+}
+
+.clear-search-btn {
+  background: #dc3545;
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+.clear-search-btn:hover {
+  background: #c82333;
+  transform: rotate(90deg);
+}
+
+.search-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+  border-radius: 12px;
+  color: #1976d2;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.search-info mat-icon {
+  font-size: 1.2rem;
+}
+
+.no-results-icon {
+  font-size: 4rem !important;
+  width: 4rem !important;
+  height: 4rem !important;
+  color: #adb5bd;
+  margin-bottom: 1rem;
+}
+
+.clear-filter-btn {
+  margin-top: 1.5rem;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.clear-filter-btn:hover {
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+  transform: translateY(-2px);
+}
+
 .summary-card {
   background: white;
   padding: 1.75rem;

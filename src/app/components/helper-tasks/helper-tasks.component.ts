@@ -82,6 +82,37 @@ export class HelperTasksComponent implements OnInit {
     });
   }
 
+  declineRequest(requestId: number | undefined) {
+    if (!requestId) return;
+
+    if (!confirm('Are you sure you want to decline this task? It will become available for other helpers.')) {
+      return;
+    }
+
+    this.updatingId = requestId;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    this.helpRequestService.declineHelpRequest(requestId).subscribe({
+      next: () => {
+        this.successMessage = 'Task declined successfully. It is now available for other helpers.';
+        this.updatingId = null;
+
+        // Remove the task from the list
+        this.myTasks = this.myTasks.filter(t => t.id !== requestId);
+
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
+      },
+      error: (error) => {
+        this.errorMessage = 'Failed to decline task. Please try again.';
+        this.updatingId = null;
+        console.error('Error declining task:', error);
+      }
+    });
+  }
+
   getStatusClass(status: string | undefined): string {
     if (!status) return 'status-pending';
     return 'status-' + status.toLowerCase();

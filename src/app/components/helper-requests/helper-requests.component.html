@@ -90,6 +90,34 @@
       </div>
     </section>
 
+    <!-- Search Section -->
+    <section class="search-section">
+      <div class="search-container">
+        <div class="search-wrapper">
+          <span class="search-icon"><mat-icon>search</mat-icon></span>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search by location (e.g., Chennai, Mumbai, Delhi...)"
+            [(ngModel)]="searchLocation"
+            (input)="filterByLocation()"
+          >
+          <button
+            *ngIf="searchLocation"
+            class="clear-search-btn"
+            (click)="clearSearch()"
+            type="button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="search-info" *ngIf="searchLocation">
+          <mat-icon>info</mat-icon>
+          <span>Showing {{ filteredRequests.length }} request(s) for "{{ searchLocation }}"</span>
+        </div>
+      </div>
+    </section>
+
     <!-- Available Requests Section -->
     <section class="requests-section">
       <h2>Available Help Requests</h2>
@@ -102,13 +130,23 @@
         {{ errorMessage }}
       </div>
 
-      <div class="no-requests" *ngIf="!isLoading && availableRequests.length === 0">
+      <div class="no-requests" *ngIf="!isLoading && filteredRequests.length === 0 && !searchLocation">
         <p>No available requests at the moment.</p>
         <p class="sub-text">Check back later for new requests from your community.</p>
       </div>
 
-      <div class="requests-grid" *ngIf="!isLoading && availableRequests.length > 0">
-        <div class="request-card" *ngFor="let request of availableRequests">
+      <div class="no-requests" *ngIf="!isLoading && filteredRequests.length === 0 && searchLocation">
+        <mat-icon class="no-results-icon">location_off</mat-icon>
+        <p>No requests found for "{{ searchLocation }}"</p>
+        <p class="sub-text">Try searching for a different location or clear the search.</p>
+        <button class="clear-filter-btn" (click)="clearSearch()" type="button">
+          <mat-icon>clear_all</mat-icon>
+          Clear Search
+        </button>
+      </div>
+
+      <div class="requests-grid" *ngIf="!isLoading && filteredRequests.length > 0">
+        <div class="request-card" *ngFor="let request of filteredRequests">
           <div class="request-header">
             <h3>{{ request.title }}</h3>
             <span class="status-badge status-pending">Pending</span>

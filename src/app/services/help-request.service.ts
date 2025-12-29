@@ -78,6 +78,14 @@ export class HelpRequestService {
     );
   }
 
+  declineHelpRequest(id: number): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(
+      `${this.apiUrl}/${id}/decline`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+
   updateRequestStatus(id: number, status: string): Observable<{ message: string }> {
     return this.http.put<{ message: string }>(
       `${this.apiUrl}/${id}/status`,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
@@ -8,18 +9,21 @@ import { HelpRequestService, HelpRequest } from '../../services/help-request.ser
 @Component({
   selector: 'app-helper-requests',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatIconModule, FormsModule],
   templateUrl: './helper-requests.component.html',
   styleUrl: './helper-requests.component.css'
 })
 export class HelperRequestsComponent implements OnInit {
   availableRequests: HelpRequest[] = [];
+  filteredRequests: HelpRequest[] = [];
   isLoading: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
   isSidebarCollapsed: boolean = false;
   processingId: number | null = null;
   showLogoutDialog: boolean = false;
+
+  searchLocation: string = '';
 
   availableCount: number = 0;
   acceptedCount: number = 0;
@@ -49,6 +53,7 @@ export class HelperRequestsComponent implements OnInit {
     this.helpRequestService.getAvailableRequests().subscribe({
       next: (response) => {
         this.availableRequests = response.requests || [];
+        this.filteredRequests = [...this.availableRequests];
         this.availableCount = this.availableRequests.length;
         this.isLoading = false;
       },
@@ -58,6 +63,23 @@ export class HelperRequestsComponent implements OnInit {
         console.error('Error loading available requests:', error);
       }
     });
+  }
+
+  filterByLocation() {
+    if (!this.searchLocation.trim()) {
+      this.filteredRequests = [...this.availableRequests];
+      return;
+    }
+
+    const searchTerm = this.searchLocation.toLowerCase().trim();
+    this.filteredRequests = this.availableRequests.filter(request =>
+      request.resident_location?.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  clearSearch() {
+    this.searchLocation = '';
+    this.filteredRequests = [...this.availableRequests];
   }
 
   loadMySummary() {
@@ -87,6 +109,7 @@ export class HelperRequestsComponent implements OnInit {
         this.processingId = null;
 
         this.availableRequests = this.availableRequests.filter(r => r.id !== requestId);
+        this.filteredRequests = this.filteredRequests.filter(r => r.id !== requestId);
         this.availableCount = this.availableRequests.length;
         this.acceptedCount++;
 
@@ -106,6 +129,7 @@ export class HelperRequestsComponent implements OnInit {
     if (!requestId) return;
 
     this.availableRequests = this.availableRequests.filter(r => r.id !== requestId);
+    this.filteredRequests = this.filteredRequests.filter(r => r.id !== requestId);
     this.availableCount = this.availableRequests.length;
     this.successMessage = 'Request declined.';
 

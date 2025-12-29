@@ -131,12 +131,22 @@
 
           <div class="task-footer">
             <button
-              *ngIf="task.status !== 'Pending'"
+              *ngIf="task.status !== 'Pending' && task.status !== 'Completed'"
               class="action-btn chat-btn"
               (click)="openChat(task.id)"
               type="button">
               <mat-icon>chat</mat-icon>
               Chat
+            </button>
+
+            <button
+              *ngIf="task.status === 'Accepted' || task.status === 'In-progress'"
+              class="action-btn decline-btn"
+              (click)="declineRequest(task.id)"
+              [disabled]="updatingId === task.id"
+              type="button">
+              <mat-icon>cancel</mat-icon>
+              {{ updatingId === task.id ? 'Declining...' : 'Decline Task' }}
             </button>
 
             <button
