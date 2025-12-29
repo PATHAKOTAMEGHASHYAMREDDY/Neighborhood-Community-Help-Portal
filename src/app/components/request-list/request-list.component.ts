@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
@@ -8,16 +9,19 @@ import { HelpRequestService, HelpRequest } from '../../services/help-request.ser
 @Component({
   selector: 'app-request-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatIconModule, FormsModule],
   templateUrl: './request-list.component.html',
   styleUrl: './request-list.component.css'
 })
 export class RequestListComponent implements OnInit {
   requests: HelpRequest[] = [];
+  filteredRequests: HelpRequest[] = [];
   isLoading: boolean = false;
   errorMessage: string = '';
   isSidebarCollapsed: boolean = false;
   showLogoutDialog: boolean = false;
+
+  showCompleted: boolean = false;
 
   totalRequests: number = 0;
   pendingCount: number = 0;
@@ -47,6 +51,7 @@ export class RequestListComponent implements OnInit {
       next: (response) => {
         this.requests = response.requests || [];
         this.calculateSummary();
+        this.applyFilter();
         this.isLoading = false;
       },
       error: (error) => {
@@ -62,6 +67,32 @@ export class RequestListComponent implements OnInit {
     this.pendingCount = this.requests.filter(r => r.status === 'Pending').length;
     this.inProgressCount = this.requests.filter(r => r.status === 'In-progress').length;
     this.completedCount = this.requests.filter(r => r.status === 'Completed').length;
+  }
+
+  applyFilter() {
+    console.log('Applying filter. showCompleted:', this.showCompleted);
+    console.log('Total requests:', this.requests.length);
+    
+    if (this.showCompleted) {
+      // Show ONLY completed requests
+      this.filteredRequests = this.requests.filter(r => {
+        const status = r.status?.toLowerCase();
+        return status === 'completed';
+      });
+    } else {
+      // Show ONLY not completed requests (Pending, Accepted, In-progress)
+      this.filteredRequests = this.requests.filter(r => {
+        const status = r.status?.toLowerCase();
+        return status !== 'completed';
+      });
+    }
+    
+    console.log('Filtered requests:', this.filteredRequests.length);
+  }
+
+  toggleCompletedFilter() {
+    console.log('Checkbox toggled. New value:', this.showCompleted);
+    this.applyFilter();
   }
 
   isStepCompleted(currentStatus: string | undefined, stepStatus: string): boolean {

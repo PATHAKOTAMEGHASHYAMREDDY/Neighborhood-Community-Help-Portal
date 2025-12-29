@@ -97,7 +97,29 @@
 
     <!-- Requests List -->
     <section class="requests-section">
-      <h2>My Help Requests</h2>
+      <div class="section-header">
+        <h2>My Help Requests</h2>
+        <div class="filter-controls">
+          <label class="checkbox-container">
+            <input
+              type="checkbox"
+              [(ngModel)]="showCompleted"
+              (change)="toggleCompletedFilter()"
+            >
+            <span class="checkmark"></span>
+            <span class="checkbox-label">
+              <mat-icon>check_circle</mat-icon>
+              Show Only Completed Requests
+              <span class="filter-count completed" *ngIf="showCompleted">
+                ({{ filteredRequests.length }} completed)
+              </span>
+              <span class="filter-count pending" *ngIf="!showCompleted">
+                ({{ filteredRequests.length }} active)
+              </span>
+            </span>
+          </label>
+        </div>
+      </div>
 
       <div class="loading" *ngIf="isLoading">
         <p>Loading requests...</p>
@@ -107,15 +129,21 @@
         {{ errorMessage }}
       </div>
 
-      <div class="no-requests" *ngIf="!isLoading && requests.length === 0">
+      <div class="no-requests" *ngIf="!isLoading && filteredRequests.length === 0 && requests.length === 0">
         <p>You haven't created any requests yet.</p>
         <button class="new-request-btn" (click)="navigateToNewRequest()" type="button">
           Create Your First Request
         </button>
       </div>
 
-      <div class="requests-grid" *ngIf="!isLoading && requests.length > 0">
-        <div class="request-card" *ngFor="let request of requests">
+      <div class="no-requests" *ngIf="!isLoading && filteredRequests.length === 0 && requests.length > 0">
+        <mat-icon class="filter-icon">filter_list_off</mat-icon>
+        <p>No requests to display with current filter</p>
+        <p class="sub-text">All your requests are completed. Check the "Show Completed Requests" box to view them.</p>
+      </div>
+
+      <div class="requests-grid" *ngIf="!isLoading && filteredRequests.length > 0">
+        <div class="request-card" *ngFor="let request of filteredRequests">
           <div class="request-header">
             <h3>{{ request.title }}</h3>
             <span class="status-badge" [class]="'status-' + request.status?.toLowerCase()">
