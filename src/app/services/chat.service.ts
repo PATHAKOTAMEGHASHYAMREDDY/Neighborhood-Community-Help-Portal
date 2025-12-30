@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 export interface ChatMessage {
   id?: number;
@@ -29,8 +30,8 @@ export interface ChatInfo {
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl = 'http://localhost:3000/api/chat';
-  private socketUrl = 'http://localhost:3000';
+  private apiUrl = `${environment.apiUrl}/api/chat`;
+  private socketUrl = environment.socketUrl;
   private socket: Socket | null = null;
   
   private messageSubject = new Subject<ChatMessage>();
