@@ -174,7 +174,20 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   getMessageTime(timestamp: Date | string): string {
     const date = new Date(timestamp);
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      return '';
+    }
+    
+    // Format time in user's local timezone
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+    
+    return `${displayHours}:${displayMinutes} ${ampm}`;
   }
 
   scrollToBottom() {

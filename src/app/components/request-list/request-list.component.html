@@ -215,7 +215,17 @@
           </div>
 
           <div class="request-footer">
+            <button 
+              class="chat-btn" 
+              (click)="openChat(request.id)" 
+              type="button"
+              *ngIf="request.status !== 'Pending'"
+              [disabled]="!request.helper_id">
+              <mat-icon>chat</mat-icon>
+              Chat
+            </button>
             <button class="view-status-btn" (click)="viewRequestStatus(request.id)" type="button">
+              <mat-icon>visibility</mat-icon>
               View Status
             </button>
           </div>

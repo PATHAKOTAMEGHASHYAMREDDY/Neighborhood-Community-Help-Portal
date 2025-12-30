@@ -706,8 +706,43 @@
 .request-footer {
   display: flex;
   justify-content: flex-end;
+  gap: 1rem;
   padding-top: 1.25rem;
   border-top: 2px solid #f8f9fa;
+}
+
+.chat-btn {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  border: none;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chat-btn:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+  transform: translateY(-2px);
+}
+
+.chat-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+.chat-btn mat-icon {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .view-status-btn {
@@ -721,10 +756,20 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .view-status-btn:hover {
   box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+}
+
+.view-status-btn mat-icon {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 /* Logout Dialog */
@@ -912,5 +957,16 @@
 
   .status-badge {
     align-self: flex-start;
+  }
+
+  .request-footer {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .chat-btn,
+  .view-status-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

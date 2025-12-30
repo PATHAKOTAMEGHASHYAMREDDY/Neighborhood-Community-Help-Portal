@@ -116,6 +116,12 @@ export class RequestListComponent implements OnInit {
     }
   }
 
+  openChat(requestId: number | undefined) {
+    if (requestId) {
+      this.router.navigate(['/chat', requestId]);
+    }
+  }
+
   logout() {
     this.showLogoutDialog = true;
   }
