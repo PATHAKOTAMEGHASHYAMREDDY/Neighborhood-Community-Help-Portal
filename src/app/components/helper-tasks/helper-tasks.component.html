@@ -42,6 +42,11 @@
 
   <!-- Main Content -->
   <main class="main-content">
+    <!-- Mobile Hamburger Button -->
+    <button class="mobile-menu-btn" (click)="toggleSidebar()" type="button">
+      <mat-icon>menu</mat-icon>
+    </button>
+
     <header class="dashboard-header">
       <div class="header-content">
         <div>
@@ -131,7 +136,7 @@
 
           <div class="task-footer">
             <button
-              *ngIf="task.status !== 'Pending' && task.status !== 'Completed'"
+              *ngIf="task.status !== 'Pending'"
               class="action-btn chat-btn"
               (click)="openChat(task.id)"
               type="button">
