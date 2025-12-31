@@ -39,10 +39,19 @@ export class HelpRequestComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
+    
+    // Initialize sidebar as collapsed on mobile
+    this.isSidebarCollapsed = window.innerWidth <= 768;
   }
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      this.isSidebarCollapsed = true;
+    }
   }
 
   onSubmit(): void {

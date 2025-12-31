@@ -1,40 +1,45 @@
 <div class="dashboard-container">
+  <!-- Mobile Hamburger Menu -->
+  <button class="mobile-hamburger" (click)="toggleSidebar()" type="button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
   <!-- Sidebar -->
   <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
     <div class="sidebar-header">
       <h2>Community Help</h2>
       <button class="toggle-btn" (click)="toggleSidebar()" type="button">
-        <mat-icon>menu</mat-icon>
+        <mat-icon>close</mat-icon>
       </button>
     </div>
 
     <nav class="sidebar-nav">
-      <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+      <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
         <span class="nav-text">Dashboard</span>
       </a>
 
-      <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+      <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>assignment</mat-icon></span>
         <span class="nav-text">My Requests</span>
       </a>
 
-      <a routerLink="/requests/new" routerLinkActive="active" class="nav-item">
+      <a routerLink="/requests/new" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>add</mat-icon></span>
         <span class="nav-text">New Request</span>
       </a>
 
-      <a routerLink="/profile" routerLinkActive="active" class="nav-item">
+      <a routerLink="/profile" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>person</mat-icon></span>
         <span class="nav-text">Profile</span>
       </a>
 
-      <a routerLink="/my-reports" routerLinkActive="active" class="nav-item">
+      <a routerLink="/my-reports" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>description</mat-icon></span>
         <span class="nav-text">My Reports</span>
       </a>
 
-      <a routerLink="/report-issue" routerLinkActive="active" class="nav-item">
+      <a routerLink="/report-issue" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>warning</mat-icon></span>
         <span class="nav-text">Report Issue</span>
       </a>

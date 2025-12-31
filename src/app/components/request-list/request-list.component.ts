@@ -40,6 +40,9 @@ export class RequestListComponent implements OnInit {
       return;
     }
 
+    // Initialize sidebar as collapsed on mobile
+    this.isSidebarCollapsed = window.innerWidth <= 768;
+
     this.loadRequests();
   }
 
@@ -107,6 +110,13 @@ export class RequestListComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    // Always close sidebar when navigation link is clicked on mobile
+    if (window.innerWidth <= 768) {
+      this.isSidebarCollapsed = true;
+    }
   }
 
   navigateToNewRequest() {

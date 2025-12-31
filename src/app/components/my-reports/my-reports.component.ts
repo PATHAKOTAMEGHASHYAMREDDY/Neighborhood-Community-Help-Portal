@@ -30,6 +30,10 @@ export class MyReportsComponent implements OnInit {
   ngOnInit() {
     const user = this.authService.getCurrentUser();
     this.userRole = user?.role || '';
+    
+    // Initialize sidebar as collapsed on mobile
+    this.isSidebarCollapsed = window.innerWidth <= 768;
+    
     this.loadMyReports();
   }
 
@@ -78,6 +82,12 @@ export class MyReportsComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      this.isSidebarCollapsed = true;
+    }
   }
 
   logout() {

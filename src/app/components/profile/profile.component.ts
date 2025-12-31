@@ -46,6 +46,9 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
+    // Always start with sidebar collapsed on mobile
+    this.isSidebarCollapsed = window.innerWidth <= 768;
+
     if (this.user.role === 'Resident') {
       this.loadStatistics();
     }
@@ -86,6 +89,12 @@ export class ProfileComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      this.isSidebarCollapsed = true;
+    }
   }
 
   navigateToDashboard() {
