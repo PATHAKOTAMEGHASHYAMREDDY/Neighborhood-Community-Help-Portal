@@ -4,11 +4,13 @@ import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { HelpRequestService, HelpRequest } from '../../services/help-request.service';
+import { NotificationService } from '../../services/notification.service';
+import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 
 @Component({
   selector: 'app-helper-tasks',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatIconModule, NotificationModalComponent],
   templateUrl: './helper-tasks.component.html',
   styleUrl: './helper-tasks.component.css'
 })
@@ -24,7 +26,8 @@ export class HelperTasksComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private helpRequestService: HelpRequestService
+    private helpRequestService: HelpRequestService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -85,32 +88,34 @@ export class HelperTasksComponent implements OnInit {
   declineRequest(requestId: number | undefined) {
     if (!requestId) return;
 
-    if (!confirm('Are you sure you want to decline this task? It will become available for other helpers.')) {
-      return;
-    }
+    this.notificationService.confirm(
+      'Decline Task',
+      'Are you sure you want to decline this task? It will become available for other helpers.',
+      () => {
+        this.updatingId = requestId;
+        this.errorMessage = '';
+        this.successMessage = '';
 
-    this.updatingId = requestId;
-    this.errorMessage = '';
-    this.successMessage = '';
+        this.helpRequestService.declineHelpRequest(requestId).subscribe({
+          next: () => {
+            this.successMessage = 'Task declined successfully. It is now available for other helpers.';
+            this.updatingId = null;
 
-    this.helpRequestService.declineHelpRequest(requestId).subscribe({
-      next: () => {
-        this.successMessage = 'Task declined successfully. It is now available for other helpers.';
-        this.updatingId = null;
+            // Remove the task from the list
+            this.myTasks = this.myTasks.filter(t => t.id !== requestId);
 
-        // Remove the task from the list
-        this.myTasks = this.myTasks.filter(t => t.id !== requestId);
-
-        setTimeout(() => {
-          this.successMessage = '';
-        }, 3000);
-      },
-      error: (error) => {
-        this.errorMessage = 'Failed to decline task. Please try again.';
-        this.updatingId = null;
-        console.error('Error declining task:', error);
+            setTimeout(() => {
+              this.successMessage = '';
+            }, 3000);
+          },
+          error: (error) => {
+            this.errorMessage = 'Failed to decline task. Please try again.';
+            this.updatingId = null;
+            console.error('Error declining task:', error);
+          }
+        });
       }
-    });
+    );
   }
 
   getStatusClass(status: string | undefined): string {

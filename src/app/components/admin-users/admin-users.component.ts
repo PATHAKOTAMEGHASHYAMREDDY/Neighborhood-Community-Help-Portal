@@ -4,11 +4,13 @@ import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { AdminService, User } from '../../services/admin.service';
+import { NotificationService } from '../../services/notification.service';
+import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 
 @Component({
   selector: 'app-admin-users',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatIconModule, NotificationModalComponent],
   templateUrl: './admin-users.component.html',
   styleUrls: ['./admin-users.component.css']
 })
@@ -33,7 +35,8 @@ export class AdminUsersComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -153,41 +156,45 @@ export class AdminUsersComponent implements OnInit {
   }
 
   blockUser(userId: number) {
-    if (!confirm('Are you sure you want to block this user? They will not be able to create requests or help others.')) {
-      return;
-    }
-
-    this.adminService.blockUser(userId).subscribe({
-      next: () => {
-        const user = this.users.find(u => u.id === userId);
-        if (user) user.is_blocked = true;
-        this.filterUsers();
-        alert('User blocked successfully');
-      },
-      error: (error) => {
-        console.error('Error blocking user:', error);
-        alert('Failed to block user. Please try again.');
+    this.notificationService.confirm(
+      'Block User',
+      'Are you sure you want to block this user? They will not be able to create requests or help others.',
+      () => {
+        this.adminService.blockUser(userId).subscribe({
+          next: () => {
+            const user = this.users.find(u => u.id === userId);
+            if (user) user.is_blocked = true;
+            this.filterUsers();
+            this.notificationService.success('Success', 'User blocked successfully');
+          },
+          error: (error) => {
+            console.error('Error blocking user:', error);
+            this.notificationService.error('Error', 'Failed to block user. Please try again.');
+          }
+        });
       }
-    });
+    );
   }
 
   unblockUser(userId: number) {
-    if (!confirm('Are you sure you want to unblock this user?')) {
-      return;
-    }
-
-    this.adminService.unblockUser(userId).subscribe({
-      next: () => {
-        const user = this.users.find(u => u.id === userId);
-        if (user) user.is_blocked = false;
-        this.filterUsers();
-        alert('User unblocked successfully');
-      },
-      error: (error) => {
-        console.error('Error unblocking user:', error);
-        alert('Failed to unblock user. Please try again.');
+    this.notificationService.confirm(
+      'Unblock User',
+      'Are you sure you want to unblock this user?',
+      () => {
+        this.adminService.unblockUser(userId).subscribe({
+          next: () => {
+            const user = this.users.find(u => u.id === userId);
+            if (user) user.is_blocked = false;
+            this.filterUsers();
+            this.notificationService.success('Success', 'User unblocked successfully');
+          },
+          error: (error) => {
+            console.error('Error unblocking user:', error);
+            this.notificationService.error('Error', 'Failed to unblock user. Please try again.');
+          }
+        });
       }
-    });
+    );
   }
 
   logout() {
