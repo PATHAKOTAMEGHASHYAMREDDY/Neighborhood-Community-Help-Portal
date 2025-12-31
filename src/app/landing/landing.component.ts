@@ -14,6 +14,7 @@ import lottie, { AnimationItem } from 'lottie-web';
 export class LandingComponent implements AfterViewInit, OnDestroy {
   @ViewChild('lottieContainer') lottieContainer!: ElementRef;
   private animation: AnimationItem | null = null;
+  isMenuOpen: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -41,7 +42,23 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    // Prevent body scroll when menu is open
+    if (this.isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+    document.body.style.overflow = '';
+  }
+
   navigateToAuth() {
+    this.closeMenu();
     this.router.navigate(['/register']);
   }
 }

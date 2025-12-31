@@ -2,18 +2,40 @@
 <nav class="navbar">
   <div class="nav-container">
     <div class="logo">Community Help Portal</div>
-    <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#how-it-works">How It Works</a></li>
-      <li><a href="#roles">Roles</a></li>
-    </ul>
-    <button class="cta-button" type="button" (click)="navigateToAuth()">
+
+    <!-- Hamburger Menu Button -->
+    <button class="hamburger-menu" (click)="toggleMenu()" type="button" [class.active]="isMenuOpen" aria-label="Toggle navigation menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="nav-links-wrapper" [class.active]="isMenuOpen">
+      <ul class="nav-links">
+        <li><a href="#home" (click)="closeMenu()">Home</a></li>
+        <li><a href="#features" (click)="closeMenu()">Features</a></li>
+        <li><a href="#how-it-works" (click)="closeMenu()">How It Works</a></li>
+        <li><a href="#roles" (click)="closeMenu()">Roles</a></li>
+        <li class="mobile-cta">
+          <button class="cta-button-mobile" type="button" (click)="navigateToAuth()">
+            <mat-icon>login</mat-icon>
+            Login / Sign Up
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Desktop CTA Button -->
+    <button class="cta-button desktop-only" type="button" (click)="navigateToAuth()">
       <mat-icon>login</mat-icon>
       Login / Sign Up
     </button>
   </div>
 </nav>
+
+<!-- Overlay for mobile menu -->
+<div class="menu-overlay" [class.active]="isMenuOpen" (click)="closeMenu()"></div>
 
 <!-- Hero Section -->
 <section id="home" class="hero-section">
