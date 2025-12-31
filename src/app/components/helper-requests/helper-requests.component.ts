@@ -42,6 +42,9 @@ export class HelperRequestsComponent implements OnInit {
       return;
     }
 
+    // Initialize sidebar as collapsed on mobile
+    this.isSidebarCollapsed = window.innerWidth <= 768;
+
     this.loadAvailableRequests();
     this.loadMySummary();
   }
@@ -140,6 +143,14 @@ export class HelperRequestsComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        this.isSidebarCollapsed = true;
+      }, 0);
+    }
   }
 
   logout() {

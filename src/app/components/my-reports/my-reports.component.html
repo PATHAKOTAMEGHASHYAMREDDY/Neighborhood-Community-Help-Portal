@@ -1,6 +1,6 @@
 <div class="dashboard-container">
   <!-- Mobile Hamburger Menu -->
-  <button class="mobile-hamburger" (click)="toggleSidebar()" type="button">
+  <button class="mobile-hamburger" [class.hidden]="!isSidebarCollapsed" (click)="toggleSidebar()" type="button">
     <mat-icon>menu</mat-icon>
   </button>
 

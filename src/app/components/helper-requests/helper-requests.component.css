@@ -3,6 +3,42 @@
   display: flex;
   min-height: 100vh;
   background: #f8f9fa;
+  position: relative;
+}
+
+/* Mobile Hamburger Menu */
+.mobile-hamburger {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2000;
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+  transition: all 0.3s ease;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-hamburger:hover {
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.5);
+  transform: scale(1.05);
+}
+
+.mobile-hamburger mat-icon {
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.mobile-hamburger.hidden {
+  display: none !important;
 }
 
 /* Sidebar */
@@ -703,6 +739,10 @@
 }
 
 @media (max-width: 768px) {
+  .mobile-hamburger {
+    display: flex;
+  }
+
   .sidebar {
     transform: translateX(-280px);
   }
@@ -719,15 +759,17 @@
 
   .main-content {
     margin-left: 0;
-    padding: 1rem;
+    padding: 0.75rem;
+    padding-top: 4.5rem;
   }
 
   .dashboard-header {
-    padding: 1.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
   }
 
   .dashboard-header h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .header-content {
@@ -740,19 +782,75 @@
   }
 
   .summary-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .summary-card {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+  }
+
+  .card-content h3 {
+    font-size: 0.75rem;
+  }
+
+  .card-number {
+    font-size: 1.75rem;
+  }
+
+  .search-section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .search-wrapper {
+    padding: 0.4rem 1rem;
+  }
+
+  .search-input {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+  }
+
+  .requests-section {
+    padding: 1rem;
+  }
+
+  .requests-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .request-card {
+    padding: 1rem;
+  }
+
+  .request-header h3 {
+    font-size: 1.1rem;
   }
 
   .request-meta {
     grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem;
   }
 
   .request-footer {
     flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .card-number {
-    font-size: 2rem;
+  .accept-btn,
+  .decline-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
   }
 }
 

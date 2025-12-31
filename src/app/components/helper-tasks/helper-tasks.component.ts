@@ -36,6 +36,7 @@ export class HelperTasksComponent implements OnInit {
       return;
     }
 
+    this.isSidebarCollapsed = window.innerWidth <= 768;
     this.loadMyTasks();
   }
 
@@ -135,14 +136,16 @@ export class HelperTasksComponent implements OnInit {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
-  closeSidebar() {
+  closeSidebarOnMobile() {
     if (window.innerWidth <= 768) {
-      this.isSidebarCollapsed = true;
+      setTimeout(() => {
+        this.isSidebarCollapsed = true;
+      }, 0);
     }
   }
 
   openChat(requestId: number | undefined) {
-    this.closeSidebar();
+    this.closeSidebarOnMobile();
     if (requestId) {
       this.router.navigate(['/chat', requestId]);
     }
