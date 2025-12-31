@@ -69,6 +69,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     this.loadLottieAnimation();
   }
 
+  navigateToLanding() {
+    this.router.navigate(['/']);
+  }
+
   loadLottieAnimation() {
     if (this.lottieAnimation) {
       this.lottieAnimation.destroy();

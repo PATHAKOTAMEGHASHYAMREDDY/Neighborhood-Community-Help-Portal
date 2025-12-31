@@ -83,6 +83,12 @@
           <span *ngIf="!isLoading">Login</span>
           <span *ngIf="isLoading">Logging in...</span>
         </button>
+
+        <!-- Back to Landing Button -->
+        <button class="back-to-landing" (click)="navigateToLanding()" type="button" aria-label="Back to landing page">
+          <mat-icon>arrow_back</mat-icon>
+          <span>Back to Home</span>
+        </button>
       </form>
 
       <!-- Sign Up Form -->
@@ -176,6 +182,12 @@
         <button type="submit" class="submit-button" [disabled]="isLoading">
           <span *ngIf="!isLoading">Create Account</span>
           <span *ngIf="isLoading">Creating account...</span>
+        </button>
+
+        <!-- Back to Landing Button -->
+        <button class="back-to-landing" (click)="navigateToLanding()" type="button" aria-label="Back to landing page">
+          <mat-icon>arrow_back</mat-icon>
+          <span>Back to Home</span>
         </button>
       </form>
     </div>
