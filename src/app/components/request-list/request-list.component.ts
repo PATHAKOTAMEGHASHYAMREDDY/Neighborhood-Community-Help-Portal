@@ -64,7 +64,10 @@ export class RequestListComponent implements OnInit {
 
   calculateSummary() {
     this.totalRequests = this.requests.length;
-    this.pendingCount = this.requests.filter(r => r.status === 'Pending').length;
+    // Pending includes both 'Pending' and 'Accepted' statuses (not yet in progress)
+    this.pendingCount = this.requests.filter(r => 
+      r.status === 'Pending' || r.status === 'Accepted'
+    ).length;
     this.inProgressCount = this.requests.filter(r => r.status === 'In-progress').length;
     this.completedCount = this.requests.filter(r => r.status === 'Completed').length;
   }

@@ -56,7 +56,10 @@ export class ProfileComponent implements OnInit {
       next: (response) => {
         const requests = response.requests || [];
         this.totalRequests = requests.length;
-        this.pendingRequests = requests.filter(r => r.status === 'Pending').length;
+        // Pending includes both 'Pending' and 'Accepted' statuses (not yet in progress)
+        this.pendingRequests = requests.filter(r => 
+          r.status === 'Pending' || r.status === 'Accepted'
+        ).length;
         this.completedRequests = requests.filter(r => r.status === 'Completed').length;
       },
       error: (error) => {
