@@ -14,7 +14,6 @@ import { ReportService, Report } from '../../services/report.service';
   styleUrls: ['./admin-reports.component.css']
 })
 export class AdminReportsComponent implements OnInit {
-  isSidebarCollapsed: boolean = false;
   isLoading: boolean = true;
   reports: Report[] = [];
   filteredReports: Report[] = [];
@@ -112,10 +111,6 @@ export class AdminReportsComponent implements OnInit {
 
   getStatusClass(status: string): string {
     return 'status-' + status.toLowerCase().replace(' ', '-');
-  }
-
-  toggleSidebar() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
   logout() {

@@ -16,7 +16,6 @@ import { AdminService } from '../../services/admin.service';
 })
 export class AdminDashboardComponent implements OnInit {
   adminName: string = '';
-  isSidebarCollapsed: boolean = false;
   
   totalUsers: number = 0;
   totalResidents: number = 0;
@@ -95,10 +94,6 @@ export class AdminDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
-  }
-
-  toggleSidebar() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
   getStatusClass(status: string): string {

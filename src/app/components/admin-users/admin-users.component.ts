@@ -13,12 +13,18 @@ import { AdminService, User } from '../../services/admin.service';
   styleUrls: ['./admin-users.component.css']
 })
 export class AdminUsersComponent implements OnInit {
-  isSidebarCollapsed: boolean = false;
   users: User[] = [];
   filteredUsers: User[] = [];
+  paginatedUsers: User[] = [];
   isLoading: boolean = true;
   searchTerm: string = '';
   filterRole: string = 'All';
+  sortOrder: string = 'desc';
+
+  // Pagination
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 0;
 
   totalUsers: number = 0;
   totalResidents: number = 0;
@@ -46,6 +52,7 @@ export class AdminUsersComponent implements OnInit {
         this.users = response.users;
         this.filteredUsers = this.users;
         this.calculateStats();
+        this.updatePagination();
         this.isLoading = false;
       },
       error: (error) => {
@@ -70,6 +77,63 @@ export class AdminUsersComponent implements OnInit {
       const matchesRole = this.filterRole === 'All' || user.role === this.filterRole;
       return matchesSearch && matchesRole;
     });
+    this.sortUsers();
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortUsers() {
+    this.filteredUsers.sort((a, b) => {
+      const dateA = new Date(a.created_at).getTime();
+      const dateB = new Date(b.created_at).getTime();
+      return this.sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+    });
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(this.filteredUsers.length / this.itemsPerPage);
+    if (this.totalPages === 0) this.totalPages = 1;
+    if (this.currentPage > this.totalPages) this.currentPage = 1;
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedUsers = this.filteredUsers.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
+  }
+
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    if (endPage - startPage < maxPagesToShow - 1) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   onSearchChange(event: any) {
@@ -80,6 +144,12 @@ export class AdminUsersComponent implements OnInit {
   onRoleFilterChange(role: string) {
     this.filterRole = role;
     this.filterUsers();
+  }
+
+  onSortOrderChange(order: string) {
+    this.sortOrder = order;
+    this.sortUsers();
+    this.updatePagination();
   }
 
   blockUser(userId: number) {
@@ -118,10 +188,6 @@ export class AdminUsersComponent implements OnInit {
         alert('Failed to unblock user. Please try again.');
       }
     });
-  }
-
-  toggleSidebar() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
   logout() {

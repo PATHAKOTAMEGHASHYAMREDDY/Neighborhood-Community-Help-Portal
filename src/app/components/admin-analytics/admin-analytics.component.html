@@ -1,11 +1,8 @@
 <div class="admin-container">
   <!-- Sidebar -->
-  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+  <aside class="sidebar">
     <div class="sidebar-header">
       <h2>Admin Panel</h2>
-      <button class="toggle-btn" (click)="toggleSidebar()" type="button">
-        <mat-icon>menu</mat-icon>
-      </button>
     </div>
 
     <nav class="sidebar-nav">
@@ -64,21 +61,44 @@
         <!-- Category Distribution -->
         <section class="analytics-section">
           <h2>Request Category Distribution</h2>
-          <div class="category-chart">
+          <div class="category-chart-container">
             <div class="no-data" *ngIf="categoryDistribution.length === 0">
               <p>No category data available</p>
             </div>
 
-            <div class="category-item" *ngFor="let item of categoryDistribution">
-              <div class="category-header">
-                <span class="category-name">{{ item.category }}</span>
-                <span class="category-count">{{ item.count }} requests</span>
+            <div class="pie-chart-wrapper" *ngIf="categoryDistribution.length > 0">
+              <div class="pie-chart-container">
+                <svg class="pie-chart" viewBox="0 0 200 200">
+                  <g transform="translate(100, 100)">
+                    <path *ngFor="let segment of pieSegments; let i = index"
+                      [attr.d]="segment.path"
+                      [attr.fill]="segment.color"
+                      [attr.stroke]="'white'"
+                      [attr.stroke-width]="2"
+                      class="pie-segment"
+                      (mouseenter)="onSegmentHover(i)"
+                      (mouseleave)="onSegmentLeave()">
+                      <title>{{ segment.category }}: {{ segment.count }} ({{ segment.percentage.toFixed(1) }}%)</title>
+                    </path>
+                  </g>
+                </svg>
+
+                <!-- Tooltip -->
+                <div class="pie-tooltip" *ngIf="hoveredSegment !== null">
+                  <div class="tooltip-category">{{ pieSegments[hoveredSegment].category }}</div>
+                  <div class="tooltip-value">{{ pieSegments[hoveredSegment].count }} requests</div>
+                  <div class="tooltip-percentage">{{ pieSegments[hoveredSegment].percentage.toFixed(1) }}%</div>
+                </div>
               </div>
-              <div class="category-bar">
-                <div class="category-fill" [style.width.%]="getPercentage(item.count)"></div>
-              </div>
-              <div class="category-percentage">
-                {{ getPercentage(item.count).toFixed(1) }}%
+
+              <div class="pie-legend">
+                <div class="legend-item" *ngFor="let item of categoryDistribution; let i = index">
+                  <div class="legend-color" [style.background]="getCategoryColor(i)"></div>
+                  <div class="legend-info">
+                    <span class="legend-label">{{ item.category }}</span>
+                    <span class="legend-value">{{ item.count }} ({{ getPercentage(item.count).toFixed(1) }}%)</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

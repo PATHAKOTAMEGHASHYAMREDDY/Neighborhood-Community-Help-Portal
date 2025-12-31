@@ -13,12 +13,18 @@ import { HelpRequestService } from '../../services/help-request.service';
   styleUrls: ['./admin-requests.component.css']
 })
 export class AdminRequestsComponent implements OnInit {
-  isSidebarCollapsed: boolean = false;
   requests: any[] = [];
   filteredRequests: any[] = [];
+  paginatedRequests: any[] = [];
   isLoading: boolean = true;
   searchTerm: string = '';
   filterStatus: string = 'All';
+  sortOrder: string = 'desc';
+
+  // Pagination
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 0;
 
   totalRequests: number = 0;
   pendingRequests: number = 0;
@@ -48,6 +54,7 @@ export class AdminRequestsComponent implements OnInit {
         this.requests = response.requests || [];
         this.filteredRequests = this.requests;
         this.calculateStats();
+        this.updatePagination();
         this.isLoading = false;
       },
       error: (error) => {
@@ -75,6 +82,63 @@ export class AdminRequestsComponent implements OnInit {
       const matchesStatus = this.filterStatus === 'All' || request.status === this.filterStatus;
       return matchesSearch && matchesStatus;
     });
+    this.sortRequests();
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  sortRequests() {
+    this.filteredRequests.sort((a, b) => {
+      const dateA = new Date(a.created_at).getTime();
+      const dateB = new Date(b.created_at).getTime();
+      return this.sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+    });
+  }
+
+  updatePagination() {
+    this.totalPages = Math.ceil(this.filteredRequests.length / this.itemsPerPage);
+    if (this.totalPages === 0) this.totalPages = 1;
+    if (this.currentPage > this.totalPages) this.currentPage = 1;
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedRequests = this.filteredRequests.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
+  }
+
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    if (endPage - startPage < maxPagesToShow - 1) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   onSearchChange(event: any) {
@@ -87,12 +151,14 @@ export class AdminRequestsComponent implements OnInit {
     this.filterRequests();
   }
 
-  getStatusClass(status: string): string {
-    return 'status-' + status.toLowerCase();
+  onSortOrderChange(order: string) {
+    this.sortOrder = order;
+    this.sortRequests();
+    this.updatePagination();
   }
 
-  toggleSidebar() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  getStatusClass(status: string): string {
+    return 'status-' + status.toLowerCase();
   }
 
   logout() {

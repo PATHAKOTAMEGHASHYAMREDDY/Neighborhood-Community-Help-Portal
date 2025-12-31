@@ -250,16 +250,11 @@
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 20px;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  flex-wrap: wrap;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-box {
-  flex: 1;
-  min-width: 250px;
+  margin-bottom: 16px;
 }
 
 .search-input {
@@ -278,6 +273,21 @@
 .role-filters {
   display: flex;
   gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.sort-filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sort-filters label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
 }
 
 .filter-btn {
@@ -288,6 +298,15 @@
   cursor: pointer;
   font-size: 14px;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .filter-btn:hover {
@@ -413,4 +432,76 @@
 
 .unblock-btn:hover {
   background: #a7f3d0;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  padding: 8px 12px;
+  border: 2px solid #e5e7eb;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-btn.page-number {
+  min-width: 40px;
+}
+
+.pagination-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.pagination-info {
+  margin-left: 16px;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    padding: 16px;
+  }
+
+  .pagination-info {
+    width: 100%;
+    text-align: center;
+    margin-left: 0;
+    margin-top: 8px;
+  }
 }

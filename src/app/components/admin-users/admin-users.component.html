@@ -1,11 +1,8 @@
 <div class="admin-container">
   <!-- Sidebar -->
-  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
+  <aside class="sidebar">
     <div class="sidebar-header">
       <h2>Admin Panel</h2>
-      <button class="toggle-btn" (click)="toggleSidebar()" type="button">
-        <mat-icon>menu</mat-icon>
-      </button>
     </div>
 
     <nav class="sidebar-nav">
@@ -95,6 +92,15 @@
             <button [class.active]="filterRole === 'Resident'" (click)="onRoleFilterChange('Resident')" class="filter-btn" type="button">Residents</button>
             <button [class.active]="filterRole === 'Helper'" (click)="onRoleFilterChange('Helper')" class="filter-btn" type="button">Helpers</button>
           </div>
+          <div class="sort-filters">
+            <label>Sort by Date:</label>
+            <button [class.active]="sortOrder === 'desc'" (click)="onSortOrderChange('desc')" class="filter-btn" type="button">
+              <mat-icon>arrow_downward</mat-icon> Newest First
+            </button>
+            <button [class.active]="sortOrder === 'asc'" (click)="onSortOrderChange('asc')" class="filter-btn" type="button">
+              <mat-icon>arrow_upward</mat-icon> Oldest First
+            </button>
+          </div>
         </div>
 
         <!-- Users Table -->
@@ -117,7 +123,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of filteredUsers">
+              <tr *ngFor="let user of paginatedUsers">
                 <td>#{{ user.id }}</td>
                 <td class="name-cell">{{ user.name }}</td>
                 <td>{{ user.contact_info }}</td>
@@ -146,6 +152,29 @@
               </tr>
             </tbody>
           </table>
+
+          <!-- Pagination -->
+          <div class="pagination" *ngIf="filteredUsers.length > 0">
+            <button class="pagination-btn" (click)="previousPage()" [disabled]="currentPage === 1" type="button">
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+
+            <button *ngFor="let page of getPageNumbers()" 
+                    class="pagination-btn page-number" 
+                    [class.active]="page === currentPage"
+                    (click)="goToPage(page)" 
+                    type="button">
+              {{ page }}
+            </button>
+
+            <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages" type="button">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+
+            <span class="pagination-info">
+              Page {{ currentPage }} of {{ totalPages }} ({{ filteredUsers.length }} total)
+            </span>
+          </div>
         </div>
       </div>
     </div>
