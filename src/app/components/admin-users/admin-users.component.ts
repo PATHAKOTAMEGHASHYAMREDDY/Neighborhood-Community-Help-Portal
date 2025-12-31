@@ -19,6 +19,7 @@ export class AdminUsersComponent implements OnInit {
   filteredUsers: User[] = [];
   paginatedUsers: User[] = [];
   isLoading: boolean = true;
+  isSidebarCollapsed: boolean = false;
   searchTerm: string = '';
   filterRole: string = 'All';
   sortOrder: string = 'desc';
@@ -45,6 +46,7 @@ export class AdminUsersComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
+    this.isSidebarCollapsed = window.innerWidth <= 768;
     this.loadUsers();
   }
 
@@ -195,6 +197,18 @@ export class AdminUsersComponent implements OnInit {
         });
       }
     );
+  }
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        this.isSidebarCollapsed = true;
+      }, 0);
+    }
   }
 
   logout() {

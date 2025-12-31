@@ -1,28 +1,36 @@
 <div class="admin-container">
+  <!-- Mobile Hamburger Menu -->
+  <button class="mobile-hamburger" [class.hidden]="!isSidebarCollapsed" (click)="toggleSidebar()" type="button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
   <!-- Sidebar -->
-  <aside class="sidebar">
+  <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
     <div class="sidebar-header">
       <h2>Admin Panel</h2>
+      <button class="toggle-btn" (click)="toggleSidebar()" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
 
     <nav class="sidebar-nav">
-      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
         <span class="nav-text">Dashboard</span>
       </a>
-      <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/users" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>group</mat-icon></span>
         <span class="nav-text">Users</span>
       </a>
-      <a routerLink="/admin/requests" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/requests" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>assignment</mat-icon></span>
         <span class="nav-text">Requests</span>
       </a>
-      <a routerLink="/admin/reports" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/reports" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>report_problem</mat-icon></span>
         <span class="nav-text">Reports</span>
       </a>
-      <a routerLink="/admin/analytics" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/analytics" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <span class="nav-icon"><mat-icon>analytics</mat-icon></span>
         <span class="nav-text">Analytics</span>
       </a>

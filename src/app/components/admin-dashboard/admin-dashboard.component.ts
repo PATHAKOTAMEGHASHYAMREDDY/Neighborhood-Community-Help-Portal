@@ -30,6 +30,7 @@ export class AdminDashboardComponent implements OnInit {
   recentUsers: any[] = [];
   
   isLoading: boolean = true;
+  isSidebarCollapsed: boolean = false;
 
   // Download modal
   showDownloadModal: boolean = false;
@@ -60,6 +61,7 @@ export class AdminDashboardComponent implements OnInit {
     }
     
     this.adminName = user.name;
+    this.isSidebarCollapsed = window.innerWidth <= 768;
     this.loadDashboardData();
   }
 
@@ -277,6 +279,18 @@ export class AdminDashboardComponent implements OnInit {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        this.isSidebarCollapsed = true;
+      }, 0);
+    }
   }
 
   logout() {

@@ -17,6 +17,7 @@ export class AdminRequestsComponent implements OnInit {
   filteredRequests: any[] = [];
   paginatedRequests: any[] = [];
   isLoading: boolean = true;
+  isSidebarCollapsed: boolean = false;
   searchTerm: string = '';
   filterStatus: string = 'All';
   sortOrder: string = 'desc';
@@ -44,6 +45,7 @@ export class AdminRequestsComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
+    this.isSidebarCollapsed = window.innerWidth <= 768;
     this.loadRequests();
   }
 
@@ -159,6 +161,18 @@ export class AdminRequestsComponent implements OnInit {
 
   getStatusClass(status: string): string {
     return 'status-' + status.toLowerCase();
+  }
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        this.isSidebarCollapsed = true;
+      }, 0);
+    }
   }
 
   logout() {

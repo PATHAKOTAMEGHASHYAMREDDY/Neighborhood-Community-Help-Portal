@@ -14,6 +14,7 @@ import { AdminService } from '../../services/admin.service';
 })
 export class AdminAnalyticsComponent implements OnInit {
   isLoading: boolean = true;
+  isSidebarCollapsed: boolean = false;
 
   categoryDistribution: any[] = [];
   dailyRequests: any[] = [];
@@ -44,6 +45,7 @@ export class AdminAnalyticsComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
+    this.isSidebarCollapsed = window.innerWidth <= 768;
     this.loadAnalytics();
   }
 
@@ -125,6 +127,18 @@ export class AdminAnalyticsComponent implements OnInit {
   getPercentage(count: number): number {
     const total = this.categoryDistribution.reduce((sum, item) => sum + item.count, 0);
     return total > 0 ? (count / total) * 100 : 0;
+  }
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        this.isSidebarCollapsed = true;
+      }, 0);
+    }
   }
 
   logout() {

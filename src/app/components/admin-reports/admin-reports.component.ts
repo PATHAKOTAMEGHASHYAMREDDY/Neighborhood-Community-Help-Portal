@@ -15,6 +15,7 @@ import { ReportService, Report } from '../../services/report.service';
 })
 export class AdminReportsComponent implements OnInit {
   isLoading: boolean = true;
+  isSidebarCollapsed: boolean = false;
   reports: Report[] = [];
   filteredReports: Report[] = [];
   filterStatus: string = 'All';
@@ -42,6 +43,7 @@ export class AdminReportsComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
+    this.isSidebarCollapsed = window.innerWidth <= 768;
     this.loadReports();
   }
 
@@ -111,6 +113,18 @@ export class AdminReportsComponent implements OnInit {
 
   getStatusClass(status: string): string {
     return 'status-' + status.toLowerCase().replace(' ', '-');
+  }
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) {
+      setTimeout(() => {
+        this.isSidebarCollapsed = true;
+      }, 0);
+    }
   }
 
   logout() {
